@@ -1,0 +1,11 @@
+# macOS system files
+.DS_Store
+
+# Logs
+*.log
+
+# Editor directories and files
+.idea
+.vscode
+*.swp
+*.swo
