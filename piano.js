@@ -1,95 +1,249 @@
-// Audio context for playing sounds
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-// Mapping of keyboard keys to notes
-const keyToNoteMap = {
-    'a': 'C4', 
-    's': 'D4', 
-    'd': 'E4', 
-    'f': 'F4', 
-    'g': 'G4', 
-    'h': 'A4', 
-    'j': 'B4',
-    'w': 'C#4', 
-    'e': 'D#4', 
-    't': 'F#4', 
-    'y': 'G#4', 
-    'u': 'A#4',
-    // New octave mappings
-    'k': 'C5',
-    'l': 'D5', 
-    ';': 'E5', 
-    "'": 'F5', 
-    'o': 'G5', 
-    'p': 'A5', 
-    '[': 'B5',
-    'i': 'C#5', 
-    'r': 'D#5', 
-    ']': 'F#5', 
-    '\\': 'G#5', 
-    '=': 'A#5'
-};
-
-// Function to generate a tone
-function playTone(frequency, duration = 0.5) {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+// Main piano application initialization
+document.addEventListener('DOMContentLoaded', () => {
+    // Create instances
+    const piano = new Piano();
+    // Make piano available globally
+    window.piano = piano;
+    const songPlayer = new SongPlayer(piano);
+    const recordingManager = new RecordingManager(piano);
     
-    gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + duration);
-}
-
-// Frequency mapping for notes
-const noteFrequencies = {
-    'A3': 220.00, 'A#3': 233.08, 
-    'B3': 246.94,
-    'C4': 261.63, 'C#4': 277.18, 
-    'D4': 293.66, 'D#4': 311.13,
-    'E4': 329.63, 
-    'F4': 349.23, 'F#4': 369.99,
-    'G4': 392.00, 'G#4': 415.30,
-    'A4': 440.00, 'A#4': 466.16,
-    'B4': 493.88,
-    'C5': 523.25, 'C#5': 554.37,
-    'D5': 587.33, 'D#5': 622.25,
-    'E5': 659.25,
-    'F5': 698.46, 'F#5': 739.99,
-    'G5': 783.99, 'G#5': 830.61,
-    'A5': 880.00, 'A#5': 932.33,
-    'B5': 987.77
-};
-
-// Function to handle key press
-function playNote(note) {
-    const key = document.querySelector(`.key[data-note="${note}"]`);
-    if (key && noteFrequencies[note]) {
-        playTone(noteFrequencies[note]);
-        key.classList.add('active');
-        setTimeout(() => key.classList.remove('active'), 200);
+    // Initialize GuidedPlay if its class exists
+    let guidedPlay = null;
+    if (typeof GuidedPlay !== 'undefined') {
+        guidedPlay = new GuidedPlay(piano);
+        window.guidedPlay = guidedPlay; // Make it globally available
+    } else {
+        console.warn('GuidedPlay class not found - guided play features will be disabled');
     }
-}
+    
+    // Connect components
+    recordingManager.setSongPlayer(songPlayer);
+    
+    // Initialize menu and navigation functionality
+    initializeNavigation(piano, songPlayer, recordingManager, guidedPlay);
+    
+    // Instead of directly showing the guided play section, show the main menu first
+    showSection('mainMenuSection');
+    
+    // Initialize auto navigation to main menu
+    initializeAutoNavigation();
+});
 
-// Mouse click event listeners
-document.querySelectorAll('.key').forEach(key => {
-    key.addEventListener('mousedown', () => {
-        const note = key.getAttribute('data-note');
-        playNote(note);
+// Add a variable to store the auto-navigation timer
+let autoNavigationTimer = null;
+const AUTO_NAVIGATION_TIMEOUT = 180000; // 3 minutes in milliseconds
+
+// Function to initialize auto-navigation to the main menu
+function initializeAutoNavigation() {
+    // Reset the timer whenever there's user activity
+    const resetTimer = () => {
+        // Clear any existing timer
+        if (autoNavigationTimer) {
+            clearTimeout(autoNavigationTimer);
+        }
+        
+        // If we're not already in the main menu section, set a new timer
+        if (document.getElementById('mainMenuSection').style.display === 'none') {
+            autoNavigationTimer = setTimeout(() => {
+                console.log('Auto-navigating to main menu due to inactivity');
+                showSection('mainMenuSection');
+            }, AUTO_NAVIGATION_TIMEOUT);
+        }
+    };
+    
+    // Listen for user interactions that should reset the timer
+    ['click', 'touchstart', 'keydown', 'mousemove'].forEach(eventType => {
+        document.addEventListener(eventType, resetTimer);
     });
-});
+    
+    // Initialize the timer
+    resetTimer();
+}
 
-// Keyboard key press event listener
-document.addEventListener('keydown', (event) => {
-    const note = keyToNoteMap[event.key.toLowerCase()];
-    if (note) {
-        playNote(note);
+// Function to handle navigation between sections
+function initializeNavigation(piano, songPlayer, recordingManager, guidedPlay) {
+    // Main menu buttons
+    const startPianoButton = document.getElementById('startPiano');
+    if (startPianoButton) {
+        startPianoButton.addEventListener('click', () => {
+            console.log('Start Piano button clicked');
+            showSection('pianoSection');
+        });
+    } else {
+        console.error('startPiano button not found in the DOM');
     }
-});
+    
+    // Guided Play button
+    const guidedPlayButton = document.getElementById('guidedPlayButton');
+    if (guidedPlayButton) {
+        guidedPlayButton.addEventListener('click', () => {
+            console.log('Guided Play button clicked');
+            if (typeof GuidedPlay === 'undefined') {
+                alert('Guided Play mode is currently unavailable. Please try again later.');
+                return;
+            }
+            showSection('guidedPlaySection');
+            
+            // Initialize the guided play section if it hasn't been already
+            if (guidedPlay && typeof guidedPlay.initializeGuidedPlay === 'function') {
+                guidedPlay.initializeGuidedPlay();
+            }
+        });
+    } else {
+        console.error('guidedPlayButton element not found');
+    }
+    
+    // Back to menu from guided play section
+    const backToMenuFromGuided = document.getElementById('backToMenuFromGuided');
+    if (backToMenuFromGuided) {
+        backToMenuFromGuided.addEventListener('click', () => {
+            showSection('mainMenuSection');
+        });
+    }
+    
+    // Back to menu from piano section
+    const backToMenuFromPiano = document.getElementById('backToMenuFromPiano');
+    if (backToMenuFromPiano) {
+        backToMenuFromPiano.addEventListener('click', () => {
+            showSection('mainMenuSection');
+        });
+    } else {
+        console.error('backToMenuFromPiano button not found');
+    }
+}
+
+// Helper function to show a specific section and hide others
+function showSection(sectionId) {
+    const sections = ['mainMenuSection', 'pianoSection', 'guidedPlaySection'];
+    
+    sections.forEach(section => {
+        const element = document.getElementById(section);
+        if (element) {
+            element.style.display = section === sectionId ? (section === 'mainMenuSection' ? 'block' : 'flex') : 'none';
+        }
+    });
+    
+    // If switching to piano section, make sure to reset the focus to capture keyboard input
+    if (sectionId === 'pianoSection') {
+        document.getElementById(sectionId).focus();
+    }
+}
+
+// Function to load recordings into the recordings library view
+async function loadRecordings() {
+    const recordingsList = document.getElementById('recordingsList');
+    recordingsList.innerHTML = '';
+    
+    try {
+        // Use the new StorageManager instead of direct localStorage access
+        const recordings = await StorageManager.loadRecordings();
+        
+        if (!recordings || recordings.length === 0) {
+            recordingsList.innerHTML = '<div class="no-items">No recordings found. Play the piano and record something!</div>';
+            return;
+        }
+        
+        recordings.forEach((recording) => {
+            const item = document.createElement('div');
+            item.className = 'recording-item';
+            
+            const title = document.createElement('div');
+            title.className = 'recording-item-title';
+            title.textContent = recording.title || `Recording ${recording.id}`;
+            
+            const buttons = document.createElement('div');
+            buttons.className = 'recording-item-buttons';
+            
+            const playBtn = document.createElement('button');
+            playBtn.className = 'play-button';
+            playBtn.textContent = 'Play';
+            playBtn.addEventListener('click', () => {
+                // Find the index in the array instead of using the ID directly
+                const index = recordings.findIndex(r => r.id === recording.id);
+                if (index !== -1) {
+                    // Close the library and go to piano view to play the recording
+                    document.getElementById('recordingsSelector').value = index;
+                    document.getElementById('playSelectedRecording').click();
+                    showSection('pianoSection');
+                }
+            });
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-button';
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.addEventListener('click', async () => {
+                if (confirm(`Are you sure you want to delete "${recording.title || `Recording ${recording.id}`}"?`)) {
+                    // Find the index in the array
+                    const index = recordings.findIndex(r => r.id === recording.id);
+                    if (index !== -1) {
+                        // Remove the recording
+                        recordings.splice(index, 1);
+                        
+                        // Save back to storage using StorageManager
+                        await StorageManager.saveRecordings(recordings);
+                        
+                        // Refresh the list
+                        loadRecordings();
+                    }
+                }
+            });
+            
+            buttons.appendChild(playBtn);
+            buttons.appendChild(deleteBtn);
+            
+            item.appendChild(title);
+            item.appendChild(buttons);
+            recordingsList.appendChild(item);
+        });
+    } catch (error) {
+        console.error('Error loading recordings:', error);
+        recordingsList.innerHTML = '<div class="no-items">Error loading recordings. Please try refreshing the page.</div>';
+    }
+}
+
+// Function to load songs into the songs library view
+async function loadSongs() {
+    const songsList = document.getElementById('songsList');
+    songsList.innerHTML = '';
+    
+    try {
+        // Use the StorageManager to load songs asynchronously
+        const songs = window.songs || await StorageManager.loadSongs([]);
+        
+        if (songs.length === 0) {
+            songsList.innerHTML = '<div class="no-items">No songs found in the library.</div>';
+            return;
+        }
+        
+        songs.forEach((song, index) => {
+            const item = document.createElement('div');
+            item.className = 'song-item';
+            
+            const title = document.createElement('div');
+            title.className = 'song-item-title';
+            title.textContent = song.name;
+            
+            const buttons = document.createElement('div');
+            buttons.className = 'song-item-buttons';
+            
+            const playBtn = document.createElement('button');
+            playBtn.className = 'play-button';
+            playBtn.textContent = 'Play';
+            playBtn.addEventListener('click', () => {
+                // Close the library and go to piano view to play the song
+                document.getElementById('songSelector').value = index;
+                document.getElementById('playSong').click();
+                showSection('pianoSection');
+            });
+            
+            buttons.appendChild(playBtn);
+            
+            item.appendChild(title);
+            item.appendChild(buttons);
+            songsList.appendChild(item);
+        });
+    } catch (error) {
+        console.error('Error loading songs:', error);
+        songsList.innerHTML = '<div class="no-items">Error loading songs. Please try refreshing the page.</div>';
+    }
+}

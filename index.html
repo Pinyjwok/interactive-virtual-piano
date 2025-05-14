@@ -3,41 +3,352 @@
 <head>
     <meta charset="UTF-8">
     <title>Interactive Virtual Piano</title>
-    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <!-- Replace single CSS with modular CSS files -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/piano.css">
+    <link rel="stylesheet" href="css/guided-play.css">
 </head>
 <body>
-    <div class="piano-container">
-        <div class="piano">
-            <div class="piano-keys">
-                <div class="key white" data-note="C4">A</div>
-                <div class="key black" data-note="C#4">W</div>
-                <div class="key white" data-note="D4">S</div>
-                <div class="key black" data-note="D#4">E</div>
-                <div class="key white" data-note="E4">D</div>
-                <div class="key white" data-note="F4">F</div>
-                <div class="key black" data-note="F#4">T</div>
-                <div class="key white" data-note="G4">G</div>
-                <div class="key black" data-note="G#4">Y</div>
-                <div class="key white" data-note="A4">H</div>
-                <div class="key black" data-note="A#4">U</div>
-                <div class="key white" data-note="B4">J</div>
+    <!-- Main Menu Section -->
+    <div class="section" id="mainMenuSection" style="display: block;">
+        <div class="main-menu-container">
+            <h1 class="main-menu-title">Piano Application</h1>
+            <p>Experience the joy of music</p>
+            
+            <div class="menu-options">
+                <button class="menu-button large-button" id="startPiano">Virtual Piano</button>
+                <button class="menu-button large-button" id="guidedPlayButton">Guided Play</button>
+            </div>
+            
+            <!-- Decorative piano keys element -->
+            <div class="piano-keys-decoration"></div>
+        </div>
+    </div>
+
+    <!-- Piano Section -->
+    <div class="section" id="pianoSection" style="display: none;">
+        <div class="piano-container">
+            <button id="backToMenuFromPiano" class="back-button">Back to Menu</button>
+            
+            <div class="piano">
+                <div class="volume-control">
+                    <input type="range" id="volumeControlPiano" min="0" max="1" step="0.01" value="0.5">
+                </div>
+                <div class="recording-control">
+                    <button id="recordButton" class="record-button">Record</button>
+                    <button id="stopButton" class="stop-button">Stop</button>
+                    <button id="playRecordingButton" class="play-recording-button">Play Recording</button>
+                </div>
+                <div class="clear-recording">
+                    <button id="clearRecordingButton" class="clear-recording-button">Clear Recording</button>
+                </div>
                 
-                <!-- New octave keys -->
-                <div class="key white" data-note="C5">K</div>
-                <div class="key black" data-note="C#5">I</div>
-                <div class="key white" data-note="D5">L</div>
-                <div class="key black" data-note="D#5">R</div>
-                <div class="key white" data-note="E5">;</div>
-                <div class="key white" data-note="F5">'</div>
-                <div class="key black" data-note="F#5">]</div>
-                <div class="key white" data-note="G5">O</div>
-                <div class="key black" data-note="G#5">\</div>
-                <div class="key white" data-note="A5">P</div>
-                <div class="key black" data-note="A#5">=</div>
-                <div class="key white" data-note="B5">[</div>
+                <!-- Add Recordings Selector -->
+                <div class="recordings-selector-container">
+                    <select id="recordingsSelector" class="recordings-selector">
+                        <option value="">Select a Recording</option>
+                        <!-- Recordings will be dynamically loaded here -->
+                    </select>
+                    <button id="playSelectedRecording" class="play-button">Play</button>
+                    <button id="renameRecording" class="rename-button">Rename</button>
+                    <button id="deleteRecording" class="delete-button">Delete</button>
+                </div>
+                
+                <div class="piano-keys">
+                    <!-- Octave indicators -->
+                    <div class="octave-indicator" data-octave="3">Octave 3</div>
+                    <div class="octave-indicator" data-octave="4">Octave 4</div>
+                    <div class="octave-indicator" data-octave="5">Octave 5</div>
+                    
+                    <!-- Lower octave keys (C3-B3) -->
+                    <div class="key white" data-note="C3">A</div>
+                    <div class="key black" data-note="C#3">W</div>
+                    <div class="key white" data-note="D3">S</div>
+                    <div class="key black" data-note="D#3">E</div>
+                    <div class="key white" data-note="E3">D</div>
+                    <div class="key white" data-note="F3">F</div>
+                    <div class="key black" data-note="F#3">T</div>
+                    <div class="key white" data-note="G3">G</div>
+                    <div class="key black" data-note="G#3">Y</div>
+                    <div class="key white" data-note="A3">H</div>
+                    <div class="key black" data-note="A#3">U</div>
+                    <div class="key white" data-note="B3">J</div>
+
+                    <!-- Middle octave keys (C4-B4) -->
+                    <div class="key white" data-note="C4">A</div>
+                    <div class="key black" data-note="C#4">W</div>
+                    <div class="key white" data-note="D4">S</div>
+                    <div class="key black" data-note="D#4">E</div>
+                    <div class="key white" data-note="E4">D</div>
+                    <div class="key white" data-note="F4">F</div>
+                    <div class="key black" data-note="F#4">T</div>
+                    <div class="key white" data-note="G4">G</div>
+                    <div class="key black" data-note="G#4">Y</div>
+                    <div class="key white" data-note="A4">H</div>
+                    <div class="key black" data-note="A#4">U</div>
+                    <div class="key white" data-note="B4">J</div>
+                    
+                    <!-- Higher octave keys (C5-B5) -->
+                    <div class="key white" data-note="C5">A</div>
+                    <div class="key black" data-note="C#5">W</div>
+                    <div class="key white" data-note="D5">S</div>
+                    <div class="key black" data-note="D#5">E</div>
+                    <div class="key white" data-note="E5">D</div>
+                    <div class="key white" data-note="F5">F</div>
+                    <div class="key black" data-note="F#5">T</div>
+                    <div class="key white" data-note="G5">G</div>
+                    <div class="key black" data-note="G#5">Y</div>
+                    <div class="key white" data-note="A5">H</div>
+                    <div class="key black" data-note="A#5">U</div>
+                    <div class="key white" data-note="B5">J</div>
+                </div>
+            </div>
+
+            <!-- Integrated Song Player Controls -->
+            <div class="song-player-controls">
+                <div id="songDuration" class="song-duration">Duration: 0:00</div>
+                <select id="songSelector" class="song-selector">
+                    <option value="">Select a Song</option>
+                    <!-- Songs will be dynamically loaded here -->
+                </select>
+                <div class="song-buttons">
+                    <button id="playSong" class="play-button">Play</button>
+                    <button id="renameSong" class="rename-button">Rename</button>
+                </div>
             </div>
         </div>
     </div>
+    
+    <!-- Guided Play Section -->
+    <div class="section" id="guidedPlaySection" style="display: none;">
+        <div class="guided-play-container">
+            <div class="guided-play-header">
+                <h2>Guided Play Mode</h2>
+                <button id="backToMenuFromGuided" class="back-button">Back to Menu</button>
+                <button id="showHelpButton" class="help-button">?</button>
+            </div>
+            
+            <div class="guided-play-controls">
+                <div class="song-selection">
+                    <label for="guidedPlaySongSelector">Select a Song:</label>
+                    <select id="guidedPlaySongSelector" class="song-selector">
+                        <option value="">Select a Song</option>
+                        <!-- Songs will be loaded here -->
+                    </select>
+                </div>
+                
+                <div class="difficulty-controls">
+                    <label>Difficulty:</label>
+                    <div class="difficulty-buttons">
+                        <button id="beginnerMode" class="difficulty-button active">Beginner</button>
+                        <button id="intermediateMode" class="difficulty-button">Intermediate</button>
+                        <button id="advancedMode" class="difficulty-button">Advanced</button>
+                    </div>
+                </div>
+                
+                <div class="playback-controls">
+                    <button id="startGuidedPlay" class="play-button" disabled>Start</button>
+                    <button id="pauseGuidedPlay" class="pause-button" disabled>Pause</button>
+                    <button id="restartGuidedPlay" class="restart-button" disabled>Restart</button>
+                </div>
+            </div>
+            
+            <div class="progress-bar-container">
+                <div id="progressBar" class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div class="time-display">
+                    <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
+                </div>
+            </div>
+            
+            <div class="game-info">
+                <div class="info-item score">
+                    <div class="info-label">Score</div>
+                    <div id="currentScore" class="info-value">0</div>
+                </div>
+                <div class="info-item accuracy">
+                    <div class="info-label">Accuracy</div>
+                    <div id="currentAccuracy" class="info-value">0</div>
+                </div>
+                <div class="info-item combo">
+                    <div class="info-label">Combo</div>
+                    <div id="currentCombo" class="info-value">0</div>
+                </div>
+            </div>
+            
+            <div class="game-area">
+                <div id="noteCanvas" class="note-canvas"></div>
+                <div class="timing-line"></div>
+                
+                <!-- Piano keyboard for guided play -->
+                <div class="piano-keys">
+                    <!-- Octave indicators for guided play -->
+                    <div class="octave-indicator" data-octave="3">Octave 3</div>
+                    <div class="octave-indicator" data-octave="4">Octave 4</div>
+                    <div class="octave-indicator" data-octave="5">Octave 5</div>
+                    
+                    <div class="piano-keys-wrapper">
+                        <!-- White keys -->
+                        <div class="key white" data-note="C3">1</div>
+                        <div class="key white" data-note="D3">2</div>
+                        <div class="key white" data-note="E3">3</div>
+                        <div class="key white" data-note="F3">4</div>
+                        <div class="key white" data-note="G3">5</div>
+                        <div class="key white" data-note="A3">6</div>
+                        <div class="key white" data-note="B3">7</div>
+
+                        <div class="key white" data-note="C4">A</div>
+                        <div class="key white" data-note="D4">S</div>
+                        <div class="key white" data-note="E4">D</div>
+                        <div class="key white" data-note="F4">F</div>
+                        <div class="key white" data-note="G4">G</div>
+                        <div class="key white" data-note="A4">H</div>
+                        <div class="key white" data-note="B4">J</div>
+                        
+                        <div class="key white" data-note="C5">K</div>
+                        <div class="key white" data-note="D5">L</div>
+                        <div class="key white" data-note="E5">;</div>
+                        
+                        <!-- Black keys -->
+                        <div class="key black" data-note="C#3">Q</div>
+                        <div class="key black" data-note="D#3">W</div>
+                        <div class="key black" data-note="F#3">R</div>
+                        <div class="key black" data-note="G#3">T</div>
+                        <div class="key black" data-note="A#3">Y</div>
+
+                        <div class="key black" data-note="C#4">W</div>
+                        <div class="key black" data-note="D#4">E</div>
+                        <div class="key black" data-note="F#4">T</div>
+                        <div class="key black" data-note="G#4">Y</div>
+                        <div class="key black" data-note="A#4">U</div>
+
+                        <div class="key black" data-note="C#5">I</div>
+                        <div class="key black" data-note="D#5">R</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Game Over Modal -->
+    <div id="gameOverModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Performance Results</div>
+            <div class="results-container">
+                <div class="result-item">
+                    <div class="result-label">Final Score:</div>
+                    <div id="finalScore" class="result-value">0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Accuracy:</div>
+                    <div id="finalAccuracy" class="result-value">0%</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Highest Combo:</div>
+                    <div id="highestCombo" class="result-value">0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Notes Hit:</div>
+                    <div id="notesHit" class="result-value">0/0</div>
+                </div>
+                <div class="result-item grade">
+                    <div class="result-label">Grade:</div>
+                    <div id="performanceGrade" class="result-value">F</div>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button id="tryAgainBtn" class="modal-button">Try Again</button>
+                <button id="backToMenuBtn" class="modal-button">Back to Menu</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Instructions Modal -->
+    <div id="instructionsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">How to Play</div>
+            <div class="instructions-container">
+                <p>Welcome to Guided Play mode! Here's how it works:</p>
+                <ul>
+                    <li>Notes will fall from the top of the screen</li>
+                    <li>Press the corresponding key when the note reaches the timing line</li>
+                    <li>The more accurate your timing, the more points you'll score</li>
+                    <li>Build combos for bonus points</li>
+                    <li>Choose your difficulty level to adjust the speed and timing window</li>
+                </ul>
+            </div>
+            <div class="modal-checkbox">
+                <input type="checkbox" id="dontShowAgain">
+                <label for="dontShowAgain">Don't show again</label>
+            </div>
+            <div class="modal-buttons">
+                <button id="showInstructionsButton" class="modal-button">Got it!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Continue Iteration Modal -->
+    <div id="continueIterationModal" class="modal">
+        <div class="modal-content">
+            <h2>Continue playing?</h2>
+            <p>Would you like to continue to iterate?</p>
+            <div class="modal-buttons">
+                <button id="continueIterationBtn" class="modal-button primary-button">Continue</button>
+                <button id="backToMenuBtn" class="modal-button">Back to Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recording Name Modal -->
+    <div id="recordingNameModal" class="modal">
+        <div class="modal-content">
+            <h2>Name Your Recording</h2>
+            <p>Please enter a name for your recording:</p>
+            <input type="text" id="recordingNameInput" class="modal-input" placeholder="My Recording">
+            <div class="modal-buttons">
+                <button id="saveRecordingBtn" class="modal-button primary-button">Save</button>
+                <button id="cancelRecordingBtn" class="modal-button">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recording Rename Modal -->
+    <div id="recordingRenameModal" class="modal">
+        <div class="modal-content">
+            <h2>Rename Recording</h2>
+            <p>Enter a new name for your recording:</p>
+            <input type="text" id="recordingRenameInput" class="modal-input">
+            <div class="modal-buttons">
+                <button id="saveRecordingRenameBtn" class="modal-button primary-button">Save</button>
+                <button id="cancelRecordingRenameBtn" class="modal-button">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Song Rename Modal -->
+    <div id="songRenameModal" class="modal">
+        <div class="modal-content">
+            <h2>Rename Song</h2>
+            <p>Enter a new name for this song:</p>
+            <input type="text" id="songRenameInput" class="modal-input">
+            <div class="modal-buttons">
+                <button id="saveSongRenameBtn" class="modal-button primary-button">Save</button>
+                <button id="cancelSongRenameBtn" class="modal-button">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript files in order of dependency -->
+    <script src="songs.js"></script>
+    <script src="recordings.js"></script>
+    <script src="storage-manager.js"></script>
+    <script src="modal-manager.js"></script>
+    <script src="piano-core.js"></script>
+    <script src="song-player.js"></script>
+    <script src="recording-manager.js"></script>
+    <script src="guided-play.js"></script>
     <script src="piano.js"></script>
 </body>
 </html>

@@ -1,0 +1,1031 @@
+/* guided-play.css - Styles specific to the guided play section */
+
+/* Main container for guided play */
+.guided-play-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #1c2833, #0f1922);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Header styling */
+.guided-play-header {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(93, 64, 55, 0.6);
+}
+
+.guided-play-header h2 {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-size: 32px;
+    font-style: italic;
+    color: #e0c080;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    letter-spacing: 3px;
+    margin: 0;
+}
+
+/* Controls section styling */
+.guided-play-controls {
+    width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    background: linear-gradient(to bottom, #5d4037, #4a332b);
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #3e2723;
+    box-shadow: 
+        0 8px 16px rgba(0, 0, 0, 0.4),
+        inset 0 1px 3px rgba(255, 255, 255, 0.1);
+    margin-bottom: 25px;
+    /* Wood grain effect */
+    background-image: 
+        repeating-linear-gradient(
+            45deg, 
+            rgba(80, 50, 30, 0.1) 0px, 
+            rgba(80, 50, 30, 0.1) 3px, 
+            transparent 3px, 
+            transparent 6px
+        );
+}
+
+.song-selection, .difficulty-controls, .playback-controls {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.song-selection label, .difficulty-controls label {
+    display: block;
+    color: #e0c080;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    font-size: 16px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.song-selection select {
+    width: 100%;
+    padding: 12px 15px;
+    background: linear-gradient(to bottom, #f8f8f8, #e0e0e0);
+    border: 1px solid #3e2723;
+    border-radius: 6px;
+    font-size: 16px;
+    color: #333;
+    box-shadow: 
+        inset 0 1px 3px rgba(0, 0, 0, 0.2),
+        0 2px 4px rgba(0, 0, 0, 0.2);
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: 14px auto;
+}
+
+/* Difficulty buttons */
+.difficulty-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.difficulty-button {
+    flex: 1;
+    padding: 12px 15px;
+    background: linear-gradient(to bottom, #777, #555);
+    color: white;
+    border: 1px solid #333;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+.difficulty-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.difficulty-button.active {
+    background: linear-gradient(to bottom, #3498db, #2980b9);
+    border-color: #1c6ea4;
+    box-shadow: 
+        0 0 10px rgba(52, 152, 219, 0.6),
+        inset 0 1px 3px rgba(255, 255, 255, 0.3);
+}
+
+/* Play, pause, restart buttons */
+.play-button, .pause-button, .restart-button {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.play-button {
+    background: linear-gradient(to bottom, #2ecc71, #27ae60);
+    border: 1px solid #1e8449;
+    color: white;
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.pause-button {
+    background: linear-gradient(to bottom, #e67e22, #d35400);
+    border: 1px solid #a04000;
+    color: white;
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.restart-button {
+    background: linear-gradient(to bottom, #3498db, #2980b9);
+    border: 1px solid #1c6ea4;
+    color: white;
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.play-button:hover, .pause-button:hover, .restart-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.play-button:active, .pause-button:active, .restart-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Game info section */
+.game-info {
+    width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    background: linear-gradient(to bottom, #261209, #3a1e12);
+    border: 2px solid #5d4037;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    /* Wood grain texture */
+    background-image: 
+        repeating-linear-gradient(
+            30deg, 
+            rgba(80, 50, 30, 0.1) 0px, 
+            rgba(80, 50, 30, 0.1) 2px, 
+            transparent 2px, 
+            transparent 4px
+        );
+}
+
+.info-item {
+    background: linear-gradient(to bottom, #34495e, #2c3e50);
+    border: 1px solid #1a2530;
+    border-radius: 8px;
+    padding: 15px 20px;
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.info-label {
+    color: #e0c080;
+    font-size: 16px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    position: relative;
+    z-index: 2;
+}
+
+.info-value {
+    color: #fff;
+    font-size: 36px;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 2;
+}
+
+/* Progress bar styling */
+.progress-bar-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 15px;
+    background-color: #1a2530;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.5),
+        0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid #0f1922;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(to right, #3498db, #2ecc71);
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.6);
+    position: relative;
+}
+
+.progress-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to bottom, 
+        rgba(255, 255, 255, 0.3), 
+        rgba(255, 255, 255, 0.1));
+}
+
+.time-display {
+    display: flex;
+    justify-content: space-between;
+    color: #e0c080;
+    font-family: "Courier New", monospace;
+    font-size: 16px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    letter-spacing: 1px;
+    margin-top: 8px;
+    padding: 0 5px;
+}
+
+/* Game area styling */
+#guidedPlaySection .game-area {
+    width: 100%;
+    max-width: 1200px;
+    height: 700px;
+    background-color: #141e26;
+    border: 1px solid #0c1218;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.note-canvas {
+    width: 100%;
+    height: 470px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #2c3e50, #1a2530);
+}
+
+/* Guided play piano styling */
+#guidedPlaySection .piano-keys {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 230px;
+    background: linear-gradient(to bottom, #261209, #3a1e12, #261209);
+    border-top: 10px solid #5d4037;
+    /* Wood grain effect */
+    background-image: 
+        repeating-linear-gradient(
+            30deg, 
+            rgba(80, 50, 30, 0.1) 0px, 
+            rgba(80, 50, 30, 0.1) 2px, 
+            transparent 2px, 
+            transparent 4px
+        );
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Guided play piano keys layout */
+#guidedPlaySection .piano-keys-wrapper {
+    height: 100%;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin: 0 auto;
+    width: auto;
+}
+
+/* Position the octave indicators in the guided play piano */
+#guidedPlaySection .octave-indicator[data-octave="3"] {
+    left: calc(3.5 * var(--white-key-width));
+}
+
+#guidedPlaySection .octave-indicator[data-octave="4"] {
+    left: calc(10.5 * var(--white-key-width));
+}
+
+#guidedPlaySection .octave-indicator[data-octave="5"] {
+    left: calc(17.5 * var(--white-key-width));
+}
+
+/* Specific black key positioning for the guided piano - Centered relative to container */
+#guidedPlaySection .piano-keys-wrapper .key.black[data-note="C#3"] {
+    left: calc(0 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+#guidedPlaySection .piano-keys-wrapper .key.black[data-note="D#3"] {
+    left: calc(1 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+#guidedPlaySection .piano-keys-wrapper .key.black[data-note="F#3"] {
+    left: calc(3 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+#guidedPlaySection .piano-keys-wrapper .key.black[data-note="G#3"] {
+    left: calc(4 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+#guidedPlaySection .piano-keys-wrapper .key.black[data-note="A#3"] {
+    left: calc(5 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+#guidedPlaySection .piano-keys-wrapper .key.black[data-note="C#4"] {
+    left: calc(7 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+#guidedPlaySection .piano-keys-wrapper .key.black[data-note="D#4"] {
+    left: calc(8 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+#guidedPlaySection .piano-keys-wrapper .key.black[data-note="F#4"] {
+    left: calc(10 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+#guidedPlaySection .piano-keys-wrapper .key.black[data-note="G#4"] {
+    left: calc(11 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+#guidedPlaySection .piano-keys-wrapper .key.black[data-note="A#4"] {
+    left: calc(12 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+#guidedPlaySection .piano-keys-wrapper .key.black[data-note="C#5"] {
+    left: calc(14 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+#guidedPlaySection .piano-keys-wrapper .key.black[data-note="D#5"] {
+    left: calc(15 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+/* Key press effects specific to guided play */
+#guidedPlaySection .key.white:active,
+#guidedPlaySection .key.white.active,
+#guidedPlaySection .key.perfect-hit {
+    transform: translateY(5px);
+    border-bottom-width: 3px;
+    height: 205px;
+    background: linear-gradient(to bottom, #ffdb99, #ffcc66);
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.7);
+}
+
+#guidedPlaySection .key.black:active,
+#guidedPlaySection .key.black.active,
+#guidedPlaySection .key.black.perfect-hit {
+    transform: translateY(5px) translateX(-50%);
+    border-bottom-width: 1px;
+    height: 125px;
+    background: linear-gradient(to bottom, #e6c060, #cc9900);
+    box-shadow: 0 0 15px rgba(204, 153, 0, 0.7);
+}
+
+/* Piano pedals for guided play section */
+#guidedPlaySection .game-area::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 250px;
+    height: 15px;
+    background: linear-gradient(to bottom, #5d4037, #3e2723);
+    border-radius: 0 0 50% 50%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Adding a wrapper to emphasize the keyboard center position */
+#guidedPlaySection .game-area::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(16 * var(--white-key-width)); /* Width based on the number of visible keys */
+    height: 230px;
+    border-top: 3px solid rgba(93, 64, 55, 0.4);
+    border-left: 1px solid rgba(93, 64, 55, 0.2);
+    border-right: 1px solid rgba(93, 64, 55, 0.2);
+    border-radius: 6px 6px 0 0;
+    z-index: 1;
+    background: rgba(30, 15, 10, 0.1);
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+
+/* Timing indicators */
+.timing-line {
+    position: absolute;
+    bottom: 230px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, 
+        #e74c3c, #f39c12, #2ecc71, #3498db, #9b59b6);
+    box-shadow: 
+        0 0 15px rgba(231, 76, 60, 0.8),
+        0 0 5px rgba(255, 255, 255, 0.8);
+    z-index: 10;
+}
+
+/* Falling notes styling */
+.falling-note {
+    position: absolute;
+    border-radius: 4px;
+    transition: transform 0.1s;
+    z-index: 5;
+}
+
+.white-note {
+    background: linear-gradient(to bottom, #fff, #f0f0f0);
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+.black-note {
+    background: linear-gradient(to bottom, #333, #000);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Key highlighting specific to guided play */
+#guidedPlaySection .key.key-highlight {
+    animation: feintPulse 2s ease-in-out;
+}
+
+#guidedPlaySection .key.white.key-highlight::before {
+    background: linear-gradient(to bottom, 
+        rgba(135, 206, 250, 0.4), 
+        rgba(135, 206, 250, 0.2));
+}
+
+#guidedPlaySection .key.black.key-highlight::before {
+    background: linear-gradient(to bottom, 
+        rgba(100, 149, 237, 0.5), 
+        rgba(100, 149, 237, 0.3));
+}
+
+/* Timing indicator for note hit accuracy */
+.timing-indicator {
+    position: absolute;
+    bottom: 240px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 15;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.timing-zone {
+    position: relative;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.timing-zone span {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.perfect-zone {
+    width: 20%;
+    background: rgba(52, 152, 219, 0.4);
+    border-radius: 0;
+}
+
+.good-zone {
+    width: 30%;
+    background: rgba(46, 204, 113, 0.3);
+}
+
+.good-zone-left {
+    border-radius: 15px 0 0 15px;
+}
+
+.good-zone-right {
+    border-radius: 0 15px 15px 0;
+}
+
+.ok-zone {
+    width: 10%;
+    background: rgba(230, 126, 34, 0.3);
+}
+
+.timing-marker {
+    position: absolute;
+    width: 4px;
+    height: 20px;
+    background: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 2px;
+    transition: transform 0.2s ease-out;
+    z-index: 16;
+}
+
+.timing-marker.perfect-timing {
+    background: #3498db;
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.8);
+}
+
+.timing-marker.good-timing {
+    background: #2ecc71;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.8);
+}
+
+.timing-marker.ok-timing {
+    background: #e67e22;
+    box-shadow: 0 0 10px rgba(230, 126, 34, 0.8);
+}
+
+/* Score popups animation */
+.score-popup {
+    position: absolute;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: floatUp 1s ease-out forwards;
+    z-index: 20;
+}
+
+.score-popup.perfect {
+    color: #3498db;
+    text-shadow: 0 0 10px rgba(52, 152, 219, 0.8);
+}
+
+.score-popup.good {
+    color: #2ecc71;
+    text-shadow: 0 0 10px rgba(46, 204, 113, 0.8);
+}
+
+.score-popup.ok {
+    color: #f39c12;
+    text-shadow: 0 0 10px rgba(243, 156, 18, 0.8);
+}
+
+.score-popup.miss {
+    color: #e74c3c;
+    text-shadow: 0 0 10px rgba(231, 76, 60, 0.8);
+    font-size: 24px;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 0);
+    }
+    20% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50px);
+    }
+}
+
+/* Hit animations for keys */
+#guidedPlaySection .key.white.perfect-hit {
+    background: linear-gradient(to bottom, #3498db, #2980b9);
+    box-shadow: 0 0 20px rgba(52, 152, 219, 0.8);
+    animation: keyHitAnimation 0.3s ease-out;
+}
+
+#guidedPlaySection .key.white.good-hit {
+    background: linear-gradient(to bottom, #2ecc71, #27ae60);
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.8);
+    animation: keyHitAnimation 0.3s ease-out;
+}
+
+#guidedPlaySection .key.white.ok-hit {
+    background: linear-gradient(to bottom, #f39c12, #d35400);
+    box-shadow: 0 0 20px rgba(243, 156, 18, 0.8);
+    animation: keyHitAnimation 0.3s ease-out;
+}
+
+#guidedPlaySection .key.white.missed-note {
+    background: linear-gradient(to bottom, #e74c3c, #c0392b);
+    box-shadow: 0 0 20px rgba(231, 76, 60, 0.8);
+    animation: keyHitAnimation 0.3s ease-out;
+}
+
+#guidedPlaySection .key.black.perfect-hit {
+    background: linear-gradient(to bottom, #3498db, #2980b9);
+    box-shadow: 0 0 15px rgba(52, 152, 219, 0.8);
+    animation: keyHitAnimation 0.3s ease-out;
+}
+
+#guidedPlaySection .key.black.good-hit {
+    background: linear-gradient(to bottom, #2ecc71, #27ae60);
+    box-shadow: 0 0 15px rgba(46, 204, 113, 0.8);
+    animation: keyHitAnimation 0.3s ease-out;
+}
+
+#guidedPlaySection .key.black.ok-hit {
+    background: linear-gradient(to bottom, #f39c12, #d35400);
+    box-shadow: 0 0 15px rgba(243, 156, 18, 0.8);
+    animation: keyHitAnimation 0.3s ease-out;
+}
+
+#guidedPlaySection .key.black.missed-note {
+    background: linear-gradient(to bottom, #e74c3c, #c0392b);
+    box-shadow: 0 0 15px rgba(231, 76, 60, 0.8);
+    animation: keyHitAnimation 0.3s ease-out;
+}
+
+/* Animation for hit keys */
+@keyframes keyHitAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Falling note animations */
+.falling-note {
+    position: absolute;
+    border-radius: 4px;
+    transition: transform 0.1s;
+    z-index: 5;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.falling-note.perfect {
+    box-shadow: 0 0 12px rgba(52, 152, 219, 0.8);
+    animation: perfectHitAnimation 0.3s ease-out;
+}
+
+.falling-note.good {
+    box-shadow: 0 0 12px rgba(46, 204, 113, 0.8);
+    animation: goodHitAnimation 0.3s ease-out;
+}
+
+.falling-note.ok {
+    box-shadow: 0 0 12px rgba(243, 156, 18, 0.8);
+    animation: okHitAnimation 0.3s ease-out;
+}
+
+.falling-note.missed {
+    box-shadow: 0 0 12px rgba(231, 76, 60, 0.8);
+    animation: missedAnimation 0.3s ease-out;
+    opacity: 0.5;
+}
+
+@keyframes perfectHitAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes goodHitAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes okHitAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes missedAnimation {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Combo highlight animation */
+.combo-highlight {
+    animation: comboHighlight 0.3s ease-out;
+    color: #f39c12;
+    text-shadow: 0 0 15px rgba(243, 156, 18, 0.8);
+}
+
+@keyframes comboHighlight {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Game over modal styling */
+#gameOverModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1001;
+}
+
+.game-over-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to bottom, #34495e, #2c3e50);
+    padding: 30px;
+    border-radius: 15px;
+    width: 400px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    border: 2px solid #e0c080;
+    color: white;
+}
+
+.game-over-header {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-size: 28px;
+    color: #e0c080;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.score-summary {
+    margin-bottom: 20px;
+}
+
+.score-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.score-label {
+    color: #3498db;
+}
+
+.score-value {
+    font-weight: bold;
+}
+
+.performance-grade {
+    font-size: 72px;
+    font-weight: bold;
+    margin: 20px 0;
+    color: #e74c3c;
+    text-shadow: 0 0 15px rgba(231, 76, 60, 0.8);
+}
+
+.game-over-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+
+.game-over-button {
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+#tryAgainBtn {
+    background: linear-gradient(to bottom, #2ecc71, #27ae60);
+    border: 1px solid #1e8449;
+    color: white;
+}
+
+#backToMenuBtn {
+    background: linear-gradient(to bottom, #3498db, #2980b9);
+    border: 1px solid #1c6ea4;
+    color: white;
+}
+
+.game-over-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Countdown overlay */
+.countdown-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.countdown-number {
+    font-size: 120px;
+    color: #e0c080;
+    font-weight: bold;
+    text-shadow: 0 0 20px rgba(224, 192, 128, 0.7);
+    animation: pulse 1s infinite;
+}
+
+/* Help button styling */
+#showHelpButton {
+    background: linear-gradient(to bottom, #e67e22, #d35400);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+#showHelpButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Instructions modal */
+#instructionsModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1001;
+}
+
+.instructions-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to bottom, #34495e, #2c3e50);
+    padding: 30px;
+    border-radius: 15px;
+    width: 600px;
+    max-width: 90%;
+    max-height: 80%;
+    overflow-y: auto;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    border: 2px solid #e0c080;
+    color: white;
+}
+
+.instructions-header {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-size: 28px;
+    color: #e0c080;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    text-align: center;
+}
+
+.instructions-text {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.instructions-footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.dont-show-again {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dont-show-again input {
+    margin-right: 10px;
+}
