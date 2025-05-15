@@ -43,6 +43,12 @@ In Guided Play mode, use the same key mappings above to play along with the fall
 - Rename or delete saved recordings
 - Play back your recordings any time
 
+### Leaderboard System
+- View top scores across all songs and difficulties
+- Filter leaderboard by song or difficulty level
+- Scores are saved automatically after each performance
+- Persistent scoring system using IndexedDB
+
 ## Technologies Used
 - HTML5
 - CSS3

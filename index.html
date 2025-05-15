@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <title>Interactive Virtual Piano</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
-    <!-- Replace single CSS with modular CSS files -->
+    <!-- Add Font Awesome for leaderboard icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/piano.css">
     <link rel="stylesheet" href="css/guided-play.css">
+    <link rel="stylesheet" href="css/leaderboard.css">
 </head>
 <body>
     <!-- Main Menu Section -->
@@ -322,15 +324,73 @@
         </div>
     </div>
 
+    <!-- Add to the guided play section in index.html -->
+<div id="leaderboardModal" class="modal">
+    <div class="leaderboard-content">
+        <h2 class="leaderboard-header">Leaderboard</h2>
+        
+        <div class="leaderboard-filters">
+            <div class="filter-group">
+                <label for="leaderboardSongFilter">Song:</label>
+                <select id="leaderboardSongFilter">
+                    <option value="all">All Songs</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="leaderboardDifficultyFilter">Difficulty:</label>
+                <select id="leaderboardDifficultyFilter">
+                    <option value="all">All Difficulties</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="leaderboard-table-container">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>Score</th>
+                        <th>Accuracy</th>
+                        <th>Song</th>
+                        <th>Difficulty</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardTableBody">
+                    <!-- Leaderboard entries will be populated here -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="leaderboard-buttons">
+            <button id="closeLeaderboardBtn" class="leaderboard-button">Close</button>
+            <button id="clearLeaderboardBtn" class="leaderboard-button danger">Clear All Scores</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add to the game over modal in index.html -->
+<div class="player-name-input">
+    <label for="playerNameInput">Your Name:</label>
+    <input type="text" id="playerNameInput" maxlength="20" placeholder="Enter your name">
+</div>
+
     <!-- JavaScript files in order of dependency -->
-    <script src="songs.js"></script>
-    <script src="recordings.js"></script>
-    <script src="storage-manager.js"></script>
-    <script src="modal-manager.js"></script>
-    <script src="piano-core.js"></script>
-    <script src="song-player.js"></script>
-    <script src="recording-manager.js"></script>
-    <script src="guided-play.js"></script>
-    <script src="piano.js"></script>
+    <script src="js/songs/song-player.js"></script>
+    <script src="js/recording/recordings.js"></script>
+    <script src="js/db/storage-manager.js"></script>
+    <script src="js/ui/modal-manager.js"></script>
+    <script src="js/piano/piano-core.js"></script>
+    <script src="js/songs/songs.js"></script>
+    <script src="js/recording/recording-manager.js"></script>
+    <script src="js/piano/guided-play.js"></script>
+    <script src="js/piano/piano.js"></script>
+    <script src="js/db/leaderboard.js"></script>
+    <script src="js/ui/leaderboard-manager.js"></script>
+
 </body>
 </html>

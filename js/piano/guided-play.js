@@ -55,6 +55,12 @@ class GuidedPlay {
         // Check if instructions have been seen before
         this.instructionsSeen = localStorage.getItem('guidedPlayInstructionsSeen') === 'true';
         
+        // Load player name from localStorage if available
+        const savedName = localStorage.getItem('playerName');
+        if (savedName && document.getElementById('playerNameInput')) {
+            document.getElementById('playerNameInput').value = savedName;
+        }
+        
         this.bindEvents();
         this.setupKeyMappings();
         
@@ -164,6 +170,11 @@ class GuidedPlay {
         // Help button for instructions
         document.getElementById('showHelpButton').addEventListener('click', () => {
             this.showInstructions();
+        });
+        
+        // Game over modal player name input
+        document.getElementById('playerNameInput').addEventListener('input', (e) => {
+            localStorage.setItem('playerName', e.target.value);
         });
     }
     
@@ -1052,53 +1063,74 @@ class GuidedPlay {
         console.log('Game stopped and all resources cleaned up');
     }
     
-    endGame() {
-        this.stopGame();
+// Add to the endGame method in the GuidedPlay class in guided-play.js
+endGame() {
+    this.stopGame();
+    
+    // Calculate final statistics
+    const finalAccuracy = this.gameState.accuracy;
+    let grade = 'F';
+    
+    if (finalAccuracy >= 95) grade = 'S';
+    else if (finalAccuracy >= 90) grade = 'A+';
+    else if (finalAccuracy >= 85) grade = 'A';
+    else if (finalAccuracy >= 80) grade = 'B+';
+    else if (finalAccuracy >= 75) grade = 'B';
+    else if (finalAccuracy >= 70) grade = 'C+';
+    else if (finalAccuracy >= 65) grade = 'C';
+    else if (finalAccuracy >= 60) grade = 'D+';
+    else if (finalAccuracy >= 55) grade = 'D';
+    else grade = 'F';
+    
+    // Save score to leaderboard
+    if (window.leaderboardManager && this.gameState.score > 0) {
+        const scoreData = {
+            playerName: localStorage.getItem('playerName') || 'Anonymous',
+            score: this.gameState.score,
+            accuracy: finalAccuracy,
+            combo: this.gameState.maxCombo,
+            songId: this.gameState.currentSong.index,
+            difficulty: this.gameState.difficulty,
+            notesHit: this.gameState.notesHit,
+            notesMissed: this.gameState.notesMissed,
+            grade: grade
+        };
         
-        // Calculate final statistics
-        const finalAccuracy = this.gameState.accuracy;
-        let grade = 'F';
-        
-        if (finalAccuracy >= 95) grade = 'S';
-        else if (finalAccuracy >= 90) grade = 'A+';
-        else if (finalAccuracy >= 85) grade = 'A';
-        else if (finalAccuracy >= 80) grade = 'B+';
-        else if (finalAccuracy >= 75) grade = 'B';
-        else if (finalAccuracy >= 70) grade = 'C+';
-        else if (finalAccuracy >= 65) grade = 'C';
-        else if (finalAccuracy >= 60) grade = 'D+';
-        else if (finalAccuracy >= 55) grade = 'D';
-        else grade = 'F';
-        
-        // Update game over modal
-        document.getElementById('finalScore').textContent = this.gameState.score.toLocaleString();
-        document.getElementById('finalAccuracy').textContent = `${finalAccuracy}%`;
-        document.getElementById('highestCombo').textContent = this.gameState.maxCombo;
-        document.getElementById('notesHit').textContent = `${this.gameState.notesHit}/${this.gameState.totalNotes}`;
-        document.getElementById('performanceGrade').textContent = grade;
-        
-        // Show Continue Iteration Modal instead of game over modal immediately
-        if (window.modalManager) {
-            window.modalManager.showContinueIterationModal((continueIteration) => {
-                if (continueIteration) {
-                    // User chose to continue with the same song
-                    this.restartGame();
-                } else {
-                    // User chose not to continue, show game over modal
-                    this.showGameOverModal();
-                    
-                    // Auto-navigate to main menu after 30 seconds of inactivity
-                    this.setupAutoReturnToMenu();
-                }
-            });
-        } else {
-            // Fallback to showing game over modal directly if modal manager isn't available
-            this.showGameOverModal();
-            
-            // Auto-navigate to main menu after 30 seconds of inactivity
-            this.setupAutoReturnToMenu();
-        }
+        window.leaderboardManager.addScore(scoreData);
     }
+    
+    // Update game over modal
+    document.getElementById('finalScore').textContent = this.gameState.score.toLocaleString();
+    document.getElementById('finalAccuracy').textContent = `${finalAccuracy}%`;
+    document.getElementById('highestCombo').textContent = this.gameState.maxCombo;
+    document.getElementById('notesHit').textContent = `${this.gameState.notesHit}/${this.gameState.totalNotes}`;
+    document.getElementById('performanceGrade').textContent = grade;
+    
+    // Show game over modal
+    this.showGameOverModal();
+    
+    // Add View Leaderboard button to game over modal
+    const modal = document.getElementById('gameOverModal');
+    let leaderboardBtn = document.getElementById('viewLeaderboardBtn');
+    
+    if (!leaderboardBtn) {
+        leaderboardBtn = document.createElement('button');
+        leaderboardBtn.id = 'viewLeaderboardBtn';
+        leaderboardBtn.className = 'game-over-button';
+        leaderboardBtn.textContent = 'View Leaderboard';
+        leaderboardBtn.addEventListener('click', () => {
+            if (window.leaderboardManager) {
+                this.hideGameOverModal();
+                window.leaderboardManager.showLeaderboard();
+            }
+        });
+        
+        document.querySelector('.game-over-buttons').appendChild(leaderboardBtn);
+    }
+    
+    // Auto-navigate to main menu after 30 seconds of inactivity
+    this.setupAutoReturnToMenu();
+}
     
     // Function to automatically return to the main menu after performance results
     setupAutoReturnToMenu() {

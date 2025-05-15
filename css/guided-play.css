@@ -972,3 +972,87 @@
 .dont-show-again input {
     margin-right: 10px;
 }
+
+
+.player-name-input {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.player-name-input label {
+    display: block;
+    margin-bottom: 5px;
+    color: #e0c080;
+}
+
+.player-name-input input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #e0c080;
+    background-color: #1a2530;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+/* Leaderboard button styling for guided play */
+.leaderboard-button {
+    background: linear-gradient(to bottom, #9b59b6, #8e44ad);
+    color: white;
+    border: 1px solid #6c3483;
+    border-radius: 6px;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.leaderboard-button:hover {
+    background: linear-gradient(to bottom, #a569bd, #9b59b6);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.leaderboard-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Style for the leaderboard button in the game controls */
+#showLeaderboardBtn {
+    margin-top: 15px;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Danger/warning button style for clear leaderboard button */
+.leaderboard-button.danger {
+    background: linear-gradient(to bottom, #e74c3c, #c0392b);
+    border: 1px solid #922b21;
+}
+
+.leaderboard-button.danger:hover {
+    background: linear-gradient(to bottom, #ec7063, #e74c3c);
+}
+
+/* Button in game over modal */
+.game-over-button#viewLeaderboardBtn {
+    background: linear-gradient(to bottom, #9b59b6, #8e44ad);
+    border: 1px solid #6c3483;
+    color: white;
+}
+
+.game-over-button#viewLeaderboardBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}

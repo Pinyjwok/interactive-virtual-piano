@@ -455,7 +455,33 @@ const songs = [
             { note: "Bb3", timestamp: 14.6, duration: 0.4 },
             { note: "G3", timestamp: 15.0, duration: 0.8 }
         ]
+    },
+    {
+        id: 16,
+        title: "Heart and Soul",
+        notes: [
+            { note: "C4", timestamp: 0.0, duration: 0.5 },
+            { note: "A4", timestamp: 0.6, duration: 0.5 },
+            { note: "F4", timestamp: 1.2, duration: 0.5 },
+            { note: "G4", timestamp: 1.8, duration: 0.5 },
+    
+            { note: "C5", timestamp: 2.4, duration: 0.5 },
+            { note: "A4", timestamp: 3.0, duration: 0.5 },
+            { note: "F4", timestamp: 3.6, duration: 0.5 },
+            { note: "G4", timestamp: 4.2, duration: 0.5 },
+    
+            { note: "C4", timestamp: 4.8, duration: 0.5 },
+            { note: "A4", timestamp: 5.4, duration: 0.5 },
+            { note: "F4", timestamp: 6.0, duration: 0.5 },
+            { note: "G4", timestamp: 6.6, duration: 0.5 },
+    
+            { note: "E4", timestamp: 7.2, duration: 0.5 },
+            { note: "G4", timestamp: 7.8, duration: 0.5 },
+            { note: "C5", timestamp: 8.4, duration: 0.5 },
+            { note: "B4", timestamp: 9.0, duration: 0.8 }
+        ]
     }
+    
 ];
 
 // Check if songs already exist in local storage before setting the default ones
