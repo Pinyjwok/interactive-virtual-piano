@@ -2,22 +2,27 @@
 
 ## Description
 An interactive web-based piano application that allows users to play musical notes using keyboard input. Features include:
-- Two-octave keyboard (C4 to B5)
+- Two-octave keyboard with configurable octave shifting
 - Accurate note frequencies
 - Visual key highlighting
 - Keyboard-based note playing
-as- Song recording and playback
+- Song recording and playback
 - Guided play mode with falling notes
 - Performance scoring and feedback
 
 ## How to Play
-- First Octave (C4 to B4):
-  - White Keys: A, S, D, F, G, H, J
-  - Black Keys: W, E, T, Y, U
 
-- Second Octave (C5 to B5):
-  - White Keys: K, L, ;, ', O, P, [
-  - Black Keys: I, R, ], \, =
+### Standard Piano Mode
+- Octave 3:
+  - White Keys: Z, X, C, V, B, N, M
+  - Black Keys: S, D, G, H, J
+  
+- Octave 4:
+  - White Keys: Q, W, E, R, T, Y, U
+  - Black Keys: 2, 3, 5, 6, 7
+
+### Guided Play Mode
+In Guided Play mode, use the same key mappings above to play along with the falling notes.
 
 ## Features
 
@@ -34,8 +39,9 @@ as- Song recording and playback
 
 ### Recording and Playback
 - Record your own piano performances
-- Save recordings for later playback
-- Load and play preset melodies
+- Save recordings with custom names
+- Rename or delete saved recordings
+- Play back your recordings any time
 
 ## Technologies Used
 - HTML5
