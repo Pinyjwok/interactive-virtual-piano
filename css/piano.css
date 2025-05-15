@@ -93,17 +93,13 @@
     box-shadow: 0 0 8px rgba(224, 192, 128, 0.6);
 }
 
-/* Position the octave indicators */
+/* Position the octave indicators - remove octave 5 */
 .piano .octave-indicator[data-octave="3"] {
     left: calc(3.5 * var(--white-key-width));
 }
 
 .piano .octave-indicator[data-octave="4"] {
     left: calc(10.5 * var(--white-key-width));
-}
-
-.piano .octave-indicator[data-octave="5"] {
-    left: calc(17.5 * var(--white-key-width));
 }
 
 /* Highlight current octave when a key is pressed */
@@ -414,4 +410,36 @@
 .play-button:active {
     transform: translateY(2px);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Octave shift display */
+.octave-shift-display {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #e0c080;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 16px;
+    border: 1px solid rgba(224, 192, 128, 0.3);
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    font-family: "Courier New", monospace;
+}
+
+/* Octave shift effect for keys */
+.key.octave-shifted {
+    transition: all 0.1s ease;
+    filter: brightness(1.5);
+    animation: pulse-shift 0.3s;
+}
+
+@keyframes pulse-shift {
+    0% { transform: translateY(0); filter: brightness(1.5); }
+    50% { transform: translateY(2px); filter: brightness(1.8); }
+    100% { transform: translateY(0); filter: brightness(1.5); }
 }

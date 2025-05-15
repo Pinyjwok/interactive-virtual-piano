@@ -243,6 +243,75 @@
     z-index: 2;
 }
 
+/* Accuracy percentage styling */
+.info-item.accuracy {
+    background: linear-gradient(to bottom, #2c3e50, #1a2530);
+    border: 1px solid #0f1922;
+    position: relative;
+    overflow: hidden;
+}
+
+.info-item.accuracy::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, 
+        rgba(231, 76, 60, 0.2), 
+        rgba(230, 126, 34, 0.2), 
+        rgba(241, 196, 15, 0.2), 
+        rgba(46, 204, 113, 0.2));
+    opacity: 0.6;
+    z-index: 1;
+}
+
+.info-value.accuracy {
+    font-size: 42px;
+    color: #2ecc71;
+    text-shadow: 
+        0 0 10px rgba(46, 204, 113, 0.8),
+        0 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 2;
+}
+
+.accuracy-indicator {
+    font-size: 16px;
+    color: #e0c080;
+    font-weight: bold;
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Accuracy color variations based on percentage */
+.info-value.accuracy.perfect {
+    color: #3498db;
+    text-shadow: 0 0 10px rgba(52, 152, 219, 0.8), 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.info-value.accuracy.excellent {
+    color: #2ecc71;
+    text-shadow: 0 0 10px rgba(46, 204, 113, 0.8), 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.info-value.accuracy.good {
+    color: #f1c40f;
+    text-shadow: 0 0 10px rgba(241, 196, 15, 0.8), 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.info-value.accuracy.fair {
+    color: #e67e22;
+    text-shadow: 0 0 10px rgba(230, 126, 34, 0.8), 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.info-value.accuracy.poor {
+    color: #e74c3c;
+    text-shadow: 0 0 10px rgba(231, 76, 60, 0.8), 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
 /* Progress bar styling */
 .progress-bar-container {
     width: 100%;
@@ -361,10 +430,6 @@
 
 #guidedPlaySection .octave-indicator[data-octave="4"] {
     left: calc(10.5 * var(--white-key-width));
-}
-
-#guidedPlaySection .octave-indicator[data-octave="5"] {
-    left: calc(17.5 * var(--white-key-width));
 }
 
 /* Specific black key positioning for the guided piano - Centered relative to container */
@@ -495,128 +560,6 @@
         0 0 15px rgba(231, 76, 60, 0.8),
         0 0 5px rgba(255, 255, 255, 0.8);
     z-index: 10;
-}
-
-/* Falling notes styling */
-.falling-note {
-    position: absolute;
-    border-radius: 4px;
-    transition: transform 0.1s;
-    z-index: 5;
-}
-
-.white-note {
-    background: linear-gradient(to bottom, #fff, #f0f0f0);
-    border: 1px solid rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-}
-
-.black-note {
-    background: linear-gradient(to bottom, #333, #000);
-    border: 1px solid rgba(0, 0, 0, 0.8);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-}
-
-/* Key highlighting specific to guided play */
-#guidedPlaySection .key.key-highlight {
-    animation: feintPulse 2s ease-in-out;
-}
-
-#guidedPlaySection .key.white.key-highlight::before {
-    background: linear-gradient(to bottom, 
-        rgba(135, 206, 250, 0.4), 
-        rgba(135, 206, 250, 0.2));
-}
-
-#guidedPlaySection .key.black.key-highlight::before {
-    background: linear-gradient(to bottom, 
-        rgba(100, 149, 237, 0.5), 
-        rgba(100, 149, 237, 0.3));
-}
-
-/* Timing indicator for note hit accuracy */
-.timing-indicator {
-    position: absolute;
-    bottom: 240px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 30px;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 15;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.timing-zone {
-    position: relative;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.timing-zone span {
-    font-size: 10px;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.perfect-zone {
-    width: 20%;
-    background: rgba(52, 152, 219, 0.4);
-    border-radius: 0;
-}
-
-.good-zone {
-    width: 30%;
-    background: rgba(46, 204, 113, 0.3);
-}
-
-.good-zone-left {
-    border-radius: 15px 0 0 15px;
-}
-
-.good-zone-right {
-    border-radius: 0 15px 15px 0;
-}
-
-.ok-zone {
-    width: 10%;
-    background: rgba(230, 126, 34, 0.3);
-}
-
-.timing-marker {
-    position: absolute;
-    width: 4px;
-    height: 20px;
-    background: white;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 2px;
-    transition: transform 0.2s ease-out;
-    z-index: 16;
-}
-
-.timing-marker.perfect-timing {
-    background: #3498db;
-    box-shadow: 0 0 10px rgba(52, 152, 219, 0.8);
-}
-
-.timing-marker.good-timing {
-    background: #2ecc71;
-    box-shadow: 0 0 10px rgba(46, 204, 113, 0.8);
-}
-
-.timing-marker.ok-timing {
-    background: #e67e22;
-    box-shadow: 0 0 10px rgba(230, 126, 34, 0.8);
 }
 
 /* Score popups animation */

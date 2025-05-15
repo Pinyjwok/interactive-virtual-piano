@@ -32,9 +32,15 @@
             <button id="backToMenuFromPiano" class="back-button">Back to Menu</button>
             
             <div class="piano">
+                <!-- Volume control slider -->
                 <div class="volume-control">
                     <input type="range" id="volumeControlPiano" min="0" max="1" step="0.01" value="0.5">
                 </div>
+                
+                <!-- Add octave shift display -->
+                <div id="currentOctaveDisplay" class="octave-shift-display">Current Octave: 0</div>
+                
+                <!-- Recording controls -->
                 <div class="recording-control">
                     <button id="recordButton" class="record-button">Record</button>
                     <button id="stopButton" class="stop-button">Stop</button>
@@ -59,49 +65,34 @@
                     <!-- Octave indicators -->
                     <div class="octave-indicator" data-octave="3">Octave 3</div>
                     <div class="octave-indicator" data-octave="4">Octave 4</div>
-                    <div class="octave-indicator" data-octave="5">Octave 5</div>
                     
-                    <!-- Lower octave keys (C3-B3) -->
-                    <div class="key white" data-note="C3">A</div>
-                    <div class="key black" data-note="C#3">W</div>
-                    <div class="key white" data-note="D3">S</div>
-                    <div class="key black" data-note="D#3">E</div>
-                    <div class="key white" data-note="E3">D</div>
-                    <div class="key white" data-note="F3">F</div>
-                    <div class="key black" data-note="F#3">T</div>
-                    <div class="key white" data-note="G3">G</div>
-                    <div class="key black" data-note="G#3">Y</div>
-                    <div class="key white" data-note="A3">H</div>
-                    <div class="key black" data-note="A#3">U</div>
-                    <div class="key white" data-note="B3">J</div>
-
-                    <!-- Middle octave keys (C4-B4) -->
-                    <div class="key white" data-note="C4">A</div>
-                    <div class="key black" data-note="C#4">W</div>
-                    <div class="key white" data-note="D4">S</div>
-                    <div class="key black" data-note="D#4">E</div>
-                    <div class="key white" data-note="E4">D</div>
-                    <div class="key white" data-note="F4">F</div>
-                    <div class="key black" data-note="F#4">T</div>
-                    <div class="key white" data-note="G4">G</div>
-                    <div class="key black" data-note="G#4">Y</div>
-                    <div class="key white" data-note="A4">H</div>
-                    <div class="key black" data-note="A#4">U</div>
-                    <div class="key white" data-note="B4">J</div>
+                    <!-- Octave 3 -->
+                    <div class="key white" data-note="C3">Z</div>
+                    <div class="key white" data-note="D3">X</div>
+                    <div class="key white" data-note="E3">C</div>
+                    <div class="key white" data-note="F3">V</div>
+                    <div class="key white" data-note="G3">B</div>
+                    <div class="key white" data-note="A3">N</div>
+                    <div class="key white" data-note="B3">M</div>
+                    <div class="key black" data-note="C#3">S</div>
+                    <div class="key black" data-note="D#3">D</div>
+                    <div class="key black" data-note="F#3">G</div>
+                    <div class="key black" data-note="G#3">H</div>
+                    <div class="key black" data-note="A#3">J</div>
                     
-                    <!-- Higher octave keys (C5-B5) -->
-                    <div class="key white" data-note="C5">A</div>
-                    <div class="key black" data-note="C#5">W</div>
-                    <div class="key white" data-note="D5">S</div>
-                    <div class="key black" data-note="D#5">E</div>
-                    <div class="key white" data-note="E5">D</div>
-                    <div class="key white" data-note="F5">F</div>
-                    <div class="key black" data-note="F#5">T</div>
-                    <div class="key white" data-note="G5">G</div>
-                    <div class="key black" data-note="G#5">Y</div>
-                    <div class="key white" data-note="A5">H</div>
-                    <div class="key black" data-note="A#5">U</div>
-                    <div class="key white" data-note="B5">J</div>
+                    <!-- Octave 4 -->
+                    <div class="key white" data-note="C4">Q</div>
+                    <div class="key white" data-note="D4">W</div>
+                    <div class="key white" data-note="E4">E</div>
+                    <div class="key white" data-note="F4">R</div>
+                    <div class="key white" data-note="G4">T</div>
+                    <div class="key white" data-note="A4">Y</div>
+                    <div class="key white" data-note="B4">U</div>
+                    <div class="key black" data-note="C#4">2</div>
+                    <div class="key black" data-note="D#4">3</div>
+                    <div class="key black" data-note="F#4">5</div>
+                    <div class="key black" data-note="G#4">6</div>
+                    <div class="key black" data-note="A#4">7</div>
                 </div>
             </div>
 
@@ -151,6 +142,7 @@
                     <button id="startGuidedPlay" class="play-button" disabled>Start</button>
                     <button id="pauseGuidedPlay" class="pause-button" disabled>Pause</button>
                     <button id="restartGuidedPlay" class="restart-button" disabled>Restart</button>
+                    <button id="stopGuidedPlay" class="stop-button" disabled>Stop</button>
                 </div>
             </div>
             
@@ -187,45 +179,35 @@
                     <!-- Octave indicators for guided play -->
                     <div class="octave-indicator" data-octave="3">Octave 3</div>
                     <div class="octave-indicator" data-octave="4">Octave 4</div>
-                    <div class="octave-indicator" data-octave="5">Octave 5</div>
                     
                     <div class="piano-keys-wrapper">
-                        <!-- White keys -->
-                        <div class="key white" data-note="C3">1</div>
-                        <div class="key white" data-note="D3">2</div>
-                        <div class="key white" data-note="E3">3</div>
-                        <div class="key white" data-note="F3">4</div>
-                        <div class="key white" data-note="G3">5</div>
-                        <div class="key white" data-note="A3">6</div>
-                        <div class="key white" data-note="B3">7</div>
-
-                        <div class="key white" data-note="C4">A</div>
-                        <div class="key white" data-note="D4">S</div>
-                        <div class="key white" data-note="E4">D</div>
-                        <div class="key white" data-note="F4">F</div>
-                        <div class="key white" data-note="G4">G</div>
-                        <div class="key white" data-note="A4">H</div>
-                        <div class="key white" data-note="B4">J</div>
+                        <!-- Octave 3 -->
+                        <div class="key white" data-note="C3">Z</div>
+                        <div class="key white" data-note="D3">X</div>
+                        <div class="key white" data-note="E3">C</div>
+                        <div class="key white" data-note="F3">V</div>
+                        <div class="key white" data-note="G3">B</div>
+                        <div class="key white" data-note="A3">N</div>
+                        <div class="key white" data-note="B3">M</div>
+                        <div class="key black" data-note="C#3">S</div>
+                        <div class="key black" data-note="D#3">D</div>
+                        <div class="key black" data-note="F#3">G</div>
+                        <div class="key black" data-note="G#3">H</div>
+                        <div class="key black" data-note="A#3">J</div>
                         
-                        <div class="key white" data-note="C5">K</div>
-                        <div class="key white" data-note="D5">L</div>
-                        <div class="key white" data-note="E5">;</div>
-                        
-                        <!-- Black keys -->
-                        <div class="key black" data-note="C#3">Q</div>
-                        <div class="key black" data-note="D#3">W</div>
-                        <div class="key black" data-note="F#3">R</div>
-                        <div class="key black" data-note="G#3">T</div>
-                        <div class="key black" data-note="A#3">Y</div>
-
-                        <div class="key black" data-note="C#4">W</div>
-                        <div class="key black" data-note="D#4">E</div>
-                        <div class="key black" data-note="F#4">T</div>
-                        <div class="key black" data-note="G#4">Y</div>
-                        <div class="key black" data-note="A#4">U</div>
-
-                        <div class="key black" data-note="C#5">I</div>
-                        <div class="key black" data-note="D#5">R</div>
+                        <!-- Octave 4 -->
+                        <div class="key white" data-note="C4">Q</div>
+                        <div class="key white" data-note="D4">W</div>
+                        <div class="key white" data-note="E4">E</div>
+                        <div class="key white" data-note="F4">R</div>
+                        <div class="key white" data-note="G4">T</div>
+                        <div class="key white" data-note="A4">Y</div>
+                        <div class="key white" data-note="B4">U</div>
+                        <div class="key black" data-note="C#4">2</div>
+                        <div class="key black" data-note="D#4">3</div>
+                        <div class="key black" data-note="F#4">5</div>
+                        <div class="key black" data-note="G#4">6</div>
+                        <div class="key black" data-note="A#4">7</div>
                     </div>
                 </div>
             </div>
@@ -260,7 +242,7 @@
             </div>
             <div class="modal-buttons">
                 <button id="tryAgainBtn" class="modal-button">Try Again</button>
-                <button id="backToMenuBtn" class="modal-button">Back to Menu</button>
+                <button id="okBtn" class="modal-button">OK</button>
             </div>
         </div>
     </div>

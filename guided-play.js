@@ -31,19 +31,24 @@ class GuidedPlay {
             intermediate: {
                 fallSpeed: 250,
                 hitWindow: 180,
-                pointsPerNote: 150
+                pointsPerNote: 300
             },
             advanced: {
                 fallSpeed: 320,
                 hitWindow: 120,
-                pointsPerNote: 200
+                pointsPerNote: 500
             }
         };
+        
+        // Pre-roll time - time before the song starts (in seconds)
+        // This gives users time to see and prepare for the first notes
+        this.preRollTime = 3;
         
         this.activeNotes = [];
         this.scheduledNotes = [];
         this.lastFrameTime = 0;
         this.songStartTime = 0;
+        this.gameStartTime = 0; // When the animation starts (before song starts)
         this.animationFrame = null;
         this.timingIndicator = null;
         
@@ -52,7 +57,6 @@ class GuidedPlay {
         
         this.bindEvents();
         this.setupKeyMappings();
-        this.createTimingIndicator();
         
         // Show instructions if they haven't been seen or dismissed
         if (!this.instructionsSeen) {
@@ -129,54 +133,6 @@ class GuidedPlay {
         document.getElementById('restartGuidedPlay').disabled = true;
     }
     
-    // Create a timing indicator that shows how precise the timing was
-    createTimingIndicator() {
-        // Create the timing indicator container if it doesn't exist yet
-        if (!document.getElementById('timingIndicator')) {
-            const container = document.createElement('div');
-            container.id = 'timingIndicator';
-            container.className = 'timing-indicator';
-            
-            // Create the timing zones (perfect, good, ok)
-            const perfectZone = document.createElement('div');
-            perfectZone.className = 'timing-zone perfect-zone';
-            perfectZone.innerHTML = '<span>PERFECT</span>';
-            
-            const goodZoneLeft = document.createElement('div');
-            goodZoneLeft.className = 'timing-zone good-zone good-zone-left';
-            goodZoneLeft.innerHTML = '<span>GOOD</span>';
-            
-            const goodZoneRight = document.createElement('div');
-            goodZoneRight.className = 'timing-zone good-zone good-zone-right';
-            goodZoneRight.innerHTML = '<span>GOOD</span>';
-            
-            const okZoneLeft = document.createElement('div');
-            okZoneLeft.className = 'timing-zone ok-zone ok-zone-left';
-            okZoneLeft.innerHTML = '<span>OK</span>';
-            
-            const okZoneRight = document.createElement('div');
-            okZoneRight.className = 'timing-zone ok-zone ok-zone-right';
-            okZoneRight.innerHTML = '<span>OK</span>';
-            
-            // Create the timing marker (will move when a note is hit)
-            const marker = document.createElement('div');
-            marker.className = 'timing-marker';
-            
-            // Add all elements to the container
-            container.appendChild(okZoneLeft);
-            container.appendChild(goodZoneLeft);
-            container.appendChild(perfectZone);
-            container.appendChild(goodZoneRight);
-            container.appendChild(okZoneRight);
-            container.appendChild(marker);
-            
-            // Insert the timing indicator above the timing line
-            const timingLine = document.querySelector('.timing-line');
-            timingLine.parentNode.insertBefore(container, timingLine);
-            
-            this.timingIndicator = marker;
-        }
-    }
     
     bindEvents() {
         // Song selection
@@ -193,6 +149,7 @@ class GuidedPlay {
         document.getElementById('startGuidedPlay').addEventListener('click', () => this.startGame());
         document.getElementById('pauseGuidedPlay').addEventListener('click', () => this.pauseGame());
         document.getElementById('restartGuidedPlay').addEventListener('click', () => this.restartGame());
+        document.getElementById('stopGuidedPlay').addEventListener('click', () => this.stopGame());
         
         // Game over modal buttons
         document.getElementById('tryAgainBtn').addEventListener('click', () => {
@@ -200,9 +157,8 @@ class GuidedPlay {
             this.restartGame();
         });
         
-        document.getElementById('backToMenuBtn').addEventListener('click', () => {
+        document.getElementById('okBtn').addEventListener('click', () => {
             this.hideGameOverModal();
-            document.getElementById('backToMenuFromGuided').click();
         });
         
         // Help button for instructions
@@ -311,7 +267,35 @@ class GuidedPlay {
         });
         document.getElementById(`${level}Mode`).classList.add('active');
         
+        console.log(`Setting difficulty to ${level}. Previous: ${this.gameState.difficulty}`);
+        // Set the new difficulty in the game state
         this.gameState.difficulty = level;
+        
+        console.log(`Difficulty settings: `, this.difficultySettings[level]);
+        
+        // If a game is in progress, update the active notes and settings
+        if (this.gameState.isPlaying) {
+            console.log(`Difficulty changed to ${level} during gameplay. Applying new settings immediately...`);
+            
+            // If there are scheduled notes not yet created, update their fall heights
+            if (this.scheduledNotes) {
+                this.scheduledNotes.forEach(note => {
+                    if (!note.active && !note.element) {
+                        // Update note height based on new difficulty fall speed
+                        note.height = Math.max(30, (note.duration || 0.5) * this.difficultySettings[level].fallSpeed);
+                    }
+                });
+            }
+            
+            // The fall speed change will be immediately applied in moveNotes()
+            // The hit window change will be immediately applied in handleKeyPress() and checkMissedNotes()
+            // The points per note change will be immediately applied in hitNote()
+            
+            // Log the new difficulty settings that will be used
+            console.log(`New difficulty settings active: fallSpeed=${this.difficultySettings[level].fallSpeed}, ` +
+                          `hitWindow=${this.difficultySettings[level].hitWindow}, ` +
+                          `pointsPerNote=${this.difficultySettings[level].pointsPerNote}`);
+        }
     }
     
     updateStartButtonState() {
@@ -320,7 +304,7 @@ class GuidedPlay {
     }
     
     startGame() {
-        if (!this.gameState.currentSong) {
+        if (!this.gameState.currentSong || this.gameState.currentSong.notes === null || this.gameState.currentSong.notes.length === 0) {
             console.warn('Cannot start game: no song selected');
             return;
         }
@@ -333,10 +317,18 @@ class GuidedPlay {
             return;
         }
         
-        // Reset game state but keep the current song
+        // Store the current difficulty before resetting game state
+        const currentDifficulty = this.gameState.difficulty;
         const currentSong = this.gameState.currentSong;
+        
+        // Reset game state
         this.resetGameState();
+        
+        // Restore the stored difficulty and song
+        this.gameState.difficulty = currentDifficulty;
         this.gameState.currentSong = currentSong;
+        
+        console.log(`Starting game with difficulty: ${this.gameState.difficulty}`);
         
         // Prepare the note schedule
         const success = this.prepareNoteSchedule();
@@ -348,19 +340,62 @@ class GuidedPlay {
         
         // Start countdown
         this.showCountdown(() => {
-            // Start the game
+            // Start the game with animation
             this.gameState.isPlaying = true;
-            this.songStartTime = performance.now();
-            this.lastFrameTime = this.songStartTime;
             
-            // Enable pause and restart buttons
+            // Set the game start time (animation starts now)
+            this.gameStartTime = performance.now();
+            
+            // The song will start after the pre-roll time
+            this.songStartTime = this.gameStartTime + (this.preRollTime * 1000);
+            
+            this.lastFrameTime = this.gameStartTime;
+            
+            // Enable pause, restart, and stop buttons
             document.getElementById('pauseGuidedPlay').disabled = false;
             document.getElementById('restartGuidedPlay').disabled = false;
+            document.getElementById('stopGuidedPlay').disabled = false;
             document.getElementById('startGuidedPlay').disabled = true;
             
             // Start animation
             this.animate();
+            
+            // Display a message to let the user know the notes are coming
+            this.showPreRollMessage();
         });
+    }
+    
+    // Show a message that the notes are starting to fall
+    showPreRollMessage() {
+        const overlay = document.createElement('div');
+        overlay.className = 'pre-roll-message';
+        overlay.innerHTML = '<div>Get Ready!</div><div>Notes are coming...</div>';
+        overlay.style.position = 'absolute';
+        overlay.style.top = '50%';
+        overlay.style.left = '50%';
+        overlay.style.transform = 'translate(-50%, -50%)';
+        overlay.style.color = '#e0c080';
+        overlay.style.fontSize = '24px';
+        overlay.style.fontWeight = 'bold';
+        overlay.style.textAlign = 'center';
+        overlay.style.textShadow = '0 2px 4px rgba(0, 0, 0, 0.7)';
+        overlay.style.zIndex = '10';
+        overlay.style.pointerEvents = 'none';
+        
+        this.noteCanvas.appendChild(overlay);
+        
+        // Fade out the message after 2 seconds
+        setTimeout(() => {
+            overlay.style.transition = 'opacity 1s ease-out';
+            overlay.style.opacity = '0';
+            
+            // Remove after fade out
+            setTimeout(() => {
+                if (overlay.parentNode) {
+                    overlay.parentNode.removeChild(overlay);
+                }
+            }, 1000);
+        }, 2000);
     }
     
     prepareNoteSchedule() {
@@ -503,32 +538,45 @@ class GuidedPlay {
         const deltaTime = (currentTime - this.lastFrameTime) / 1000; // Convert to seconds
         this.lastFrameTime = currentTime;
         
-        // Calculate elapsed time since song start
-        const elapsedTime = (currentTime - this.songStartTime) / 1000; // Convert to seconds
+        // Calculate game elapsed time since animation start (including pre-roll)
+        const gameElapsedTime = (currentTime - this.gameStartTime) / 1000;
         
-        // Update progress bar and time display
-        this.updateProgress(elapsedTime);
+        // Calculate song elapsed time - negative during pre-roll, positive once song starts
+        const songElapsedTime = (currentTime - this.songStartTime) / 1000;
         
-        // Add new notes that should now be visible
-        this.addNewNotes(elapsedTime);
+        // Only update progress and start playing the song once we're past the pre-roll
+        if (songElapsedTime >= 0) {
+            // Update progress bar and time display
+            this.updateProgress(songElapsedTime);
+        } else {
+            // During pre-roll, show the countdown to song start
+            const countdownSeconds = Math.ceil(Math.abs(songElapsedTime));
+            document.getElementById('currentTime').textContent = `Starting in ${countdownSeconds}...`;
+        }
+        
+        // Add new notes that should now be visible, using the game elapsed time for scheduling
+        this.addNewNotes(gameElapsedTime, songElapsedTime);
         
         // Move existing notes
         this.moveNotes(deltaTime);
         
-        // Check for missed notes
-        this.checkMissedNotes(elapsedTime);
+        // Only check for missed notes once the song has started
+        if (songElapsedTime >= 0) {
+            this.checkMissedNotes(songElapsedTime);
+        }
         
         // Check if song is complete
-        if (this.isSongComplete(elapsedTime)) {
+        if (songElapsedTime >= this.gameState.currentSong.duration){
             this.endGame();
             return;
         }
         
+        this.setDifficulty
         // Continue animation
         this.animationFrame = requestAnimationFrame(() => this.animate());
     }
     
-    addNewNotes(currentTime) {
+    addNewNotes(gameElapsedTime, songElapsedTime) {
         // Use the precisely measured timing line position stored during prepareNoteSchedule
         const timingLinePosition = this.timingLinePosition;
         
@@ -558,22 +606,27 @@ class GuidedPlay {
             travelTime = 3; // 3 seconds is a reasonable default
         }
         
-        // Log for debugging
-        console.log('Current time:', currentTime, 'Travel time for notes:', travelTime, 'seconds', 'Timing line position:', this.timingLinePosition);
-        
         // Only process if we have scheduled notes
         if (!this.scheduledNotes || !this.scheduledNotes.length) {
             console.warn('No scheduled notes available');
             return;
         }
         
-        // Find notes that should be visible now (their time - travelTime <= currentTime)
+        // Find notes that should be visible now based on game time (including pre-roll)
+        // For each note, calculate when they should appear to reach the timing line at the right time
         this.scheduledNotes.forEach(note => {
-            if (!note.active && !note.element && note.time - travelTime <= currentTime) {
-                this.createNoteElement(note);
-                note.active = true;
-                this.activeNotes.push(note);
-                console.log('Created note element for note:', note.note, 'at time:', note.time);
+            if (!note.active && !note.element) {
+                // Calculate when this note should start appearing
+                // note.time is relative to song start, we add preRollTime to adjust for the pre-roll
+                const absoluteNoteTime = note.time + this.preRollTime;
+                
+                // If it's time to show the note (factoring in travel time)
+                if (absoluteNoteTime - travelTime <= gameElapsedTime) {
+                    this.createNoteElement(note);
+                    note.active = true;
+                    this.activeNotes.push(note);
+                    console.log('Created note element for note:', note.note, 'at time:', note.time, 'absolute time:', absoluteNoteTime);
+                }
             }
         });
     }
@@ -625,7 +678,7 @@ class GuidedPlay {
     }
     
     checkMissedNotes(currentTime) {
-        console.log('Checking for missed notes at time:', currentTime);
+        //console.log('Checking for missed notes at time:', currentTime);
         
         // Calculate the miss window - once a note is this far past its time, it's considered missed
         const missWindow = this.difficultySettings[this.gameState.difficulty].hitWindow / 1000;
@@ -666,10 +719,21 @@ class GuidedPlay {
             return;
         }
         
-        const currentTime = (performance.now() - this.songStartTime) / 1000;
+        const currentTime = performance.now();
+        // Calculate song elapsed time - this might be negative during pre-roll
+        const songElapsedTime = (currentTime - this.songStartTime) / 1000;
+        
+        // Only process note hits after the song has actually started
+        if (songElapsedTime < 0) {
+            console.log('Song has not started yet, ignoring key press during pre-roll');
+            // Still play the note for auditory feedback, but don't score it
+            this.piano.playNote(noteName, 0.5, true);
+            return;
+        }
+        
         const hitWindow = this.difficultySettings[this.gameState.difficulty].hitWindow / 1000;
         
-        console.log('Current game time:', currentTime, 'Hit window:', hitWindow);
+        console.log('Current song time:', songElapsedTime, 'Hit window:', hitWindow);
         
         // Find the closest active note matching this key
         let closestNote = null;
@@ -677,7 +741,7 @@ class GuidedPlay {
         
         this.activeNotes.forEach(note => {
             if (note.note === noteName && !note.hit && !note.missed) {
-                const timeDiff = Math.abs(note.time - currentTime);
+                const timeDiff = Math.abs(note.time - songElapsedTime);
                 console.log('Found active note:', note.note, 'Time diff:', timeDiff);
                 if (timeDiff < smallestTimeDiff) {
                     smallestTimeDiff = timeDiff;
@@ -745,7 +809,7 @@ class GuidedPlay {
         
         // Update displays - Force direct DOM updates to ensure UI refresh
         document.getElementById('currentScore').textContent = this.gameState.score.toLocaleString();
-        document.getElementById('currentAccuracy').textContent = this.gameState.accuracy;
+        document.getElementById('currentAccuracy').textContent = `${this.gameState.accuracy}%`;
         document.getElementById('currentCombo').textContent = this.gameState.combo;
         
         if (this.gameState.combo > 0) {
@@ -796,19 +860,20 @@ class GuidedPlay {
         if (!this.timingIndicator) return;
         
         // Calculate position based on time difference
-        // 0 time difference = center
-        // max time difference = edge
-        const normalizedDiff = timeDiff / hitWindow; // 0 to 1
+        // 0 time difference = center (perfect timing)
+        // negative time difference = early (top half of indicator)
+        // positive time difference = late (bottom half of indicator)
+        const normalizedDiff = timeDiff / hitWindow; // -1 to 1 range
         
-        // Calculate the position (from -50 to 50)
-        // 0 is perfect (center), -50 is early (left), 50 is late (right)a
-        let position = (timeDiff < 0 ? -1 : 1) * (Math.abs(normalizedDiff) * 50);
+        // Calculate the vertical position (from -50 to 50)
+        // 0 is perfect (center), -50 is early (top), 50 is late (bottom)
+        let position = normalizedDiff * 50;
         
         // Clamp between -50 and 50
         position = Math.max(-50, Math.min(50, position));
         
-        // Set the marker position
-        this.timingIndicator.style.transform = `translateX(${position}%)`;
+        // Set the marker position - now using translateY for vertical movement
+        this.timingIndicator.style.transform = `translateY(${position}%)`;
         
         // Add appropriate class
         this.timingIndicator.className = 'timing-marker';
@@ -824,7 +889,7 @@ class GuidedPlay {
         setTimeout(() => {
             if (this.timingIndicator) {
                 this.timingIndicator.className = 'timing-marker';
-                this.timingIndicator.style.transform = 'translateX(0)';
+                this.timingIndicator.style.transform = 'translateY(0)';
             }
         }, 500);
     }
@@ -840,7 +905,7 @@ class GuidedPlay {
         this.gameState.accuracy = Math.round((this.gameState.notesHit / (this.gameState.notesHit + this.gameState.notesMissed)) * 100);
         
         // Update displays - Direct DOM updates for reliability
-        document.getElementById('currentAccuracy').textContent = this.gameState.accuracy;
+        document.getElementById('currentAccuracy').textContent = `${this.gameState.accuracy}%`;
         document.getElementById('currentCombo').textContent = this.gameState.combo;
         
         // Apply visual feedback
@@ -919,7 +984,7 @@ class GuidedPlay {
     }
     
     updateAccuracyDisplay() {
-        document.getElementById('currentAccuracy').textContent = this.gameState.accuracy;
+        document.getElementById('currentAccuracy').textContent = `${this.gameState.accuracy}%`;
     }
     
     updateComboDisplay(highlight = false) {
@@ -976,6 +1041,7 @@ class GuidedPlay {
         // Reset UI elements
         document.getElementById('pauseGuidedPlay').disabled = true;
         document.getElementById('restartGuidedPlay').disabled = true;
+        document.getElementById('stopGuidedPlay').disabled = true;
         document.getElementById('startGuidedPlay').disabled = !this.gameState.currentSong;
         
         // Clear any notes from the canvas
@@ -1044,14 +1110,6 @@ class GuidedPlay {
         // Set timeout for 30 seconds
         this.returnToMenuTimer = setTimeout(() => {
             this.hideGameOverModal();
-            // Use the showSection function from piano.js to navigate back to main menu
-            if (typeof showSection === 'function') {
-                showSection('mainMenuSection');
-                console.log('Auto-navigating to main menu after performance results');
-            } else {
-                // Fallback method if showSection isn't available
-                document.getElementById('backToMenuFromGuided').click();
-            }
         }, 30000); // 30 seconds
         
         // Cancel the auto-return if user interacts with the modal
@@ -1063,7 +1121,7 @@ class GuidedPlay {
         
         // Set up new event listeners
         const tryAgainBtn = document.getElementById('tryAgainBtn');
-        const backToMenuBtn = document.getElementById('backToMenuBtn');
+        const okBtn = document.getElementById('okBtn');
         
         tryAgainBtn.addEventListener('click', () => {
             if (this.returnToMenuTimer) {
@@ -1074,13 +1132,12 @@ class GuidedPlay {
             this.restartGame();
         });
         
-        backToMenuBtn.addEventListener('click', () => {
+        okBtn.addEventListener('click', () => {
             if (this.returnToMenuTimer) {
                 clearTimeout(this.returnToMenuTimer);
                 this.returnToMenuTimer = null;
             }
             this.hideGameOverModal();
-            document.getElementById('backToMenuFromGuided').click();
         });
         
         // Also clear the timer on any user interaction with the modal

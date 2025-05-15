@@ -4,32 +4,33 @@ class Piano {
         this.octaveOffset = 0;
         
         this.keyToNoteMap = {
-            // Main octave mappings based on new spec
-            'a': 'C4', 's': 'D4', 'd': 'E4', 'f': 'F4', 'g': 'G4', 'h': 'A4', 'j': 'B4',
-            'w': 'C#4', 'e': 'D#4', 't': 'F#4', 'y': 'G#4', 'u': 'A#4',
+            // Octave 3 - white keys
+            'z': 'C3', 'x': 'D3', 'c': 'E3', 'v': 'F3', 'b': 'G3', 'n': 'A3', 'm': 'B3',
+            // Octave 3 - black keys
+            's': 'C#3', 'd': 'D#3', 'g': 'F#3', 'h': 'G#3', 'j': 'A#3',
             
-            // Keep some other octaves for reference/compatibility
-            'q': 'C3', 'r': 'D3', 'i': 'E3', 'o': 'F3', 'p': 'G3', '[': 'A3', ']': 'B3',
-            '2': 'C#3', '3': 'D#3', '5': 'F#3', '6': 'G#3', '7': 'A#3',
-            
-            // Upper octave
-            'k': 'C5', 'l': 'D5', ';': 'E5', "'": 'F5', '\\': 'G5', '.': 'A5', '/': 'B5',
-            '9': 'C#5', '0': 'D#5', '=': 'F#5', 'b': 'G#5', 'n': 'A#5',
-            
-            // Highest octave mappings
-            '1': 'C6'
+            // Octave 4 - white keys
+            'q': 'C4', 'w': 'D4', 'e': 'E4', 'r': 'F4', 't': 'G4', 'y': 'A4', 'u': 'B4',
+            // Octave 4 - black keys
+            '2': 'C#4', '3': 'D#4', '5': 'F#4', '6': 'G#4', '7': 'A#4',
         };
         
-        // Define the octave shift keys (z: down, x: up)
+        // Define the octave shift keys (use Z/X instead of comma/period)
         this.octaveShiftKeys = {
-            'z': -1, // shift down
-            'x': 1, // shift up
-            'Z': -1, // shift down
-            'X': 1   // shift up
+            ',': -2, // shift down by 2 octaves
+            '.': 2,  // shift up by 2 octaves
+            '<': -2, // shift down by 2 octaves (alternative key)
+            '>': 2   // shift up by 2 octaves (alternative key)
         };
         
         // Frequency mapping for notes
         this.noteToFreq = {
+            'C1': 32.70, 'C#1': 34.65, 'D1': 36.71, 'D#1': 38.89, 'E1': 41.20,
+            'F1': 43.65, 'F#1': 46.25, 'G1': 49.00, 'G#1': 51.91, 'A1': 55.00,
+            'A#1': 58.27, 'B1': 61.74,
+            'C2': 65.41, 'C#2': 69.30, 'D2': 73.42, 'D#2': 77.78, 'E2': 82.41,
+            'F2': 87.31, 'F#2': 92.50, 'G2': 98.00, 'G#2': 103.83, 'A2': 110.00,
+            'A#2': 116.54, 'B2': 123.47,
             'C3': 130.81, 'C#3': 138.59, 'D3': 146.83, 'D#3': 155.56, 'E3': 164.81, 
             'F3': 174.61, 'F#3': 185.00, 'G3': 196.00, 'G#3': 207.65, 'A3': 220.00, 
             'A#3': 233.08, 'B3': 246.94, 'C4': 261.63, 'C#4': 277.18, 'D4': 293.66, 
@@ -246,9 +247,10 @@ class Piano {
         // Set the gain value directly
         this.masterGain.gain.setValueAtTime(this.volume, this.audioContext.currentTime);
     }
-    
+
     // Play a note with Web Audio API
     playNote(note, duration = 0.5, fromGuidedPlay = false) {
+        // Check if the note is valid
         console.log('playNote called:', { note, duration, fromGuidedPlay, isInGuidedPlayMode: this.isInGuidedPlayMode });
         
         const key = document.querySelector(`.key[data-note="${note}"]`);
@@ -508,19 +510,43 @@ class Piano {
                 return;
             }
             
-            // Handle octave shift keys
-            if (this.octaveShiftKeys[event.key]) {
-                this.octaveOffset += this.octaveShiftKeys[event.key];
-                console.log('Octave shifted:', this.octaveOffset);
+            // Handle octave shift keys (comma/period and </> keys)
+            const key = event.key;
+            if (this.octaveShiftKeys.hasOwnProperty(key)) {
+                this.octaveOffset += this.octaveShiftKeys[key];
+                console.log('Octave shifted to:', this.octaveOffset);
+                
+                // Update key mappings based on the new octave offset
+                this.updateKeyMappings();
+                
+                // Update visual feedback for the current octave
+                const currentOctaveDisplay = document.getElementById('currentOctaveDisplay');
+                if (currentOctaveDisplay) {
+                    currentOctaveDisplay.textContent = `Current Octave: ${this.octaveOffset >= 0 ? '+' : ''}${this.octaveOffset}`;
+                    currentOctaveDisplay.style.opacity = '1';
+                    
+                    // Hide the display after 2 seconds
+                    setTimeout(() => {
+                        currentOctaveDisplay.style.opacity = '0';
+                    }, 2000);
+                }
+                
+                // Apply a highlight to all keys to indicate the octave shift
+                document.querySelectorAll('.key').forEach(k => {
+                    k.classList.add('octave-shifted');
+                    setTimeout(() => {
+                        k.classList.remove('octave-shifted');
+                    }, 300);
+                });
+                
                 return;
             }
             
-            const note = this.keyToNoteMap[event.key.toLowerCase()];
+            const lowerKey = event.key.toLowerCase();
+            const note = this.keyToNoteMap[lowerKey];
             if (note) {
-                // Adjust note based on octave offset
-                const adjustedNote = this.adjustNoteOctave(note, this.octaveOffset);
-                console.log('Playing note from keyboard:', adjustedNote);
-                this.playNote(adjustedNote);
+                console.log('Playing note from keyboard:', note);
+                this.playNote(note);
             }
         });
         
@@ -528,24 +554,51 @@ class Piano {
         document.addEventListener('keyup', (event) => {
             if (this.isInGuidedPlayMode) return;
             
-            const note = this.keyToNoteMap[event.key.toLowerCase()];
+            const lowerKey = event.key.toLowerCase();
+            const note = this.keyToNoteMap[lowerKey];
             if (note) {
-                // Adjust note based on octave offset
-                const adjustedNote = this.adjustNoteOctave(note, this.octaveOffset);
-                // For advanced implementation with proper note release:
-                this.stopNote(adjustedNote);
+                console.log('Stopping note from keyboard:', note);
+                this.stopNote(note);
             }
         });
     }
     
-    // Adjust note based on octave offset
-    adjustNoteOctave(note, offset) {
+    // Remap a note to a different octave
+    remapOctave(note, offset) {
         const match = note.match(/^([A-G]#?)(\d)$/);
         if (match) {
             const baseNote = match[1];
             const octave = parseInt(match[2], 10) + offset;
-            return `${baseNote}${octave}`;
+            // Check if the resulting note is within range
+            const adjustedNote = `${baseNote}${octave}`;
+            if (this.noteToFreq[adjustedNote]) {
+                return adjustedNote;
+            } else if (octave < 1) {
+                return `${baseNote}1`; // Lowest octave
+            } else if (octave > 6) {
+                return `${baseNote}6`; // Highest octave
+            }
         }
         return note;
+    }
+    
+    // Update all keyboard mappings based on current octave offset
+    updateKeyMappings() {
+        // Store the original mappings if we don't have them yet
+        if (!this.originalKeyToNoteMap) {
+            this.originalKeyToNoteMap = { ...this.keyToNoteMap };
+        }
+        
+        // Reset to original mappings
+        this.keyToNoteMap = { ...this.originalKeyToNoteMap };
+        
+        // Apply octave offset to all mappings
+        if (this.octaveOffset !== 0) {
+            for (const [key, note] of Object.entries(this.keyToNoteMap)) {
+                this.keyToNoteMap[key] = this.remapOctave(note, this.octaveOffset);
+            }
+        }
+        
+        console.log('Updated key mappings with octave offset:', this.octaveOffset);
     }
 }
