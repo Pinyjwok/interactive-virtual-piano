@@ -33,6 +33,34 @@
         <div class="piano-container">
             <button id="backToMenuFromPiano" class="back-button">Back to Menu</button>
             
+            <!-- New Recording Controls Container -->
+            <div class="recording-controls-container">
+                <div class="recording-controls-title">Recording Studio</div>
+                
+                <div class="recording-controls-panel">
+                    <!-- Recording buttons -->
+                    <div class="recording-buttons-group">
+                        <button id="recordButton" class="record-button">Record</button>
+                        <button id="stopButton" class="stop-button">Stop</button>
+                        <button id="playRecordingButton" class="play-recording-button">Play Recording</button>
+                        <button id="clearRecordingButton" class="clear-recording-button">Clear Recording</button>
+                    </div>
+                    
+                    <!-- Recordings Selector -->
+                    <div class="recordings-management">
+                        <select id="recordingsSelector" class="recordings-selector">
+                            <option value="">Select a Recording</option>
+                            <!-- Recordings will be dynamically loaded here -->
+                        </select>
+                        <div class="recording-actions">
+                            <button id="playSelectedRecording" class="play-button">Play</button>
+                            <button id="renameRecording" class="rename-button">Rename</button>
+                            <button id="deleteRecording" class="delete-button">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="piano">
                 <!-- Volume control slider -->
                 <div class="volume-control">
@@ -42,32 +70,8 @@
                 <!-- Add octave shift display -->
                 <div id="currentOctaveDisplay" class="octave-shift-display">Current Octave: 0</div>
                 
-                <!-- Recording controls -->
-                <div class="recording-control">
-                    <button id="recordButton" class="record-button">Record</button>
-                    <button id="stopButton" class="stop-button">Stop</button>
-                    <button id="playRecordingButton" class="play-recording-button">Play Recording</button>
-                </div>
-                <div class="clear-recording">
-                    <button id="clearRecordingButton" class="clear-recording-button">Clear Recording</button>
-                </div>
-                
-                <!-- Add Recordings Selector -->
-                <div class="recordings-selector-container">
-                    <select id="recordingsSelector" class="recordings-selector">
-                        <option value="">Select a Recording</option>
-                        <!-- Recordings will be dynamically loaded here -->
-                    </select>
-                    <button id="playSelectedRecording" class="play-button">Play</button>
-                    <button id="renameRecording" class="rename-button">Rename</button>
-                    <button id="deleteRecording" class="delete-button">Delete</button>
-                </div>
-                
-                <div class="piano-keys">
-                    <!-- Octave indicators -->
-                    <div class="octave-indicator" data-octave="3">Octave 3</div>
-                    <div class="octave-indicator" data-octave="4">Octave 4</div>
-                    
+                <div class="piano-keys-wrapper">
+                    <!-- Octave indicators --> 
                     <!-- Octave 3 -->
                     <div class="key white" data-note="C3">Z</div>
                     <div class="key white" data-note="D3">X</div>
