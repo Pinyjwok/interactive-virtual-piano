@@ -1,58 +1,109 @@
 /* piano.css - Styles specific to the virtual piano section */
 
+:root {
+    /* Modern color palette */
+    --color-background: #f8f9fa;
+    --color-surface: #ffffff;
+    --color-primary: #3a86ff;
+    --color-primary-light: #c7d8ff;
+    --color-secondary: #8ecae6;
+    --color-accent: #ff9e00;
+    --color-dark: #2b2d42;
+    --color-text: #2b2d42;
+    --color-text-light: #6c757d;
+    --color-border: #dee2e6;
+    --color-shadow: rgba(0, 0, 0, 0.05);
+    
+    /* Typography */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    --font-size-xs: 0.75rem;    /* 12px */
+    --font-size-sm: 0.875rem;   /* 14px */
+    --font-size-md: 1rem;       /* 16px */
+    --font-size-lg: 1.125rem;   /* 18px */
+    --font-size-xl: 1.25rem;    /* 20px */
+    --font-size-2xl: 1.5rem;    /* 24px */
+    --font-size-3xl: 1.875rem;  /* 30px */
+    
+    /* Spacing */
+    --space-xs: 0.25rem;  /* 4px */
+    --space-sm: 0.5rem;   /* 8px */
+    --space-md: 1rem;     /* 16px */
+    --space-lg: 1.5rem;   /* 24px */
+    --space-xl: 2rem;     /* 32px */
+    --space-2xl: 3rem;    /* 48px */
+    
+    /* Border radius */
+    --radius-sm: 0.25rem;  /* 4px */
+    --radius-md: 0.5rem;   /* 8px */
+    --radius-lg: 0.75rem;  /* 12px */
+    --radius-xl: 1rem;     /* 16px */
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px var(--color-shadow);
+    --shadow-md: 0 4px 6px var(--color-shadow);
+    --shadow-lg: 0 10px 15px -3px var(--color-shadow);
+    
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-normal: 250ms ease;
+    --transition-slow: 350ms ease;
+}
+
 .piano-container {
-    background-color: #2c3e50;
-    font-family: Arial, sans-serif;
+    background-color: var(--color-background);
+    font-family: var(--font-primary);
     overflow: visible;
-    padding-top: 100px; /* Reduced from 200px to provide better spacing */
-    padding-bottom: 40px;
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-xl);
     min-height: 100vh;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: background-color var(--transition-theme);
 }
 
 .piano {
     height: 320px;
     width: 90%;
     max-width: 1200px;
-    background-color: #1a1a1a; /* Changed from red to a piano-like dark color */
-    padding: 30px 20px 10px 20px;
-    border-radius: 10px 10px 5px 5px;
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
-    border: 2px solid #111;
-    border-top: 8px solid #5d4037;
-    margin-top: 50px;
+    background-color: var(--color-surface);
+    padding: var(--space-lg) var(--space-md) var(--space-sm) var(--space-md);
+    border-radius: var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-sm);
+    border: 1px solid var(--color-border);
+    border-top: 5px solid var(--color-accent);
+    margin-top: var(--space-xl);
     position: relative;
+    transition: background-color var(--transition-theme), border-color var(--transition-theme), box-shadow var(--transition-theme);
 }
 
-/* Brand name in center of piano */
+/* Brand name in center of piano - modernized */
 .piano::before {
     content: "VIRTUAL PIANO";
     position: absolute;
-    top: 8px;
+    top: var(--space-sm);
     left: 50%;
     transform: translateX(-50%);
-    font-family: "Arial", sans-serif;
-    font-weight: bold;
-    font-size: 16px;
-    color: #d4b586;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    color: var(--color-accent);
     letter-spacing: 3px;
+    text-transform: uppercase;
 }
 
-/* Piano pedals styling */
+/* Piano pedals styling - more subtle and modern */
 .piano::after {
     content: "";
     position: absolute;
-    bottom: -20px;
+    bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 180px;
-    height: 15px;
-    background: linear-gradient(to bottom, #5d4037, #3e2723);
-    border-radius: 0 0 15px 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    width: 160px;
+    height: 6px;
+    background: var(--color-accent);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    box-shadow: var(--shadow-sm);
 }
 
 /* Piano keyboard container */
@@ -62,10 +113,10 @@
     left: 0;
     width: 100%;
     height: 280px;
-    background: linear-gradient(to bottom, #111418, #1c212a);
-    padding: 15px 0 0;
-    box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.6);
-    border-top: 2px solid #5d4037;
+    background: var(--color-surface);
+    padding: var(--space-md) 0 0;
+    box-shadow: var(--shadow-sm);
+    border-top: 1px solid var(--color-border);
     display: flex;
     justify-content: center;
 }
@@ -75,19 +126,16 @@
     content: none;
 }
 
-/* Decorative line above piano */
+/* Decorative line above piano - more subtle */
 .piano .piano-keys::after {
     content: "";
     position: absolute;
-    top: -10px;
+    top: -1px;
     left: 0;
     width: 100%;
-    height: 2px;
-    background: linear-gradient(to right, 
-        transparent, 
-        #e0c080, 
-        transparent);
-    box-shadow: 0 0 8px rgba(224, 192, 128, 0.6);
+    height: 1px;
+    background: var(--color-primary-light);
+    opacity: 0.6;
 }
 
 /* Position the octave indicators */
@@ -99,23 +147,30 @@
     left: calc(10.5 * var(--white-key-width));
 }
 
-/* Highlight current octave when a key is pressed */
+/* Highlight current octave when a key is pressed - more subtle animation */
 .octave-indicator.active {
-    background: linear-gradient(to bottom, #3498db, #2980b9);
-    box-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
-    animation: pulse 1s infinite;
+    background: var(--color-primary-light);
+    box-shadow: 0 0 8px var(--color-primary-light);
+    animation: subtle-pulse 1.5s infinite;
 }
 
-/* Key press active styles */
+@keyframes subtle-pulse {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+
+/* Key press active styles - cleaner look */
 .key.active {
-    background: linear-gradient(to bottom, #ffcc00, #e6b800);
-    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+    background: var(--color-primary-light);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(2px);
 }
 
 /* Black key active state */
 .key.black.active {
-    background: linear-gradient(to bottom, #ffaa00, #cc8800);
-    box-shadow: 0 0 8px rgba(255, 170, 0, 0.5);
+    background: #555;
+    box-shadow: var(--shadow-sm);
     transform: translateY(2px) translateX(-50%);
 }
 
@@ -163,21 +218,22 @@
 }
 
 
-/* Volume control styling */
+/* Volume control styling - modernized */
 .volume-control {
     position: absolute;
     top: 20px;
     left: 20px;
     width: 40px;
     height: 150px;
-    background: linear-gradient(to bottom, #444, #222);
-    border-radius: 20px;
-    padding: 10px 0;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-sm) 0;
+    box-shadow: var(--shadow-md);
     z-index: 3;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid var(--color-border);
 }
 
 #volumeControlPiano {
@@ -188,203 +244,194 @@
     position: absolute;
     top: 90px;
     left: -40px;
-    background: linear-gradient(to right, #444, #777);
-    border: 1px solid #000;
-    border-radius: 10px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
     outline: none;
     z-index: 3;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 #volumeControlPiano::-webkit-slider-thumb {
     appearance: none;
     width: 18px;
     height: 18px;
-    background: linear-gradient(to bottom, #ddd, #999);
-    border: 1px solid #333;
+    background: var(--color-primary);
+    border: none;
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-sm);
 }
 
 #volumeControlPiano::-moz-range-thumb {
     width: 18px;
     height: 18px;
-    background: linear-gradient(to bottom, #ddd, #999);
-    border: 1px solid #333;
+    background: var(--color-primary);
+    border: none;
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-sm);
 }
 
-/* Recording Controls Container */
+/* Recording Controls Container - clean, modern style */
 .recording-controls-container {
     width: 90%;
     max-width: 1200px;
-    background: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
-    border: 2px solid #333;
-    border-bottom: 3px solid #5d4037;
-    border-radius: 8px 8px 0 0;
-    margin-bottom: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    padding: 20px;
-    color: #fff;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    margin-bottom: var(--space-md);
+    box-shadow: var(--shadow-md);
+    padding: var(--space-lg);
+    color: var(--color-text);
 }
 
 .recording-controls-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #e0c080;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-text);
     text-align: center;
-    margin-bottom: 15px;
-    letter-spacing: 2px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-    border-bottom: 1px solid #444;
-    padding-bottom: 10px;
+    margin-bottom: var(--space-md);
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-sm);
 }
 
 .recording-controls-panel {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: var(--space-lg);
     justify-content: space-between;
 }
 
 .recording-buttons-group {
     display: flex;
-    gap: 10px;
+    gap: var(--space-sm);
     flex-wrap: wrap;
 }
 
 .recordings-management {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--space-sm);
     min-width: 300px;
 }
 
 .recording-actions {
     display: flex;
-    gap: 10px;
+    gap: var(--space-sm);
 }
 
-/* Update button styles to be more consistent */
+/* Update button styles to be more modern and clean */
 .record-button, .stop-button, .play-recording-button, .clear-recording-button {
-    padding: 10px 15px;
-    font-size: 14px;
-    border-radius: 5px;
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-sm);
+    border-radius: var(--radius-md);
     cursor: pointer;
-    transition: all 0.2s ease;
-    font-weight: bold;
+    transition: all var(--transition-normal), background-color var(--transition-theme), color var(--transition-theme);
+    font-weight: 500;
+    border: none;
 }
 
 .record-button {
-    background: linear-gradient(to bottom, #ff4d4d, #cc0000);
+    background-color: #f44336;
     color: white;
-    border: 1px solid #990000;
 }
 
 .record-button:hover {
-    background: linear-gradient(to bottom, #ff3333, #aa0000);
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+    background-color: #e53935;
+    transform: translateY(-2px);
 }
 
 .stop-button {
-    background: linear-gradient(to bottom, #444, #222);
+    background-color: var(--color-dark);
     color: white;
-    border: 1px solid #111;
 }
 
 .stop-button:hover {
-    background: linear-gradient(to bottom, #555, #333);
-    box-shadow: 0 0 10px rgba(100, 100, 100, 0.3);
+    background-color: #3a3a3a;
+    transform: translateY(-2px);
 }
 
 .play-recording-button {
-    background: linear-gradient(to bottom, #4CAF50, #2E7D32);
+    background-color: var(--color-primary);
     color: white;
-    border: 1px solid #1B5E20;
 }
 
 .play-recording-button:hover {
-    background: linear-gradient(to bottom, #43A047, #255D2A);
-    box-shadow: 0 0 10px rgba(0, 150, 0, 0.3);
+    background-color: #2a75e6;
+    transform: translateY(-2px);
 }
 
 .clear-recording-button {
-    background: linear-gradient(to bottom, #f0ad4e, #d58512);
+    background-color: var(--color-accent);
     color: white;
-    border: 1px solid #985f0d;
 }
 
 .clear-recording-button:hover {
-    background: linear-gradient(to bottom, #ec971f, #b46c12);
-    box-shadow: 0 0 10px rgba(200, 150, 0, 0.3);
+    background-color: #e58e00;
+    transform: translateY(-2px);
 }
 
 .recordings-selector {
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #000;
-    background: linear-gradient(to bottom, #f8f8f8, #ddd);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-    color: #333;
-    font-family: "Courier New", monospace;
+    padding: var(--space-sm);
+    font-size: var(--font-size-sm);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-primary);
     width: 100%;
 }
 
-/* Song Player Controls - Updated to match recording controls */
+/* Song Player Controls - clean, modern style */
 .song-player-controls {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
+    margin-top: var(--space-md);
     width: 90%;
     max-width: 1200px;
-    background: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
-    border: 2px solid #333;
-    border-top: 3px solid #5d4037;
-    border-radius: 0 0 8px 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    padding: 20px;
-    margin-bottom: 40px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-xl);
 }
 
 .song-buttons {
     display: flex;
-    gap: 10px;
-    margin-top: 10px;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
 }
 
 .song-selector {
-    padding: 10px;
+    padding: var(--space-sm);
     width: 100%;
     min-width: 300px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #000;
-    background: linear-gradient(to bottom, #f8f8f8, #ddd);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-    color: #333;
-    font-family: "Courier New", monospace;
-    margin-bottom: 10px;
+    font-size: var(--font-size-sm);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-primary);
+    margin-bottom: var(--space-sm);
+    transition: background-color var(--transition-theme), color var(--transition-theme), border-color var(--transition-theme);
 }
 
-/* Song duration styling */
+/* Song duration styling - cleaner look */
 .song-duration {
-    font-family: "Courier New", monospace;
-    color: #d4b586;
-    background: linear-gradient(to bottom, #333, #222);
-    padding: 6px 12px;
-    border-radius: 5px;
-    font-size: 14px;
-    margin-bottom: 15px;
+    font-family: var(--font-primary);
+    color: var(--color-text);
+    background: var(--color-surface);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-md);
     text-align: center;
-    border: 1px solid #000;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
     letter-spacing: 1px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
     width: 200px;
 }
 
