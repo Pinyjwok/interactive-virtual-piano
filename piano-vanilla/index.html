@@ -6,16 +6,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <!-- Add Font Awesome for leaderboard icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/piano.css">
     <link rel="stylesheet" href="css/guided-play.css">
     <link rel="stylesheet" href="css/leaderboard.css">
+    <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
+    <!-- 3D Animation Container -->
+    <div id="pianoAnimationContainer" class="animation-container">
+        <canvas id="animationCanvas" class="animation-canvas"></canvas>
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-text">Loading Piano Experience</div>
+            <div class="loading-progress">
+                <div id="loadingProgressBar" class="loading-progress-bar"></div>
+            </div>
+        </div>
+        <button id="skipAnimationButton" class="animation-skip-button">Skip Animation</button>
+    </div>
+
     <!-- Main Menu Section -->
     <div class="section" id="mainMenuSection" style="display: block;">
         <div class="main-menu-container">
-            <h1 class="main-menu-title">Piano Application</h1>
+            <h1 class="main-menu-title">Pianofy</h1>
             <p>Experience the joy of music</p>
             
             <div class="menu-options">
@@ -64,6 +82,16 @@
             <div class="piano">
                 <!-- Volume control slider -->
                 <div class="volume-control">
+                    <div class="volume-slider-track">
+                        <div class="volume-indicator">
+                            <span></span><span></span><span></span><span></span><span></span>
+                            <span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                    <div class="volume-slider-markers">
+                        <span>MIN</span>
+                        <span>MAX</span>
+                    </div>
                     <input type="range" id="volumeControlPiano" min="0" max="1" step="0.01" value="0.5">
                 </div>
                 
@@ -392,6 +420,7 @@
     <script src="js/db/leaderboard.js"></script>
     <script src="js/ui/leaderboard-manager.js"></script>
     <script src="js/ui/theme-switcher.js"></script>
-
+    <!-- Add piano animation script -->
+    <script src="js/animations/piano-transition.js"></script>
 </body>
 </html>

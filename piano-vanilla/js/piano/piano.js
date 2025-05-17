@@ -67,7 +67,8 @@ function initializeNavigation(piano, songPlayer, recordingManager, guidedPlay) {
     if (startPianoButton) {
         startPianoButton.addEventListener('click', () => {
             console.log('Start Piano button clicked');
-            showSection('pianoSection');
+            // this.showSection('pianoSection');
+            // The 3D animation transition will now handle this transition
         });
     } else {
         console.error('startPiano button not found in the DOM');
