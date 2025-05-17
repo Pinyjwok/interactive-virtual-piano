@@ -120,7 +120,17 @@ function showSection(sectionId) {
     sections.forEach(section => {
         const element = document.getElementById(section);
         if (element) {
-            element.style.display = section === sectionId ? (section === 'mainMenuSection' ? 'block' : 'flex') : 'none';
+            if (section === sectionId) {
+                if (section === 'mainMenuSection') {
+                    element.style.display = 'block';
+                } else if (section === 'pianoSection') {
+                    element.style.display = 'flex';
+                } else if (section === 'guidedPlaySection') {
+                    element.style.display = 'flex';
+                }
+            } else {
+                element.style.display = 'none';
+            }
         }
     });
     

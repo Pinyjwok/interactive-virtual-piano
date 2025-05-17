@@ -109,6 +109,9 @@ class RecordingManager {
         this.recordButton.disabled = true;
         this.stopButton.disabled = false;
         this.playRecordingButton.disabled = true;
+        
+        // Add recording-active class to container for visual indicator
+        document.querySelector('.recording-controls-container').classList.add('recording-active');
     }
     
     stopRecording() {
@@ -117,6 +120,9 @@ class RecordingManager {
         // Update UI
         this.recordButton.disabled = false;
         this.stopButton.disabled = true;
+        
+        // Remove recording-active class from container
+        document.querySelector('.recording-controls-container').classList.remove('recording-active');
         
         // Show naming modal if we recorded notes
         if (this.recordedNotes.length > 0) {

@@ -475,7 +475,7 @@ html[data-theme="dark"] {
 .back-button {
     position: absolute;
     top: var(--space-md);
-    left: var(--space-md);
+    left: 50vw;
     padding: var(--space-sm) var(--space-md);
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -604,8 +604,8 @@ html[data-theme="dark"] {
 /* Theme switcher */
 .theme-switcher {
     position: fixed;
-    top: 1rem;
-    right: 1rem;
+    top: .5em;
+    right: 30%;
     z-index: 1000;
     display: flex;
     align-items: center;
@@ -660,7 +660,7 @@ html[data-theme="dark"] {
 }
 
 html[data-theme="dark"] .theme-toggle .toggle-ball {
-    transform: translateX(24px);
+    transform: translateX(26px);
 }
 
 html[data-theme="dark"] .theme-toggle {

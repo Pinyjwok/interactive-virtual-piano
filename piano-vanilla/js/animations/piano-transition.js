@@ -385,14 +385,26 @@
         
         // TEMPORARY: Remove delay for testing purposes
         if (skipAnimationForTesting) {
-            document.getElementById(targetSection).style.display = 'block';
+            const targetEl = document.getElementById(targetSection);
+            // Use flex display for piano and guided play sections
+            if (targetSection === 'pianoSection' || targetSection === 'guidedPlaySection') {
+                targetEl.style.display = 'flex';
+            } else {
+                targetEl.style.display = 'block';
+            }
             isAnimating = false;
             return;
         }
         
         // Wait a moment before showing the target section
         setTimeout(() => {
-            document.getElementById(targetSection).style.display = 'block';
+            const targetEl = document.getElementById(targetSection);
+            // Use flex display for piano and guided play sections
+            if (targetSection === 'pianoSection' || targetSection === 'guidedPlaySection') {
+                targetEl.style.display = 'flex';
+            } else {
+                targetEl.style.display = 'block';
+            }
             
             // Reset animation state for next time - but don't remove the cached model
             isAnimating = false;

@@ -7,7 +7,7 @@
     --color-primary: #3a86ff;
     --color-primary-light: #c7d8ff;
     --color-secondary: #8ecae6;
-    --color-accent: #ff9e00;
+    --color-accent: #ff9d00ba;
     --color-dark: #2b2d42;
     --color-text: #2b2d42;
     --color-text-light: #6c757d;
@@ -47,8 +47,25 @@
     --transition-fast: 150ms ease;
     --transition-normal: 250ms ease;
     --transition-slow: 350ms ease;
+
+    /* Notion-inspired UI styling for Recording Studio and Song Player */
+    --notion-background: #191919;
+    --notion-surface: #2c2c2c;
+    --notion-surface-hover: #363636;
+    --notion-surface-active: #404040;
+    --notion-border: rgba(255, 255, 255, 0.1);
+    --notion-text: #e6e6e6;
+    --notion-text-secondary: rgba(255, 255, 255, 0.6);
+    --notion-text-tertiary: rgba(255, 255, 255, 0.4);
+    --notion-accent-blue: #0070f3;
+    --notion-accent-red: #ff4747;
+    --notion-accent-green: #17c964;
+    --notion-accent-yellow: #f5a623;
+    --notion-shadow: rgba(0, 0, 0, 0.2);
+    --notion-shadow-soft: rgba(0, 0, 0, 0.08);
 }
 
+/* Global styles */
 .piano-container {
     background-color: var(--color-background);
     font-family: var(--font-primary);
@@ -66,7 +83,7 @@
     transition: background-color var(--transition-theme);
 }
 
-/* Add a fixed header similar to guided play */
+/* Update piano header styling to match guided play header */
 .piano-header {
     position: fixed;
     top: 0;
@@ -91,19 +108,25 @@
     font-weight: 600;
 }
 
-/* Update back button styling to match guided play */
+/* Back button specific styling for piano */
 #backToMenuFromPiano {
-    position: relative;
-    margin-right: var(--space-md);
-    z-index: 1001;
-    display: block !important;
-    background: transparent;
+    padding: .5em;
+    background: var(--color-surface);
     border: none;
-    color: var(--color-primary);
-    font-weight: 500;
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-md);
-    transition: all var(--transition-normal);
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 15;
+    box-shadow: var(--shadow-md);
+    display: block !important;
+    background: var(--color-surface);
+    padding: .5em;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #backToMenuFromPiano:hover {
@@ -135,7 +158,7 @@
     font-family: var(--font-primary);
     font-weight: 600;
     font-size: var(--font-size-sm);
-    color: var(--color-accent);
+    color: var(--color-primary);
     letter-spacing: 3px;
     text-transform: uppercase;
 }
@@ -172,7 +195,7 @@
 /* Make piano-keys-wrapper similar to guided play */
 .piano .piano-keys-wrapper {
     height: 100%;
-    z-index: 5;
+    z-index: 1;
     display: flex;
     justify-content: center;
     position: relative;
@@ -194,23 +217,57 @@
 
 .octave-shift-display {
     position: absolute;
-    top: 80px;
-    left: 90%;
-    transform: translateX(-50%);
-    font-size: var(--font-size-sm);
-    color: var(--color-text-light);
-    font-weight: 600;
-    letter-spacing: 1px;
+    bottom: 20px;
+    left: 20px;
+    font-family: var(--font-primary);
+    font-size: var(--font-size-xs);
+    color: var(--notion-text);
+    background-color: var(--notion-surface);
+    border: 1px solid var(--notion-border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    box-shadow: 0 2px 8px var(--notion-shadow-soft);
+    z-index: 10;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    width: 100px;
+    height: 30px
 }
+
+/* Add a subtle icon before the text */
+.octave-shift-display::before {
+    content: "";
+    display: block;
+    width: 12px;
+    height: 12px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='rgba(255, 255, 255, 0.6)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8h8M8 4v8'/%3E%3C/svg%3E") center no-repeat;
+    background-size: contain;
+    opacity: 0.8;
+}
+
 .octave-shift-display span {
     font-size: var(--font-size-md);
-    color: var(--color-primary);
+    color: var(--notion-accent-blue);
+    font-weight: 600;
 }
+
 .octave-shift-display span.active {
-    color: var(--color-primary);
+    color: var(--notion-accent-blue);
 }
+
 .octave-shift-display span.inactive {
-    color: var(--color-text-light);
+    color: var(--notion-text-tertiary);
+}
+
+/* Add hover effect */
+.octave-shift-display:hover {
+    background-color: var(--notion-surface-hover);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
 }
 
 @keyframes subtle-pulse {
@@ -234,331 +291,536 @@
 }
 
 
-/* Volume control styling - vertical slider style */
+/* Volume control styling - Notion-inspired */
 .volume-control {
     position: absolute;
-    top: 60px;
+    top: 50px;
     left: 20px;
-    width: 32px;
-    height: 144px; /* Swapped dimensions for vertical orientation */
-    background: #333333;
-    border-radius: var(--radius-sm);
-    padding: var(--space-xs);
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    width: 100px;
+    height: 20px;
+    background-color: var(--notion-surface);
+    border: 1px solid var(--notion-border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 8px var(--notion-shadow-soft);
     z-index: 3;
     display: flex;
-    flex-direction: row; /* Changed to row for vertical orientation */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid #222;
+    transition: all 0.2s ease;
 }
 
+/* Modern volume label */
 .volume-control::before {
     content: "VOLUME";
     position: absolute;
-    top: -18px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 11px;
-    color: var(--color-text-light);
-    font-weight: 600;
-    letter-spacing: 1px;
-    white-space: nowrap;
-}
-
-.volume-slider-track {
-    width: 16px; /* Swapped dimensions */
-    height: 100%; /* Changed from width to height */
-    background: #111;
-    border-radius: 3px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
-}
-
-.volume-slider-markers {
-    position: absolute;
-    right: -16px; /* Changed from bottom to right */
-    top: 0;
-    height: 100%; /* Changed from width */
-    display: flex;
-    flex-direction: column; /* For vertical layout */
-    justify-content: space-between;
-    transform: rotate(180deg); /* Flip the markers */
-}
-
-.volume-slider-markers span {
+    top: -8px;
+    left: 12px;
     font-size: 10px;
-    color: var(--color-text-light);
-    writing-mode: vertical-lr; /* For vertical text */
-    transform: rotate(180deg); /* Flip text */
+    font-family: var(--font-primary);
+    color: var(--notion-text-secondary);
+    background-color: var(--notion-surface);
+    padding: 0 6px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
+/* Hover effect */
+.volume-control:hover {
+    background-color: var(--notion-surface-hover);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Slider track styling */
+.volume-slider-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    position: relative;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Hide original volume markers */
+.volume-slider-markers,
 .volume-indicator {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column; /* Changed for vertical orientation */
-    justify-content: space-between;
-    padding: 5px 0;
+    display: none;
 }
 
-.volume-indicator span {
-    width: 2px;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
-}
-
+/* Restyled volume input */
 #volumeControlPiano {
     -webkit-appearance: none;
     appearance: none;
-    width: 144px; /* Match height of container */
-    height: 32px; /* Match width of container */
+    width: 100%;
+    height: 20px;
     background: transparent;
     margin: 0;
+    padding: 8px 0;
     position: absolute;
-    top: 56px; /* Center the transformed slider */
-    left: -53px; /* Adjust to center the slider */
-    z-index: 10;
     cursor: pointer;
-    transform: rotate(270deg);
-    transform-origin: center center;
+    z-index: 10;
 }
+
+/* Focus state for better accessibility */
 #volumeControlPiano:focus {
     outline: none;
 }
 
+/* Thumb styling for webkit browsers */
 #volumeControlPiano::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px;
-    height: 24px;
-    background: linear-gradient(to bottom, #999, #777);
-    border-radius: 2px;
-    border: 1px solid #222;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    width: 14px;
+    height: 14px;
+    background: var(--notion-accent-blue);
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-
+    transition: all 0.15s ease;
 }
 
+/* Hover state for the thumb */
+#volumeControlPiano::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* Active state for the thumb */
+#volumeControlPiano::-webkit-slider-thumb:active {
+    transform: scale(0.95);
+    background: var(--notion-accent-blue);
+}
+
+/* Firefox-specific thumb styling */
 #volumeControlPiano::-moz-range-thumb {
-    width: 20px;
-    height: 24px;
-    background: linear-gradient(to bottom, #999, #777);
-    border-radius: 2px;
-    border: 1px solid #222;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    width: 14px;
+    height: 14px;
+    background: var(--notion-accent-blue);
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    align-items: center;
-    
+    transition: all 0.15s ease;
 }
 
-/* Recording Controls Container - clean, modern style */
+/* Hover state for Firefox */
+#volumeControlPiano::-moz-range-thumb:hover {
+    transform: scale(1.1);
+}
+
+/* Active state for Firefox */
+#volumeControlPiano::-moz-range-thumb:active {
+    transform: scale(0.95);
+}
+
+/* Recording Studio - Notion-inspired design */
 .recording-controls-container {
-    width: 90%;
-    max-width: 1200px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    margin-bottom: var(--space-md);
-    box-shadow: var(--shadow-md);
-    padding: var(--space-lg);
-color: var(--color-text);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 370px;
+    max-width: 95vw;
+    background-color: var(--notion-surface);
+    border: 1px solid var(--notion-border);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--notion-shadow-soft);
+    padding: 20px;
+    margin: 20px auto 40px auto;
+    position: relative;
 }
 
 .recording-controls-title {
+    font-family: var(--font-primary);
+    color: var(--notion-text);
     font-size: var(--font-size-lg);
-    font-weight: 600;
-    color: var(--color-text);
-    text-align: center;
-    margin-bottom: var(--space-md);
-    letter-spacing: 1px;
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: var(--space-sm);
+    font-weight: 500;
+    margin-bottom: 16px;
+    text-align: left;
+    letter-spacing: 0.01em;
+    width: 100%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--notion-border);
 }
 
 .recording-controls-panel {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-lg);
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    position: relative;
 }
 
 .recording-buttons-group {
     display: flex;
-    gap: var(--space-sm);
+    gap: 8px;
+    justify-content: flex-start;
     flex-wrap: wrap;
+    padding: 0;
 }
 
-.recordings-management {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    min-width: 300px;
-}
-
-.recording-actions {
-    display: flex;
-    gap: var(--space-sm);
-}
-
-/* Update button styles to be more modern and clean */
+/* Clean modern button styling */
 .record-button, .stop-button, .play-recording-button, .clear-recording-button {
-    padding: var(--space-sm) var(--space-md);
-    font-size: var(--font-size-sm);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all var(--transition-normal), background-color var(--transition-theme), color var(--transition-theme);
+    background-color: var(--notion-surface);
+    color: var(--notion-text);
+    border: 1px solid var(--notion-border);
+    border-radius: 6px;
     font-weight: 500;
-    border: none;
+    font-size: var(--font-size-sm);
+    padding: 8px 12px;
+    box-shadow: 0 1px 3px var(--notion-shadow-soft);
+    transition: all 0.15s ease;
+    position: relative;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    min-width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
 
+/* Button hover effects */
+.record-button:hover, .stop-button:hover, 
+.play-recording-button:hover, .clear-recording-button:hover {
+    background-color: var(--notion-surface-hover);
+    border-color: var(--notion-border);
+    transform: translateY(-1px);
+}
+
+/* Button active effects */
+.record-button:active, .stop-button:active, 
+.play-recording-button:active, .clear-recording-button:active {
+    background-color: var(--notion-surface-active);
+    transform: translateY(0);
+    box-shadow: 0 1px 2px var(--notion-shadow-soft);
+}
+
+/* Record button with subtle color */
 .record-button {
-    background-color: #f44336;
-    color: white;
+    background-color: rgba(255, 71, 71, 0.1);
+    border-color: rgba(255, 71, 71, 0.2);
+    color: var(--notion-text);
+}
+
+.record-button::before {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--notion-accent-red);
+    border-radius: 50%;
 }
 
 .record-button:hover {
-    background-color: #e53935;
-    transform: translateY(-2px);
+    background-color: rgba(255, 71, 71, 0.15);
 }
 
-.stop-button {
-    background-color: var(--color-dark);
-    color: white;
+.recording-active .record-button {
+    background-color: rgba(255, 71, 71, 0.3);
 }
 
-.stop-button:hover {
-    background-color: #3a3a3a;
-    transform: translateY(-2px);
+.recording-active .record-button::before {
+    animation: pulse 1.5s infinite;
 }
 
-.play-recording-button {
-    background-color: var(--color-primary);
-    color: white;
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
 }
 
-.play-recording-button:hover {
-    background-color: #2a75e6;
-    transform: translateY(-2px);
+/* Stop button styling */
+.stop-button::before {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--notion-text);
+    border-radius: 1px;
 }
 
-.clear-recording-button {
-    background-color: var(--color-accent);
-    color: white;
+/* Play recording button with play icon */
+.play-recording-button::before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 8px solid var(--notion-accent-blue);
 }
 
-.clear-recording-button:hover {
-    background-color: #e58e00;
-    transform: translateY(-2px);
+/* Clear button with icon */
+.clear-recording-button::before {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='%23e6e6e6' stroke-width='1.5' fill='none'%3E%3Cpath d='M12 4L4 12M4 4l8 8'/%3E%3C/svg%3E") center no-repeat;
+    background-size: contain;
 }
 
-.recordings-selector {
-    padding: var(--space-sm);
-    font-size: var(--font-size-sm);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
-    color: var(--color-text);
-    font-family: var(--font-primary);
+/* Recordings management with Notion-style */
+.recordings-management {
+    background-color: var(--notion-surface);
+    border: 1px solid var(--notion-border);
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     width: 100%;
+    box-sizing: border-box;
+    position: relative;
 }
 
-/* Song Player Controls - clean, modern style */
+/* Modern tracks label */
+.recordings-management::after {
+    content: 'TRACKS';
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    background: #1a1a1a;
+    padding: 0 8px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-family: var(--font-primary);
+}
+
+/* Stylized select dropdown */
+.recordings-selector {
+    background-color: var(--notion-surface);
+    color: var(--notion-text);
+    border: 1px solid var(--notion-border);
+    border-radius: 6px;
+    font-size: var(--font-size-sm);
+    padding: 8px 12px;
+    width: 100%;
+    margin-bottom: 6px;
+    font-family: var(--font-primary);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.recordings-selector:focus {
+    outline: none;
+    border-color: var(--notion-accent-blue);
+    box-shadow: 0 0 0 1px var(--notion-accent-blue);
+}
+
+.recordings-selector:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--notion-surface-hover);
+}
+
+/* Recording action buttons */
+.recording-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.play-button, .rename-button, .delete-button {
+    flex: 1;
+    color: var(--notion-text);
+    background-color: var(--notion-surface);
+    border: 1px solid var(--notion-border);
+    border-radius: 6px;
+    font-size: var(--font-size-sm);
+    padding: 6px 8px;
+    font-family: var(--font-primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.play-button:hover, .rename-button:hover, .delete-button:hover {
+    background-color: var(--notion-surface-hover);
+    transform: translateY(-1px);
+}
+
+.play-button:active, .rename-button:active, .delete-button:active {
+    background-color: var(--notion-surface-active);
+    transform: translateY(0);
+}
+
+.play-button::before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2317c964' stroke='none'%3E%3Cpath d='M4.5 3v10L12 8z'/%3E%3C/svg%3E") center no-repeat;
+    background-size: contain;
+}
+
+.rename-button::before {
+    content: "";
+    display: block;
+    width: 12px;
+    height: 12px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='rgba(255, 255, 255, 0.8)' stroke-width='1.5' fill='none'%3E%3Cpath d='M10 2L2 10v4h4l8-8-4-4z'/%3E%3C/svg%3E") center no-repeat;
+    background-size: contain;
+}
+
+.delete-button::before {
+    content: "";
+    display: block;
+    width: 12px;
+    height: 12px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='%23ff4747' stroke-width='1.5' fill='none'%3E%3Cpath d='M2 4h12M5.333 4V2.667a1.333 1.333 0 011.334-1.334h2.666a1.333 1.333 0 011.334 1.334V4m2 0v9.333a1.333 1.333 0 01-1.334 1.334H4.667a1.334 1.334 0 01-1.334-1.334V4h9.334z'/%3E%3C/svg%3E") center no-repeat;
+    background-size: contain;
+}
+
+/* Song Player Controls - Notion-inspired */
 .song-player-controls {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-top: var(--space-md);
-    width: 90%;
-    max-width: 1200px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-    box-shadow: var(--shadow-md);
-    padding: var(--space-lg);
-    margin-bottom: var(--space-xl);
+    align-items: stretch;
+    width: 370px;
+    max-width: 95vw;
+    background-color: var(--notion-surface);
+    border: 1px solid var(--notion-border);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--notion-shadow-soft);
+    padding: 20px;
+    margin: 20px auto 40px auto;
+    position: relative;
 }
 
-.song-buttons {
-    display: flex;
-    gap: var(--space-sm);
-    margin-top: var(--space-sm);
-}
-
-.song-selector {
-    padding: var(--space-sm);
-    width: 100%;
-    min-width: 300px;
-    font-size: var(--font-size-sm);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
-    color: var(--color-text);
+/* Song selector title */
+.song-player-title {
     font-family: var(--font-primary);
-    margin-bottom: var(--space-sm);
-    transition: background-color var(--transition-theme), color var(--transition-theme), border-color var(--transition-theme);
+    color: var(--notion-text);
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    margin-bottom: 16px;
+    text-align: left;
+    letter-spacing: 0.01em;
+    width: 100%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--notion-border);
 }
 
-/* Song duration styling - cleaner look */
+/* Song selector styling */
+.song-selector {
+    width: 100%;
+    padding: 8px 12px;
+    color: var(--notion-text);
+    background-color: var(--notion-surface);
+    border: 1px solid var(--notion-border);
+    border-radius: 6px;
+    font-size: var(--font-size-sm);
+    font-family: var(--font-primary);
+    margin-bottom: 16px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.song-selector:focus {
+    outline: none;
+    border-color: var(--notion-accent-blue);
+    box-shadow: 0 0 0 1px var(--notion-accent-blue);
+}
+
+.song-selector:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--notion-surface-hover);
+}
+
+/* Song duration display - clean style */
 .song-duration {
     font-family: var(--font-primary);
-    color: var(--color-text);
-    background: var(--color-surface);
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-md);
+    color: var(--notion-text-secondary);
+    background-color: transparent;
+    padding: 0;
     font-size: var(--font-size-sm);
-    margin-bottom: var(--space-md);
-    text-align: center;
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-sm);
-    letter-spacing: 1px;
-    width: 200px;
+    margin: 0 0 12px 0;
+    text-align: left;
+    border: none;
+    box-shadow: none;
+    position: relative;
+    font-weight: 400;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    .recording-controls-panel {
-      grid-template-columns: 1fr;
-    }
-    
-    .recording-buttons-group {
-      justify-content: center;
-    }
-    
-    .song-buttons {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-    }
-    
-    .piano-header h2 {
-        margin-bottom: 10px;
-    }
-    
-    .piano {
-        width: 95%;
-    }
-  }
-  
-  @media (max-width: 480px) {
+/* Song button styling */
+.song-buttons {
+    display: flex;
+    gap: 8px;
+    /* justify-content: space-evenly; */
+}
+
+.song-buttons button {
+    color: var(--notion-text);
+    background-color: var(--notion-surface);
+    border: 1px solid var(--notion-border);
+    border-radius: 6px;
+    font-size: var(--font-size-sm);
+    padding: 8px 12px;
+    transition: all 0.15s ease;
+    font-family: var(--font-primary);
+    font-weight: 500;
+    cursor: pointer;
+    flex: 0;
+    min-width: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.song-buttons button:hover {
+    background-color: var(--notion-surface-hover);
+    transform: translateY(-1px);
+}
+
+.song-buttons button:active {
+    background-color: var(--notion-surface-active);
+    transform: translateY(0);
+}
+
+.song-buttons .play-button::before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2317c964' stroke='none'%3E%3Cpath d='M4.5 3v10L12 8z'/%3E%3C/svg%3E") center no-repeat;
+    background-size: contain;
+}
+
+#renameSong ::before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 200px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='rgba(255, 255, 255, 0.8)' stroke-width='1.5' fill='none'%3E%3Cpath d='M10 2L2 10v4h4l8-8-4-4z'/%3E%3C/svg%3E") center no-repeat;
+    background-size: contain;
+} 
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
     .recording-controls-container,
     .song-player-controls {
-      width: 95%;
-      padding: var(--spacing-md);
+        padding: 16px;
+        width: 90%;
     }
-  }
+}
 
