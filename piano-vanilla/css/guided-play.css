@@ -392,66 +392,7 @@
     left: calc(10.5 * var(--white-key-width));
 }
 
-/* Specific black key positioning for the guided piano - Centered relative to container */
-#guidedPlaySection .piano-keys-wrapper .key.black[data-note="C#3"] {
-    left: calc(0 * var(--white-key-width) + (var(--white-key-width) / 2));
-    transform: translateX(-50%);
-}
 
-#guidedPlaySection .piano-keys-wrapper .key.black[data-note="D#3"] {
-    left: calc(1 * var(--white-key-width) + (var(--white-key-width) / 2));
-    transform: translateX(-50%);
-}
-
-#guidedPlaySection .piano-keys-wrapper .key.black[data-note="F#3"] {
-    left: calc(3 * var(--white-key-width) + (var(--white-key-width) / 2));
-    transform: translateX(-50%);
-}
-
-#guidedPlaySection .piano-keys-wrapper .key.black[data-note="G#3"] {
-    left: calc(4 * var(--white-key-width) + (var(--white-key-width) / 2));
-    transform: translateX(-50%);
-}
-
-#guidedPlaySection .piano-keys-wrapper .key.black[data-note="A#3"] {
-    left: calc(5 * var(--white-key-width) + (var(--white-key-width) / 2));
-    transform: translateX(-50%);
-}
-
-#guidedPlaySection .piano-keys-wrapper .key.black[data-note="C#4"] {
-    left: calc(7 * var(--white-key-width) + (var(--white-key-width) / 2));
-    transform: translateX(-50%);
-}
-
-#guidedPlaySection .piano-keys-wrapper .key.black[data-note="D#4"] {
-    left: calc(8 * var(--white-key-width) + (var(--white-key-width) / 2));
-    transform: translateX(-50%);
-}
-
-#guidedPlaySection .piano-keys-wrapper .key.black[data-note="F#4"] {
-    left: calc(10 * var(--white-key-width) + (var(--white-key-width) / 2));
-    transform: translateX(-50%);
-}
-
-#guidedPlaySection .piano-keys-wrapper .key.black[data-note="G#4"] {
-    left: calc(11 * var(--white-key-width) + (var(--white-key-width) / 2));
-    transform: translateX(-50%);
-}
-
-#guidedPlaySection .piano-keys-wrapper .key.black[data-note="A#4"] {
-    left: calc(12 * var(--white-key-width) + (var(--white-key-width) / 2));
-    transform: translateX(-50%);
-}
-
-#guidedPlaySection .piano-keys-wrapper .key.black[data-note="C#5"] {
-    left: calc(14 * var(--white-key-width) + (var(--white-key-width) / 2));
-    transform: translateX(-50%);
-}
-
-#guidedPlaySection .piano-keys-wrapper .key.black[data-note="D#5"] {
-    left: calc(15 * var(--white-key-width) + (var(--white-key-width) / 2));
-    transform: translateX(-50%);
-}
 
 /* Key press effects specific to guided play */
 #guidedPlaySection .key.white:active,

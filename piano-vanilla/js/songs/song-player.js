@@ -125,8 +125,8 @@ class SongPlayer {
                 const delay = noteObj.timestamp * 1000;
                 const noteDuration = noteObj.duration || 0.5; // Use note duration or default to 0.5
                 const timeout = setTimeout(() => {
+                    //call playNote which now handles highlighting internally
                     this.piano.playNote(noteObj.note, noteDuration);
-                    this.piano.highlightKey(noteObj.note);
                 }, delay);
                 this.currentSongTimeouts.push(timeout);
             });

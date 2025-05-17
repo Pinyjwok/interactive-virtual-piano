@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/piano.css">
+    <link rel="stylesheet" href="css/virtual-piano.css">
     <link rel="stylesheet" href="css/guided-play.css">
     <link rel="stylesheet" href="css/leaderboard.css">
     <link rel="stylesheet" href="css/animations.css">
@@ -49,7 +49,11 @@
     <!-- Piano Section -->
     <div class="section" id="pianoSection" style="display: none;">
         <div class="piano-container">
-            <button id="backToMenuFromPiano" class="back-button">Back to Menu</button>
+            <!-- Add a header similar to guided play -->
+            <div class="piano-header">
+                <h2>Virtual Piano Mode</h2>
+                <button id="backToMenuFromPiano" class="back-button">Back to Menu</button>
+            </div>
             
             <!-- New Recording Controls Container -->
             <div class="recording-controls-container">
@@ -98,35 +102,38 @@
                 <!-- Add octave shift display -->
                 <div id="currentOctaveDisplay" class="octave-shift-display">Current Octave: 0</div>
                 
-                <div class="piano-keys-wrapper">
-                    <!-- Octave indicators --> 
-                    <!-- Octave 3 -->
-                    <div class="key white" data-note="C3">Z</div>
-                    <div class="key white" data-note="D3">X</div>
-                    <div class="key white" data-note="E3">C</div>
-                    <div class="key white" data-note="F3">V</div>
-                    <div class="key white" data-note="G3">B</div>
-                    <div class="key white" data-note="A3">N</div>
-                    <div class="key white" data-note="B3">M</div>
-                    <div class="key black" data-note="C#3">S</div>
-                    <div class="key black" data-note="D#3">D</div>
-                    <div class="key black" data-note="F#3">G</div>
-                    <div class="key black" data-note="G#3">H</div>
-                    <div class="key black" data-note="A#3">J</div>
-                    
-                    <!-- Octave 4 -->
-                    <div class="key white" data-note="C4">Q</div>
-                    <div class="key white" data-note="D4">W</div>
-                    <div class="key white" data-note="E4">E</div>
-                    <div class="key white" data-note="F4">R</div>
-                    <div class="key white" data-note="G4">T</div>
-                    <div class="key white" data-note="A4">Y</div>
-                    <div class="key white" data-note="B4">U</div>
-                    <div class="key black" data-note="C#4">2</div>
-                    <div class="key black" data-note="D#4">3</div>
-                    <div class="key black" data-note="F#4">5</div>
-                    <div class="key black" data-note="G#4">6</div>
-                    <div class="key black" data-note="A#4">7</div>
+                <!-- Piano keys with proper nesting -->
+                <div class="piano-keys">
+                    <div class="piano-keys-wrapper">
+                        <!-- Octave indicators --> 
+                        <!-- Octave 3 -->
+                        <div class="key white" data-note="C3">Z</div>
+                        <div class="key white" data-note="D3">X</div>
+                        <div class="key white" data-note="E3">C</div>
+                        <div class="key white" data-note="F3">V</div>
+                        <div class="key white" data-note="G3">B</div>
+                        <div class="key white" data-note="A3">N</div>
+                        <div class="key white" data-note="B3">M</div>
+                        <div class="key black" data-note="C#3">S</div>
+                        <div class="key black" data-note="D#3">D</div>
+                        <div class="key black" data-note="F#3">G</div>
+                        <div class="key black" data-note="G#3">H</div>
+                        <div class="key black" data-note="A#3">J</div>
+                        
+                        <!-- Octave 4 -->
+                        <div class="key white" data-note="C4">Q</div>
+                        <div class="key white" data-note="D4">W</div>
+                        <div class="key white" data-note="E4">E</div>
+                        <div class="key white" data-note="F4">R</div>
+                        <div class="key white" data-note="G4">T</div>
+                        <div class="key white" data-note="A4">Y</div>
+                        <div class="key white" data-note="B4">U</div>
+                        <div class="key black" data-note="C#4">2</div>
+                        <div class="key black" data-note="D#4">3</div>
+                        <div class="key black" data-note="F#4">5</div>
+                        <div class="key black" data-note="G#4">6</div>
+                        <div class="key black" data-note="A#4">7</div>
+                    </div>
                 </div>
             </div>
 
@@ -269,6 +276,12 @@
                     <div class="result-label">Grade:</div>
                     <div id="performanceGrade" class="result-value">F</div>
                 </div>
+                
+                <!-- Add player name input here -->
+                <div class="player-name-input">
+                    <label for="playerNameInput">Your Name:</label>
+                    <input type="text" id="playerNameInput" maxlength="20" placeholder="Enter your name">
+                </div>
             </div>
             <div class="modal-buttons">
                 <button id="tryAgainBtn" class="modal-button">Try Again</button>
@@ -401,23 +414,17 @@
     </div>
 </div>
 
-<!-- Add to the game over modal in index.html -->
-<div class="player-name-input">
-    <label for="playerNameInput">Your Name:</label>
-    <input type="text" id="playerNameInput" maxlength="20" placeholder="Enter your name">
-</div>
-
     <!-- JavaScript files in order of dependency -->
     <script src="js/songs/song-player.js"></script>
     <script src="js/recording/recordings.js"></script>
-    <script src="js/db/storage-manager.js"></script>
+    <script src="js/db/storage-manager.js"></script>>
     <script src="js/ui/modal-manager.js"></script>
-    <script src="js/piano/piano-core.js"></script>
-    <script src="js/songs/songs.js"></script>
+    <script src="js/piano/piano-core.js"></script>cript>
+    <script src="js/songs/songs.js"></script>cript>
     <script src="js/recording/recording-manager.js"></script>
-    <script src="js/piano/guided-play.js"></script>
-    <script src="js/piano/piano.js"></script>
-    <script src="js/db/leaderboard.js"></script>
+    <script src="js/piano/guided-play.js"></script>></script>
+    <script src="js/db/storage-manager.js"></script>
+    <script src="js/ui/modal-manager.js"></script>    <script src="js/piano/piano-core.js"></script>    <script src="js/songs/songs.js"></script>    <script src="js/recording/recording-manager.js"></script>    <script src="js/piano/guided-play.js"></script>    <script src="js/piano/virtual-piano.js"></script>    <script src="js/db/leaderboard.js"></script>
     <script src="js/ui/leaderboard-manager.js"></script>
     <script src="js/ui/theme-switcher.js"></script>
     <!-- Add piano animation script -->

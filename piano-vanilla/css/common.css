@@ -152,46 +152,65 @@ html[data-theme="dark"] {
 /* Black key positioning calculation based on white key width 
    Making positions relative to the start of the white keys */
    
-/* First Octave (3) */
-.key.black[data-note="C#3"] {
-    left: calc(0 * var(--white-key-width) + var(--white-key-width) * 0.7);
+/* Black keys positioned relative to white keys with transform */
+.piano-keys-wrapper .key.black[data-note="C#3"] {
+    left: calc(.7 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
 }
 
-.key.black[data-note="D#3"] {
-    left: calc(1 * var(--white-key-width) + var(--white-key-width) * 0.7);
+.piano-keys-wrapper .key.black[data-note="D#3"] {
+    left: calc(1.7 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
 }
 
-.key.black[data-note="F#3"] {
-    left: calc(3 * var(--white-key-width) + var(--white-key-width) * 0.7);
+.piano-keys-wrapper .key.black[data-note="F#3"] {
+    left: calc(3.7 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
 }
 
-.key.black[data-note="G#3"] {
-    left: calc(4 * var(--white-key-width) + var(--white-key-width) * 0.7);
+.piano-keys-wrapper .key.black[data-note="G#3"] {
+    left: calc(4.7 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
 }
 
-.key.black[data-note="A#3"] {
-    left: calc(5 * var(--white-key-width) + var(--white-key-width) * 0.7);
+.piano-keys-wrapper .key.black[data-note="A#3"] {
+    left: calc(5.7 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
 }
 
-/* Second Octave (4) */
-.key.black[data-note="C#4"] {
-    left: calc(7 * var(--white-key-width) + var(--white-key-width) * 0.7);
+.piano-keys-wrapper .key.black[data-note="C#4"] {
+    left: calc(7.7 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
 }
 
-.key.black[data-note="D#4"] {
-    left: calc(8 * var(--white-key-width) + var(--white-key-width) * 0.7);
+.piano-keys-wrapper .key.black[data-note="D#4"] {
+    left: calc(8.7 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
 }
 
-.key.black[data-note="F#4"] {
-    left: calc(10 * var(--white-key-width) + var(--white-key-width) * 0.7);
+.piano-keys-wrapper .key.black[data-note="F#4"] {
+    left: calc(10.7 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
 }
 
-.key.black[data-note="G#4"] {
-    left: calc(11 * var(--white-key-width) + var(--white-key-width) * 0.7);
+.piano-keys-wrapper .key.black[data-note="G#4"] {
+    left: calc(11.7 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
 }
 
-.key.black[data-note="A#4"] {
-    left: calc(12 * var(--white-key-width) + var(--white-key-width) * 0.7);
+.piano-keys-wrapper .key.black[data-note="A#4"] {
+    left: calc(12.7 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+.piano-keys-wrapper .key.black[data-note="C#5"] {
+    left: calc(14.7 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
+}
+
+.piano-keys-wrapper .key.black[data-note="D#5"] {
+    left: calc(15.7 * var(--white-key-width) + (var(--white-key-width) / 2));
+    transform: translateX(-50%);
 }
 
 /* Main menu styling - modern and clean */

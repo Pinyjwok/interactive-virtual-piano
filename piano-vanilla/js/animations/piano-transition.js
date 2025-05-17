@@ -27,6 +27,9 @@
     let targetSection = '';
     let loadingProgress = 0;
     
+    // TEMPORARY: Flag to bypass animation for testing
+    const skipAnimationForTesting = true;
+    
     // Initialize event listeners
     function initEventListeners() {
         // Add click event listeners to piano buttons
@@ -265,6 +268,13 @@
         isAnimating = true;
         targetSection = sectionId;
         
+        // TEMPORARY: Skip animation for testing purposes
+        if (skipAnimationForTesting) {
+            console.log('TESTING MODE: Skipping animation and transitioning immediately');
+            completeTransition();
+            return;
+        }
+        
         // Show animation container
         animationContainer.classList.add('active');
         
@@ -372,6 +382,13 @@
         document.querySelectorAll('.section').forEach(section => {
             section.style.display = 'none';
         });
+        
+        // TEMPORARY: Remove delay for testing purposes
+        if (skipAnimationForTesting) {
+            document.getElementById(targetSection).style.display = 'block';
+            isAnimating = false;
+            return;
+        }
         
         // Wait a moment before showing the target section
         setTimeout(() => {
