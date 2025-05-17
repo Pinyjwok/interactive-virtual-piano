@@ -1,73 +1,91 @@
 /* piano.css - Styles specific to the virtual piano section */
 
 :root {
-    /* Modern color palette */
-    --color-background: #f8f9fa;
-    --color-surface: #ffffff;
-    --color-primary: #3a86ff;
-    --color-primary-light: #c7d8ff;
-    --color-secondary: #8ecae6;
-    --color-accent: #ff9d00ba;
-    --color-dark: #2b2d42;
-    --color-text: #2b2d42;
-    --color-text-light: #6c757d;
-    --color-border: #dee2e6;
-    --color-shadow: rgba(0, 0, 0, 0.05);
+    /* Updated modern color palette */
+    --color-background: #F9F9F9;
+    --color-background-gradient: linear-gradient(to bottom, #F9F9F9, #EFEFEF);
+    --color-surface: #FFFFFF;
+    --color-primary: #3E64FF;
+    --color-primary-light: #C7D1FF;
+    --color-secondary: #8ECAE6;
+    --color-accent: #3E64FF;
+    --color-dark: #1A1A1A;
+    --color-text: #2B2D42;
+    --color-text-light: #6C757D;
+    --color-border: #DEE2E6;
+    --color-shadow: rgba(0, 0, 0, 0.1);
     
-    /* Typography */
-    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    /* Updated Typography */
+    --font-heading: 'Playfair Display', 'Roboto Slab', serif;
+    --font-primary: 'Open Sans', 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     --font-size-xs: 0.75rem;    /* 12px */
     --font-size-sm: 0.875rem;   /* 14px */
     --font-size-md: 1rem;       /* 16px */
     --font-size-lg: 1.125rem;   /* 18px */
     --font-size-xl: 1.25rem;    /* 20px */
     --font-size-2xl: 1.5rem;    /* 24px */
-    --font-size-3xl: 1.875rem;  /* 30px */
+    --font-size-3xl: 2rem;      /* 32px */
     
-    /* Spacing */
-    --space-xs: 0.25rem;  /* 4px */
-    --space-sm: 0.5rem;   /* 8px */
-    --space-md: 1rem;     /* 16px */
-    --space-lg: 1.5rem;   /* 24px */
-    --space-xl: 2rem;     /* 32px */
+    /* Updated Spacing with minimum 24px between elements */
+    --space-xs: 0.5rem;   /* 8px */
+    --space-sm: 0.75rem;  /* 12px */
+    --space-md: 1.5rem;   /* 24px */
+    --space-lg: 2rem;     /* 32px */
+    --space-xl: 2.5rem;   /* 40px */
     --space-2xl: 3rem;    /* 48px */
     
-    /* Border radius */
-    --radius-sm: 0.25rem;  /* 4px */
-    --radius-md: 0.5rem;   /* 8px */
-    --radius-lg: 0.75rem;  /* 12px */
-    --radius-xl: 1rem;     /* 16px */
+    /* Updated Border radius */
+    --radius-sm: 0.5rem;   /* 8px */
+    --radius-md: 0.75rem;  /* 12px */
+    --radius-lg: 1rem;     /* 16px */
+    --radius-xl: 1.25rem;  /* 20px */
     
-    /* Shadows */
-    --shadow-sm: 0 1px 2px var(--color-shadow);
-    --shadow-md: 0 4px 6px var(--color-shadow);
-    --shadow-lg: 0 10px 15px -3px var(--color-shadow);
+    /* Enhanced Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
     
-    /* Transitions */
-    --transition-fast: 150ms ease;
-    --transition-normal: 250ms ease;
-    --transition-slow: 350ms ease;
+    /* Updated Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    --transition-theme: var(--transition-normal);
 
-    /* Notion-inspired UI styling for Recording Studio and Song Player */
-    --notion-background: #191919;
-    --notion-surface: #2c2c2c;
+    /* Notion-inspired UI styling updated with new colors */
+    --notion-background: var(--color-dark);
+    --notion-surface: #2C2C2C;
     --notion-surface-hover: #363636;
     --notion-surface-active: #404040;
     --notion-border: rgba(255, 255, 255, 0.1);
-    --notion-text: #e6e6e6;
-    --notion-text-secondary: rgba(255, 255, 255, 0.6);
-    --notion-text-tertiary: rgba(255, 255, 255, 0.4);
-    --notion-accent-blue: #0070f3;
-    --notion-accent-red: #ff4747;
-    --notion-accent-green: #17c964;
-    --notion-accent-yellow: #f5a623;
+    --notion-text: #F5F5F5;
+    --notion-text-secondary: rgba(255, 255, 255, 0.7);
+    --notion-text-tertiary: rgba(255, 255, 255, 0.5);
+    --notion-accent-blue: var(--color-primary);
+    --notion-accent-red: #FF4747;
+    --notion-accent-green: #17C964;
+    --notion-accent-yellow: #F5A623;
     --notion-shadow: rgba(0, 0, 0, 0.2);
     --notion-shadow-soft: rgba(0, 0, 0, 0.08);
+    
+    /* Icon sizing system with touch-friendly sizes */
+    --icon-xs: 12px;
+    --icon-sm: 16px;
+    --icon-md: 24px;
+    --icon-lg: 32px;
+    --icon-xl: 44px;
+    
+    /* Button padding updated for touch-friendly sizing */
+    --button-padding-sm: 8px 16px;
+    --button-padding-md: 12px 20px;
+    --button-padding-lg: 16px 28px;
+    
+    /* Icon/text spacing */
+    --icon-text-gap: 8px;
 }
 
 /* Global styles */
 .piano-container {
-    background-color: var(--color-background);
+    background: var(--color-background-gradient);
     font-family: var(--font-primary);
     overflow: visible;
     display: flex;
@@ -77,20 +95,42 @@
     min-height: 100vh;
     padding: var(--space-lg);
     box-sizing: border-box;
-    padding-top: 80px; /* Space for a fixed header similar to guided play */
+    padding-top: 100px; /* Space for fixed header */
     position: relative;
     margin: 0;
     transition: background-color var(--transition-theme);
 }
 
-/* Update piano header styling to match guided play header */
-.piano-header {
+/* Add decorative piano keys along the top */
+.piano-container::before {
+    content: "";
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
+    height: 12px;
+    background-image: repeating-linear-gradient(
+        90deg,
+        #1A1A1A 0px,
+        #1A1A1A 36px,
+        #F5F5F5 36px,
+        #F5F5F5 48px,
+        #1A1A1A 48px,
+        #1A1A1A 84px,
+        #F5F5F5 84px,
+        #F5F5F5 96px
+    );
+    z-index: 1010;
+}
+
+/* Updated piano header styling */
+.piano-header {
+    position: fixed;
+    top: 12px; /* Space for the piano keys decoration */
+    left: 0;
     width: 100%;
     background: var(--color-surface);
-    padding: var(--space-md) var(--space-lg);
+    padding: var(--space-md);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -101,51 +141,78 @@
 }
 
 .piano-header h2 {
-    font-family: var(--font-primary);
-    font-size: var(--font-size-xl);
+    font-family: var(--font-heading);
+    font-size: var(--font-size-3xl);
     color: var(--color-text);
     margin: 0;
     font-weight: 600;
+    position: relative;
+    padding-left: var(--space-md);
+}
+
+/* Add musical note icon before the heading */
+.piano-header h2::before {
+    content: "♪";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--color-accent);
+    font-size: 24px;
 }
 
 /* Back button specific styling for piano */
 #backToMenuFromPiano {
-    padding: .5em;
-    background: var(--color-surface);
+    padding: var(--button-padding-md);
+    background: var(--color-accent);
     border: none;
-    color: var(--color-text);
-    font-size: var(--font-size-sm);
-    transition: background-color var(--transition-normal), color var(--transition-normal);
-    border-radius: var(--radius-sm);
+    color: white;
+    font-size: var(--font-size-md);
+    transition: all var(--transition-fast);
+    border-radius: var(--radius-md);
     cursor: pointer;
-    font-weight: bold;
-    z-index: 15;
-    box-shadow: var(--shadow-md);
-    display: block !important;
-    background: var(--color-surface);
-    padding: .5em;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    font-weight: 600;
+    min-height: 44px;
+    box-shadow: var(--shadow-sm);
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
 #backToMenuFromPiano:hover {
-    background: var(--color-primary-light);
+    background: #2a50e6;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
-/* Update piano styling to match guided play */
+#backToMenuFromPiano:active {
+    transform: translateY(0);
+}
+
+#backToMenuFromPiano:focus {
+    outline: 2px solid rgba(62, 100, 255, 0.5);
+    outline-offset: 2px;
+}
+
+/* Updated piano styling with card layout */
 .piano {
     width: 100%;
     max-width: 1200px;
     height: 320px;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-sm);
+    border-radius: var(--radius-lg);
     border-top: 5px solid var(--color-accent);
     box-shadow: var(--shadow-lg);
     margin-top: var(--space-xl);
+    margin-bottom: var(--space-xl);
     position: relative;
-    transition: background-color var(--transition-theme), border-color var(--transition-theme);
+    transition: all var(--transition-normal);
+}
+
+.piano:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg), 0 10px 30px rgba(62, 100, 255, 0.1);
 }
 
 /* Brand name in center of piano - modernized */
@@ -155,7 +222,7 @@
     top: var(--space-sm);
     left: 50%;
     transform: translateX(-50%);
-    font-family: var(--font-primary);
+    font-family: var(--font-heading);
     font-weight: 600;
     font-size: var(--font-size-sm);
     color: var(--color-primary);
@@ -175,6 +242,11 @@
     background: var(--color-accent);
     border-radius: 0 0 var(--radius-sm) var(--radius-sm);
     box-shadow: var(--shadow-sm);
+    transition: width var(--transition-normal);
+}
+
+.piano:hover::after {
+    width: 200px;
 }
 
 /* Piano keyboard container */
@@ -203,50 +275,66 @@
     width: auto;
 }
 
-/* Make white keys responsive */
+/* Make white keys responsive with enhanced styling */
 .piano .key.white {
     width: var(--white-key-width);
-    transition: width 0.3s ease, transform 0.1s ease;
+    transition: width 0.3s ease, transform 0.1s ease, background-color 0.2s ease;
+    border: 1px solid #E0E0E0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
-/* Make black keys responsive */
+.piano .key.white:hover {
+    background-color: #F5F5F5;
+}
+
+/* Make black keys responsive with enhanced styling */
 .piano .key.black {
     width: calc(var(--white-key-width) * 0.65);
-    transition: width 0.3s ease, transform 0.1s ease;
+    transition: width 0.3s ease, transform 0.1s ease, background-color 0.2s ease;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+.piano .key.black:hover {
+    background-color: #2A2A2A;
+}
+
+/* Octave shift display - redesigned */
 .octave-shift-display {
     position: absolute;
     bottom: 20px;
     left: 20px;
     font-family: var(--font-primary);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
     color: var(--notion-text);
     background-color: var(--notion-surface);
     border: 1px solid var(--notion-border);
-    border-radius: 6px;
-    padding: 8px 12px;
-    box-shadow: 0 2px 8px var(--notion-shadow-soft);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    box-shadow: 0 4px 12px var(--notion-shadow-soft);
     z-index: 10;
-    transition: all 0.2s ease;
+    transition: all var(--transition-fast);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-weight: 500;
     letter-spacing: 0.01em;
-    width: 100px;
-    height: 30px
+    min-width: 100px;
+    min-height: 44px;
 }
 
-/* Add a subtle icon before the text */
+/* Add a musical note icon before the text */
 .octave-shift-display::before {
-    content: "";
+    content: "♪";
     display: block;
-    width: 12px;
-    height: 12px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='rgba(255, 255, 255, 0.6)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8h8M8 4v8'/%3E%3C/svg%3E") center no-repeat;
-    background-size: contain;
-    opacity: 0.8;
+    width: var(--icon-md);
+    height: var(--icon-md);
+    font-size: 20px;
+    color: var(--color-accent);
+    line-height: 1;
+    text-align: center;
 }
 
 .octave-shift-display span {
@@ -267,80 +355,81 @@
 .octave-shift-display:hover {
     background-color: var(--notion-surface-hover);
     border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--notion-shadow);
 }
 
 @keyframes subtle-pulse {
-    0% { opacity: 0.7; }
-    50% { opacity: 1; }
-    100% { opacity: 0.7; }
+    0% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 0.7; transform: scale(1); }
 }
 
-/* Key press active styles - cleaner look */
+/* Key press active styles - enhanced look */
 .key.active {
     background: var(--color-primary-light);
-    box-shadow: var(--shadow-sm);
+    box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1);
     transform: translateY(2px);
 }
 
 /* Black key active state */
 .key.black.active {
     background: #555;
-    box-shadow: var(--shadow-sm);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
     transform: translateY(2px) translateX(-50%);
 }
 
-
-/* Volume control styling - Notion-inspired */
+/* Volume control styling - Card-based design */
 .volume-control {
     position: absolute;
     top: 50px;
     left: 20px;
-    width: 100px;
-    height: 20px;
-    background-color: var(--notion-surface);
-    border: 1px solid var(--notion-border);
-    border-radius: 6px;
-    padding: 12px 16px;
-    box-shadow: 0 2px 8px var(--notion-shadow-soft);
+    width: 120px;
+    height: 24px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-md);
     z-index: 3;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: all 0.2s ease;
+    transition: all var(--transition-fast);
 }
 
-/* Modern volume label */
+/* Modern volume label with music icon */
 .volume-control::before {
-    content: "VOLUME";
+    content: "VOLUME ♪";
     position: absolute;
     top: -8px;
     left: 12px;
     font-size: 10px;
     font-family: var(--font-primary);
-    color: var(--notion-text-secondary);
-    background-color: var(--notion-surface);
-    padding: 0 6px;
+    color: var(--color-text);
+    background-color: var(--color-surface);
+    padding: 0 8px;
     font-weight: 600;
     letter-spacing: 0.5px;
 }
 
 /* Hover effect */
 .volume-control:hover {
-    background-color: var(--notion-surface-hover);
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-1px);
+    background-color: var(--color-surface);
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
 /* Slider track styling */
 .volume-slider-track {
     width: 100%;
     height: 4px;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 2px;
     position: relative;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Hide original volume markers */
@@ -354,7 +443,7 @@
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 20px;
+    height: 24px;
     background: transparent;
     margin: 0;
     padding: 8px 0;
@@ -368,47 +457,51 @@
     outline: none;
 }
 
+#volumeControlPiano:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgba(62, 100, 255, 0.3);
+}
+
 /* Thumb styling for webkit browsers */
 #volumeControlPiano::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 14px;
-    height: 14px;
-    background: var(--notion-accent-blue);
+    width: 16px;
+    height: 16px;
+    background: var(--color-accent);
     border-radius: 50%;
     border: none;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all var(--transition-fast);
 }
 
 /* Hover state for the thumb */
 #volumeControlPiano::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 
 /* Active state for the thumb */
 #volumeControlPiano::-webkit-slider-thumb:active {
     transform: scale(0.95);
-    background: var(--notion-accent-blue);
+    background: var(--color-primary);
 }
 
 /* Firefox-specific thumb styling */
 #volumeControlPiano::-moz-range-thumb {
-    width: 14px;
-    height: 14px;
-    background: var(--notion-accent-blue);
+    width: 16px;
+    height: 16px;
+    background: var(--color-accent);
     border-radius: 50%;
     border: none;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all var(--transition-fast);
 }
 
 /* Hover state for Firefox */
 #volumeControlPiano::-moz-range-thumb:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
 }
 
 /* Active state for Firefox */
@@ -416,411 +509,459 @@
     transform: scale(0.95);
 }
 
-/* Recording Studio - Notion-inspired design */
+/* Recording Studio - Card-based design */
 .recording-controls-container {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    width: 370px;
+    width: 500px;
     max-width: 95vw;
-    background-color: var(--notion-surface);
-    border: 1px solid var(--notion-border);
-    border-radius: 8px;
-    box-shadow: 0 2px 8px var(--notion-shadow-soft);
-    padding: 20px;
-    margin: 20px auto 40px auto;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-lg);
+    margin: var(--space-lg) auto var(--space-xl) auto;
     position: relative;
+    transition: all var(--transition-normal);
+}
+
+.recording-controls-container:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg), 0 10px 30px rgba(62, 100, 255, 0.1);
+}
+
+/* Add piano key decoration to the top */
+.recording-controls-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background-image: repeating-linear-gradient(
+        90deg,
+        var(--color-primary) 0px,
+        var(--color-primary) 30px,
+        #F5F5F5 30px,
+        #F5F5F5 40px
+    );
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .recording-controls-title {
-    font-family: var(--font-primary);
-    color: var(--notion-text);
-    font-size: var(--font-size-lg);
-    font-weight: 500;
-    margin-bottom: 16px;
+    font-family: var(--font-heading);
+    color: var(--color-text);
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    margin-bottom: var(--space-md);
     text-align: left;
     letter-spacing: 0.01em;
     width: 100%;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--notion-border);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
+    position: relative;
+    padding-left: 32px;
+}
+
+/* Add musical note icon */
+.recording-controls-title::before {
+    content: "♪";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--color-accent);
+    font-size: 24px;
 }
 
 .recording-controls-panel {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-md);
     width: 100%;
     position: relative;
 }
 
 .recording-buttons-group {
     display: flex;
-    gap: 8px;
+    gap: var(--space-sm);
     justify-content: flex-start;
     flex-wrap: wrap;
     padding: 0;
 }
 
-/* Clean modern button styling */
+/* Enhanced button styling */
 .record-button, .stop-button, .play-recording-button, .clear-recording-button {
-    background-color: var(--notion-surface);
-    color: var(--notion-text);
-    border: 1px solid var(--notion-border);
-    border-radius: 6px;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     font-weight: 500;
-    font-size: var(--font-size-sm);
-    padding: 8px 12px;
-    box-shadow: 0 1px 3px var(--notion-shadow-soft);
-    transition: all 0.15s ease;
+    font-size: var(--font-size-md);
+    padding: var(--button-padding-md);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-fast);
     position: relative;
     font-family: var(--font-primary);
     cursor: pointer;
     min-width: auto;
+    min-height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: var(--icon-text-gap);
 }
 
 /* Button hover effects */
 .record-button:hover, .stop-button:hover, 
 .play-recording-button:hover, .clear-recording-button:hover {
-    background-color: var(--notion-surface-hover);
-    border-color: var(--notion-border);
-    transform: translateY(-1px);
+    background-color: #F5F5F5;
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 /* Button active effects */
 .record-button:active, .stop-button:active, 
 .play-recording-button:active, .clear-recording-button:active {
-    background-color: var(--notion-surface-active);
+    background-color: #F0F0F0;
     transform: translateY(0);
-    box-shadow: 0 1px 2px var(--notion-shadow-soft);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Focus states for accessibility */
+.record-button:focus, .stop-button:focus, 
+.play-recording-button:focus, .clear-recording-button:focus {
+    outline: 2px solid rgba(62, 100, 255, 0.3);
+    outline-offset: 2px;
 }
 
 /* Record button with subtle color */
 .record-button {
-    background-color: rgba(255, 71, 71, 0.1);
-    border-color: rgba(255, 71, 71, 0.2);
-    color: var(--notion-text);
+    background-color: #FFEFEF;
+    border-color: rgba(255, 71, 71, 0.3);
+    color: var(--color-text);
 }
 
 .record-button::before {
-    content: "";
-    display: block;
-    width: 8px;
-    height: 8px;
-    background-color: var(--notion-accent-red);
-    border-radius: 50%;
+    content: "♪";
+    font-size: 20px;
+    color: #FF4747;
 }
 
 .record-button:hover {
-    background-color: rgba(255, 71, 71, 0.15);
+    background-color: #FFE5E5;
 }
 
 .recording-active .record-button {
-    background-color: rgba(255, 71, 71, 0.3);
+    background-color: #FFDBDB;
+    color: #FF4747;
+    border-color: #FF4747;
 }
 
 .recording-active .record-button::before {
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-    100% { opacity: 0.5; }
+    animation: subtle-pulse 1.5s infinite;
 }
 
 /* Stop button styling */
 .stop-button::before {
-    content: "";
-    display: block;
-    width: 8px;
-    height: 8px;
-    background-color: var(--notion-text);
-    border-radius: 1px;
+    content: "■";
+    font-size: 18px;
+    color: var(--color-text);
 }
 
 /* Play recording button with play icon */
 .play-recording-button::before {
-    content: "";
-    display: block;
-    width: 0;
-    height: 0;
-    border-top: 4px solid transparent;
-    border-bottom: 4px solid transparent;
-    border-left: 8px solid var(--notion-accent-blue);
+    content: "►";
+    font-size: 16px;
+    color: #17C964;
 }
 
 /* Clear button with icon */
 .clear-recording-button::before {
-    content: "";
-    display: block;
-    width: 8px;
-    height: 8px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='%23e6e6e6' stroke-width='1.5' fill='none'%3E%3Cpath d='M12 4L4 12M4 4l8 8'/%3E%3C/svg%3E") center no-repeat;
-    background-size: contain;
+    content: "✕";
+    font-size: 18px;
+    color: #FF4747;
 }
 
-/* Recordings management with Notion-style */
+/* Recordings management with card-based style */
 .recordings-management {
-    background-color: var(--notion-surface);
-    border: 1px solid var(--notion-border);
-    border-radius: 6px;
-    padding: 12px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-md);
     width: 100%;
     box-sizing: border-box;
     position: relative;
+    transition: all var(--transition-fast);
 }
 
-/* Modern tracks label */
-.recordings-management::after {
-    content: 'TRACKS';
+.recordings-management:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Fix the tracks label to match the design */
+.recordings-management::before {
+    content: '♪ TRACKS';
     position: absolute;
-    top: -8px;
+    top: -10px;
     left: 12px;
-    font-size: 10px;
-    color: rgba(255, 255, 255, 0.6);
-    background: #1a1a1a;
+    font-size: 12px;
+    color: var(--color-text);
+    background: var(--color-surface);
     padding: 0 8px;
     font-weight: 600;
     letter-spacing: 1px;
     font-family: var(--font-primary);
 }
 
-/* Stylized select dropdown */
-.recordings-selector {
-    background-color: var(--notion-surface);
-    color: var(--notion-text);
-    border: 1px solid var(--notion-border);
-    border-radius: 6px;
-    font-size: var(--font-size-sm);
-    padding: 8px 12px;
-    width: 100%;
-    margin-bottom: 6px;
-    font-family: var(--font-primary);
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 14px;
-    transition: all 0.2s;
-    cursor: pointer;
+/* Remove the duplicate after pseudo-element */
+.recordings-management::after {
+    content: none;
 }
 
-.recordings-selector:focus {
-    outline: none;
-    border-color: var(--notion-accent-blue);
-    box-shadow: 0 0 0 1px var(--notion-accent-blue);
-}
-
-.recordings-selector:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    background-color: var(--notion-surface-hover);
-}
-
-/* Recording action buttons */
-.recording-actions {
-    display: flex;
-    gap: 8px;
-    justify-content: space-between;
-}
-
-.play-button, .rename-button, .delete-button {
-    flex: 1;
-    color: var(--notion-text);
-    background-color: var(--notion-surface);
-    border: 1px solid var(--notion-border);
-    border-radius: 6px;
-    font-size: var(--font-size-sm);
-    padding: 6px 8px;
-    font-family: var(--font-primary);
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-}
-
-.play-button:hover, .rename-button:hover, .delete-button:hover {
-    background-color: var(--notion-surface-hover);
-    transform: translateY(-1px);
-}
-
-.play-button:active, .rename-button:active, .delete-button:active {
-    background-color: var(--notion-surface-active);
-    transform: translateY(0);
-}
-
-.play-button::before {
-    content: "";
-    display: block;
-    width: 20px;
-    height: 20px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2317c964' stroke='none'%3E%3Cpath d='M4.5 3v10L12 8z'/%3E%3C/svg%3E") center no-repeat;
-    background-size: contain;
-}
-
-.rename-button::before {
-    content: "";
-    display: block;
-    width: 12px;
-    height: 12px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='rgba(255, 255, 255, 0.8)' stroke-width='1.5' fill='none'%3E%3Cpath d='M10 2L2 10v4h4l8-8-4-4z'/%3E%3C/svg%3E") center no-repeat;
-    background-size: contain;
-}
-
-.delete-button::before {
-    content: "";
-    display: block;
-    width: 12px;
-    height: 12px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='%23ff4747' stroke-width='1.5' fill='none'%3E%3Cpath d='M2 4h12M5.333 4V2.667a1.333 1.333 0 011.334-1.334h2.666a1.333 1.333 0 011.334 1.334V4m2 0v9.333a1.333 1.333 0 01-1.334 1.334H4.667a1.334 1.334 0 01-1.334-1.334V4h9.334z'/%3E%3C/svg%3E") center no-repeat;
-    background-size: contain;
-}
-
-/* Song Player Controls - Notion-inspired */
+/* Song Player Controls - Card-based design */
 .song-player-controls {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    width: 370px;
+    width: 500px;
     max-width: 95vw;
-    background-color: var(--notion-surface);
-    border: 1px solid var(--notion-border);
-    border-radius: 8px;
-    box-shadow: 0 2px 8px var(--notion-shadow-soft);
-    padding: 20px;
-    margin: 20px auto 40px auto;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-lg);
+    margin: var(--space-md) auto var(--space-xl) auto;
     position: relative;
+    transition: all var(--transition-normal);
+}
+
+.song-player-controls:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg), 0 10px 30px rgba(62, 100, 255, 0.1);
+}
+
+/* Add piano key decoration to the top */
+.song-player-controls::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background-image: repeating-linear-gradient(
+        90deg,
+        var(--color-primary) 0px,
+        var(--color-primary) 30px,
+        #F5F5F5 30px,
+        #F5F5F5 40px
+    );
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 /* Song selector title */
 .song-player-title {
-    font-family: var(--font-primary);
-    color: var(--notion-text);
-    font-size: var(--font-size-lg);
-    font-weight: 500;
-    margin-bottom: 16px;
+    font-family: var(--font-heading);
+    color: var(--color-text);
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    margin-bottom: var(--space-md);
     text-align: left;
     letter-spacing: 0.01em;
     width: 100%;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--notion-border);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
+    position: relative;
+    padding-left: 32px;
+}
+
+/* Add musical note icon */
+.song-player-title::before {
+    content: "♪";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--color-accent);
+    font-size: 24px;
 }
 
 /* Song selector styling */
 .song-selector {
     width: 100%;
-    padding: 8px 12px;
-    color: var(--notion-text);
-    background-color: var(--notion-surface);
-    border: 1px solid var(--notion-border);
-    border-radius: 6px;
-    font-size: var(--font-size-sm);
+    padding: 12px 16px;
+    height: 48px;
+    color: var(--color-text);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-md);
     font-family: var(--font-primary);
-    margin-bottom: 16px;
+    margin-bottom: var(--space-md);
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%232B2D42' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 12px center;
     background-size: 14px;
-    transition: all 0.2s;
+    transition: all var(--transition-fast);
     cursor: pointer;
 }
 
+/* Focus state for better accessibility */
 .song-selector:focus {
     outline: none;
-    border-color: var(--notion-accent-blue);
-    box-shadow: 0 0 0 1px var(--notion-accent-blue);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(62, 100, 255, 0.2);
 }
 
 .song-selector:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    background-color: var(--notion-surface-hover);
+    border-color: var(--color-accent);
+    background-color: #F5F5F5;
 }
 
-/* Song duration display - clean style */
-.song-duration {
-    font-family: var(--font-primary);
-    color: var(--notion-text-secondary);
-    background-color: transparent;
-    padding: 0;
-    font-size: var(--font-size-sm);
-    margin: 0 0 12px 0;
-    text-align: left;
-    border: none;
-    box-shadow: none;
-    position: relative;
-    font-weight: 400;
-}
-
-/* Song button styling */
-.song-buttons {
+/* Recording action buttons */
+.recording-actions {
     display: flex;
-    gap: 8px;
-    /* justify-content: space-evenly; */
+    gap: var(--space-sm);
+    justify-content: space-between;
 }
 
-.song-buttons button {
-    color: var(--notion-text);
-    background-color: var(--notion-surface);
-    border: 1px solid var(--notion-border);
-    border-radius: 6px;
-    font-size: var(--font-size-sm);
-    padding: 8px 12px;
-    transition: all 0.15s ease;
+.play-button, .rename-button, .delete-button {
+    flex: 1;
+    color: var(--color-text);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-md);
+    padding: 10px 12px;
+    min-height: 44px;
     font-family: var(--font-primary);
     font-weight: 500;
     cursor: pointer;
-    flex: 0;
-    min-width: 90px;
+    transition: all var(--transition-fast);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 5px;
 }
 
-.song-buttons button:hover {
-    background-color: var(--notion-surface-hover);
-    transform: translateY(-1px);
+.play-button:hover, .rename-button:hover {
+    background-color: #F5F5F5;
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
 }
 
-.song-buttons button:active {
-    background-color: var(--notion-surface-active);
+.delete-button:hover {
+    background-color: #FFEFEF;
+    border-color: #FF4747;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.play-button:active, .rename-button:active, .delete-button:active {
     transform: translateY(0);
 }
 
-.song-buttons .play-button::before {
-    content: "";
-    display: block;
-    width: 20px;
-    height: 20px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2317c964' stroke='none'%3E%3Cpath d='M4.5 3v10L12 8z'/%3E%3C/svg%3E") center no-repeat;
-    background-size: contain;
+.play-button:focus, .rename-button:focus, .delete-button:focus {
+    outline: 2px solid rgba(62, 100, 255, 0.3);
+    outline-offset: 2px;
 }
 
-#renameSong ::before {
-    content: "";
-    display: block;
-    width: 20px;
-    height: 200px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='rgba(255, 255, 255, 0.8)' stroke-width='1.5' fill='none'%3E%3Cpath d='M10 2L2 10v4h4l8-8-4-4z'/%3E%3C/svg%3E") center no-repeat;
-    background-size: contain;
-} 
+.play-button::before {
+    content: "►";
+    font-size: 16px;
+    color: #17C964;
+}
+
+.rename-button::before,
+#renameSong::before {
+    content: "✎";
+    font-size: 18px;
+    color: var(--color-accent);
+}
 
 /* Responsive adjustments */
-@media (max-width: 500px) {
+@media (max-width: 768px) {
+    :root {
+        --space-md: 1rem;
+        --space-lg: 1.5rem;
+        --space-xl: 2rem;
+    }
+    
+    .piano-header h2 {
+        font-size: var(--font-size-2xl);
+    }
+    
     .recording-controls-container,
     .song-player-controls {
-        padding: 16px;
-        width: 90%;
+        padding: var(--space-md);
+        width: 95%;
+        max-width: 450px;
+    }
+    
+    .recording-controls-title,
+    .song-player-title {
+        font-size: var(--font-size-lg);
+    }
+    
+    .song-buttons button,
+    .record-button, .stop-button, 
+    .play-recording-button, .clear_recording-button {
+        min-width: auto;
+        padding: 8px 12px;
+    }
+    
+    .recording-buttons-group {
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 500px) {
+    :root {
+        --font-size-3xl: 1.5rem;
+    }
+    
+    .piano-container {
+        padding: var(--space-sm);
+        padding-top: 100px;
+    }
+    
+    .piano-header {
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .recording-controls-container,
+    .song-player-controls {
+        padding: var(--space-sm);
+        width: 92%;
+        flex-direction: column;
+    }
+    
+    .recording-buttons-group,
+    .song-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .recording-buttons-group button,
+    .song-buttons button {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+    
+    .recording-actions {
+        flex-direction: column;
+    }
+    
+    .recording-actions button {
+        width: 100%;
+        margin-bottom: 8px;
     }
 }
 
