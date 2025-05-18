@@ -8,12 +8,18 @@
     --color-primary: #3E64FF;
     --color-primary-light: #C7D1FF;
     --color-secondary: #8ECAE6;
-    --color-accent: #3E64FF;
+    --color-primary: #3E64FF; /* Keep accent color constant */
     --color-dark: #1A1A1A;
     --color-text: #2B2D42;
     --color-text-light: #6C757D;
     --color-border: #DEE2E6;
     --color-shadow: rgba(0, 0, 0, 0.1);
+
+    /* New decorative UI variables */
+    --color-glow-primary: rgba(62, 100, 255, 0.15);
+    --color-glow-secondary: rgba(142, 202, 230, 0.2);
+    --color-pattern-light: rgba(233, 236, 244, 0.8);
+    --color-primary-soft: rgba(62, 100, 255, 0.08);
     
     /* Updated Typography */
     --font-heading: 'Playfair Display', 'Roboto Slab', serif;
@@ -81,6 +87,20 @@
     
     /* Icon/text spacing */
     --icon-text-gap: 8px;
+
+    /* Updated virtual piano to use relative sizing */
+    --white-key-width: 4rem;  /* 60px */
+    --black-key-width: 2.4rem;  /* 36px */
+    --white-key-height: 18rem; /* 280px */
+    --black-key-height: 12rem; /* 180px */
+    --piano-width: calc(21 * var(--white-key-width));
+    --piano-height: calc(var(--white-key-height) + 3em);
+
+    /* Updated spacing variables to maintain consistent distances */
+    --piano-spacing: 3rem;  /* Consistent spacing around piano */
+}
+* {
+    font-family: var(--font-primary);
 }
 
 /* Global styles */
@@ -95,53 +115,62 @@
     min-height: 100vh;
     padding: var(--space-lg);
     box-sizing: border-box;
-    padding-top: 100px; /* Space for fixed header */
+    padding-top: var(--piano-spacing); /* Space for fixed header */
     position: relative;
-    margin: 0;
+    /* margin: var(--space-lg) auto; */
     transition: background-color var(--transition-theme);
+    background-image: none;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-lg); 
+    padding-top: 0;
+    display: flex; /* Enable flexbox for horizontal alignment */
+    flex-direction: column; /* Stack sections vertically */
+    align-items: center; /* Center content horizontally */
+    gap: var(--space-lg); /* Add spacing between sections */
+    
 }
 
-/* Add decorative piano keys along the top */
-.piano-container::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 12px;
-    background-image: repeating-linear-gradient(
-        90deg,
-        #1A1A1A 0px,
-        #1A1A1A 36px,
-        #F5F5F5 36px,
-        #F5F5F5 48px,
-        #1A1A1A 48px,
-        #1A1A1A 84px,
-        #F5F5F5 84px,
-        #F5F5F5 96px
-    );
-    z-index: 1010;
+/* New inline section for recording studio and song player */
+.inline-section {
+    width: 50%;
+    display: flex; /* Align recording studio and song player inline */
+    justify-content: space-between; /* Add space between the two sections */
+    align-items: flex-start; /* Align items at the top */
+    width: 100%; /* Full width for the inline section */
+    gap: var(--space-lg); /* Add spacing between the two containers */
+    margin-top: calc(var(--space-lg) + var(--space-md)); /* Add spacing below the fixed header */
+    max-width: 2000px; /* Limit max width for larger screens */
 }
 
-/* Updated piano header styling */
+.recording-controls-container,
+.song-player-controls {
+    flex: 1; /* Allow both sections to take equal space */
+    max-width: 48%; /* Limit width to fit side by side */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+/* Updated piano header with subtle highlight */
 .piano-header {
-    position: fixed;
-    top: 12px; /* Space for the piano keys decoration */
+    position: fixed; /* Keep the header fixed at the top */
+    top: 0; /* Align it to the top of the page */
     left: 0;
     width: 100%;
+    z-index: 1000; /* Ensure it stays above other elements */
+    margin-bottom: 0; /* Remove margin to avoid affecting layout */
     background: var(--color-surface);
     padding: var(--space-md);
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--color-border);
-    z-index: 1000;
     box-shadow: var(--shadow-md);
     transition: background-color var(--transition-theme), border-color var(--transition-theme);
+    margin-bottom: var(--space-lg);
 }
 
+/* Fixed piano header title styles */
 .piano-header h2 {
-    font-family: var(--font-heading);
+    font-family: var(--font-primary);
     font-size: var(--font-size-3xl);
     color: var(--color-text);
     margin: 0;
@@ -156,14 +185,14 @@
     position: absolute;
     left: 0;
     top: 2px;
-    color: var(--color-accent);
+    color: var(--color-primary);
     font-size: 24px;
 }
 
-/* Back button specific styling for piano */
+/* Back button specific styling for piano - centered in header */
 #backToMenuFromPiano {
     padding: var(--button-padding-md);
-    background: var(--color-accent);
+    background: var(--color-primary);
     border: none;
     color: white;
     font-size: var(--font-size-md);
@@ -176,7 +205,8 @@
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    position: relative;
+    position: absolute;
+
 }
 
 #backToMenuFromPiano:hover {
@@ -194,20 +224,28 @@
     outline-offset: 2px;
 }
 
-/* Updated piano styling with card layout */
+/* Enhanced piano with elegant shadow effect */
 .piano {
-    width: 100%;
-    max-width: 1200px;
-    height: 320px;
+    width: var(--piano-width);
+    height: var(--piano-height);
+    max-width: 100%;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    border-top: 5px solid var(--color-accent);
-    box-shadow: var(--shadow-lg);
-    margin-top: var(--space-xl);
-    margin-bottom: var(--space-xl);
+    border-top: 5px solid var(--color-primary);
+    box-shadow: 
+    var(--shadow-lg),
+        0 10px 30px var(--color-glow-primary),
+        inset 0 1px 30px rgba(255, 255, 255, 0.8);
+    margin-top: var(--piano-spacing);
+    margin-bottom: var(--piano-spacing);
     position: relative;
     transition: all var(--transition-normal);
+/* Add elegant piano top reflection */
+    background-image: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.05) 10%, 
+        rgba(0, 0, 0, 0) 50%);
 }
 
 .piano:hover {
@@ -222,7 +260,7 @@
     top: var(--space-sm);
     left: 50%;
     transform: translateX(-50%);
-    font-family: var(--font-heading);
+    font-family: var(--notion-text);
     font-weight: 600;
     font-size: var(--font-size-sm);
     color: var(--color-primary);
@@ -239,7 +277,7 @@
     transform: translateX(-50%);
     width: 160px;
     height: 6px;
-    background: var(--color-accent);
+    background: var(--color-primary);
     border-radius: 0 0 var(--radius-sm) var(--radius-sm);
     box-shadow: var(--shadow-sm);
     transition: width var(--transition-normal);
@@ -249,13 +287,13 @@
     width: 200px;
 }
 
-/* Piano keyboard container */
+/* Piano keyboard container - fixed selector */
 .piano .piano-keys {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 280px;
+    height: var(--white-key-height);
     background: var(--color-surface);
     border-top: 1px solid var(--color-border);
     display: flex;
@@ -278,23 +316,41 @@
 /* Make white keys responsive with enhanced styling */
 .piano .key.white {
     width: var(--white-key-width);
+    height: var(--white-key-height);
+    margin: 0 0.1rem;
     transition: width 0.3s ease, transform 0.1s ease, background-color 0.2s ease;
     border: 1px solid #E0E0E0;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+/* Add subtle gradient for depth */
+    background-image: linear-gradient(to bottom, #FFFFFF 0%, #F8F8F8 60%, #F0F0F0 100%);
+    box-shadow: 
+        0 2px 5px rgba(0, 0, 0, 0.15),
+        inset 0 -10px 15px -10px rgba(0, 0, 0, 0.1);
 }
 
 .piano .key.white:hover {
     background-color: #F5F5F5;
+background-image: linear-gradient(to bottom, #FFFFFF 0%, #F9F9F9 70%, #F5F5F5 100%);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.1),
+        inset 0 -10px 15px -5px rgba(0, 0, 0, 0.05);
 }
 
-/* Make black keys responsive with enhanced styling */
+/* Enhanced black keys with more realistic shadow and depth */
 .piano .key.black {
-    width: calc(var(--white-key-width) * 0.65);
+    width: var(--black-key-width);
+    height: var(--black-key-height);
+    transform: translateX(-50%);
     transition: width 0.3s ease, transform 0.1s ease, background-color 0.2s ease;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 
+0 2px 8px rgba(0, 0, 0, 0.4),
+        0 5px 5px -3px rgba(0, 0, 0, 0.3),
+        inset 0px -10px 15px -10px rgba(255, 255, 255, 0.1);
+    /* Add a subtle gradient for depth */
+    background-image: linear-gradient(to bottom, #272727 0%, #1A1A1A 100%);
 }
 
 .piano .key.black:hover {
@@ -304,15 +360,15 @@
 /* Octave shift display - redesigned */
 .octave-shift-display {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
+    bottom: 60px;
+    left:60px;
     font-family: var(--font-primary);
     font-size: var(--font-size-sm);
-    color: var(--notion-text);
+    color: var(--color-text);
     background-color: var(--notion-surface);
-    border: 1px solid var(--notion-border);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    padding: 12px 16px;
+    padding: 16px 20px; /* Match volume control padding */
     box-shadow: 0 4px 12px var(--notion-shadow-soft);
     z-index: 10;
     transition: all var(--transition-fast);
@@ -321,8 +377,8 @@
     gap: 8px;
     font-weight: 500;
     letter-spacing: 0.01em;
-    min-width: 100px;
-    min-height: 44px;
+    width: 120px; 
+    height: 24px; 
 }
 
 /* Add a musical note icon before the text */
@@ -332,14 +388,14 @@
     width: var(--icon-md);
     height: var(--icon-md);
     font-size: 20px;
-    color: var(--color-accent);
+    color: var(--color-primary);
     line-height: 1;
     text-align: center;
 }
 
 .octave-shift-display span {
     font-size: var(--font-size-md);
-    color: var(--notion-accent-blue);
+    color: var(--color-primary);
     font-weight: 600;
 }
 
@@ -349,6 +405,20 @@
 
 .octave-shift-display span.inactive {
     color: var(--notion-text-tertiary);
+}
+
+/* Updated octave shift display to match volume controller color switching */
+.octave-shift-display {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.octave-shift-display:hover {
+    background-color: var(--color-surface);
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
 /* Add hover effect */
@@ -381,15 +451,15 @@
 
 /* Volume control styling - Card-based design */
 .volume-control {
-    position: absolute;
-    top: 50px;
-    left: 20px;
+    position: relative;
+    top: 60px; /* Changed from -120px to -60px to move it higher */
+    left: 60px;
     width: 120px;
     height: 24px;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    padding: 16px 20px;
+    padding: var(--space-lg);
     box-shadow: var(--shadow-md);
     z-index: 3;
     display: flex;
@@ -425,9 +495,9 @@
 /* Slider track styling */
 .volume-slider-track {
     width: 100%;
-    height: 4px;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 2px;
+    max-width: 500px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--color-border), transparent);
     position: relative;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -467,7 +537,7 @@
     appearance: none;
     width: 16px;
     height: 16px;
-    background: var(--color-accent);
+    background: var(--color-primary);
     border-radius: 50%;
     border: none;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -491,7 +561,7 @@
 #volumeControlPiano::-moz-range-thumb {
     width: 16px;
     height: 16px;
-    background: var(--color-accent);
+    background: var(--color-primary);
     border-radius: 50%;
     border: none;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -509,36 +579,35 @@
     transform: scale(0.95);
 }
 
-/* Recording Studio - Card-based design */
+/* Recording Studio - Card-based design - fixed syntax issues */
 .recording-controls-container {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    width: 500px;
-    max-width: 95vw;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
     padding: var(--space-lg);
-    margin: var(--space-lg) auto var(--space-xl) auto;
+    margin: var(--piano-spacing) auto var(--piano-spacing) auto;
     position: relative;
     transition: all var(--transition-normal);
+    margin-top: var(--space-lg); /* Reduce excessive spacing above */
+    margin-bottom: var(--space-lg); /* Ensure consistent spacing below */
+    z-index: 100;
+    /* Add subtle pattern background */
+    background-image: 
+        radial-gradient(circle at 90% 10%, var(--color-primary-soft) 0%, transparent 70%),
+        radial-gradient(circle at 10% 90%, var(--color-primary-soft) 0%, transparent 70%);
 }
 
-.recording-controls-container:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg), 0 10px 30px rgba(62, 100, 255, 0.1);
-}
-
-/* Add piano key decoration to the top */
-.recording-controls-container::before {
+/* Corner decorative element for cards */
+.song-player-controls::after,
+.recording-controls-container::after {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 5px;
+    color: var(--color-primary);
     background-image: repeating-linear-gradient(
         90deg,
         var(--color-primary) 0px,
@@ -550,7 +619,7 @@
 }
 
 .recording-controls-title {
-    font-family: var(--font-heading);
+    font-family: var(--notion-text);
     color: var(--color-text);
     font-size: var(--font-size-xl);
     font-weight: 600;
@@ -570,7 +639,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    color: var(--color-accent);
+    color: var(--color-primary);
     font-size: 24px;
 }
 
@@ -616,14 +685,14 @@
 .record-button:hover, .stop-button:hover, 
 .play-recording-button:hover, .clear-recording-button:hover {
     background-color: #F5F5F5;
-    border-color: var(--color-accent);
+    border-color: var(--color-primary);
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
 
 /* Button active effects */
 .record-button:active, .stop-button:active, 
-.play-recording-button:active, .clear-recording-button:active {
+.play-recording-button:active, .clear_recording-button:active {
     background-color: #F0F0F0;
     transform: translateY(0);
     box-shadow: var(--shadow-sm);
@@ -640,7 +709,7 @@
 .record-button {
     background-color: #FFEFEF;
     border-color: rgba(255, 71, 71, 0.3);
-    color: var(--color-text);
+    color: black;
 }
 
 .record-button::before {
@@ -700,7 +769,7 @@
 }
 
 .recordings-management:hover {
-    border-color: var(--color-accent);
+    border-color: var(--color-primary);
     transform: translateY(-2px);
     box-shadow: var(--shadow-sm);
 }
@@ -717,7 +786,7 @@
     padding: 0 8px;
     font-weight: 600;
     letter-spacing: 1px;
-    font-family: var(--font-primary);
+    font-family: var(--notion-text);
 }
 
 /* Remove the duplicate after pseudo-element */
@@ -725,12 +794,12 @@
     content: none;
 }
 
-/* Song Player Controls - Card-based design */
+/* Song Player Controls - Card-based design - fixed duplications */
 .song-player-controls {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    width: 500px;
+    width: 10%;
     max-width: 95vw;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -740,6 +809,10 @@
     margin: var(--space-md) auto var(--space-xl) auto;
     position: relative;
     transition: all var(--transition-normal);
+    background-image: 
+        radial-gradient(circle at 90% 10%, var(--color-primary-soft) 0%, transparent 70%),
+        radial-gradient(circle at 10% 90%, var(--color-primary-soft) 0%, transparent 70%);
+
 }
 
 .song-player-controls:hover {
@@ -765,10 +838,10 @@
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
-/* Song selector title */
+/* Fixed song player title */
 .song-player-title {
-    font-family: var(--font-heading);
     color: var(--color-text);
+    font-family: var(--font-primary);
     font-size: var(--font-size-xl);
     font-weight: 600;
     margin-bottom: var(--space-md);
@@ -787,7 +860,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    color: var(--color-accent);
+    color: var(--color-primary);
     font-size: 24px;
 }
 
@@ -815,12 +888,45 @@
 /* Focus state for better accessibility */
 .song-selector:focus {
     outline: none;
-    border-color: var(--color-accent);
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgba(62, 100, 255, 0.2);
 }
 
 .song-selector:hover {
-    border-color: var(--color-accent);
+    border-color: var(--color-primary);
+    background-color: #F5F5F5;
+}
+
+/* Recording selector styling */
+.recordings-selector {
+    width: 100%;
+    padding: 12px 16px;
+    height: 48px;
+    color: var(--color-text);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-md);
+    font-family: var(--font-primary);
+    margin-bottom: var(--space-md);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%232B2D42' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+/* Focus state for better accessibility */
+.recordings-selector:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(62, 100, 255, 0.2);
+}
+
+.recordings-selector:hover {
+    border-color: var(--color-primary);
     background-color: #F5F5F5;
 }
 
@@ -852,16 +958,23 @@
 
 .play-button:hover, .rename-button:hover {
     background-color: #F5F5F5;
-    border-color: var(--color-accent);
+    border-color: var(--color-primary);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md), 0 0 10px var(--color-glow_primary);
 }
 
-.delete-button:hover {
-    background-color: #FFEFEF;
+/* Enhanced active recording button with pulsing glow */
+@keyframes recording-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 71, 71, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 71, 71, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 71, 71, 0); }
+}
+
+.recording-active .record-button {
+    background-color: #FFDBDB;
+    color: #FF4747;
     border-color: #FF4747;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
+    animation: recording-pulse 2s infinite;
 }
 
 .play-button:active, .rename-button:active, .delete-button:active {
@@ -883,10 +996,17 @@
 #renameSong::before {
     content: "✎";
     font-size: 18px;
-    color: var(--color-accent);
+    color: var(--color-primary);
 }
 
-/* Responsive adjustments */
+/* Added missing animation definition */
+@keyframes float-up {
+    0% { transform: translateY(5px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+
+/* Media query for responsive adjustments */
 @media (max-width: 768px) {
     :root {
         --space-md: 1rem;
@@ -920,48 +1040,25 @@
     .recording-buttons-group {
         justify-content: space-between;
     }
+} 
+
+
+/* Additional animations for key presses */
+@keyframes key-ripple {
+    0% { box-shadow: 0 0 0 0 var(--color-glow-primary); }
+    100% { box-shadow: 0 0 0 20px rgba(62, 100, 255, 0); }
+    }
+    
+    .key.white.active {
+    background: var(--color-primary-light);
+    box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
+    animation: key-ripple 0.8s ease-out;
+    }
+
+/* Increased width of the theme toggle for better usability */
+.theme-toggle {
+    width: 3rem; /* Increase width for better usability */
 }
 
-@media (max-width: 500px) {
-    :root {
-        --font-size-3xl: 1.5rem;
-    }
-    
-    .piano-container {
-        padding: var(--space-sm);
-        padding-top: 100px;
-    }
-    
-    .piano-header {
-        padding: var(--space-sm) var(--space-md);
-    }
-    
-    .recording-controls-container,
-    .song-player-controls {
-        padding: var(--space-sm);
-        width: 92%;
-        flex-direction: column;
-    }
-    
-    .recording-buttons-group,
-    .song-buttons {
-        flex-direction: column;
-        width: 100%;
-    }
-    
-    .recording-buttons-group button,
-    .song-buttons button {
-        width: 100%;
-        margin-bottom: 8px;
-    }
-    
-    .recording-actions {
-        flex-direction: column;
-    }
-    
-    .recording-actions button {
-        width: 100%;
-        margin-bottom: 8px;
-    }
-}
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Interactive Virtual Piano</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
-    <!-- Add Font Awesome for leaderboard icons -->
+    <!-- Corrected Font Awesome URL -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Add Three.js for 3D animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -55,55 +55,72 @@
                 <button id="backToMenuFromPiano" class="back-button">Back to Menu</button>
             </div>
             
-            <!-- New Recording Controls Container -->
-            <div class="recording-controls-container">
-                <div class="recording-controls-title">Recording Studio</div>
-                
-                <div class="recording-controls-panel">
-                    <!-- Recording buttons -->
-                    <div class="recording-buttons-group">
-                        <button id="recordButton" class="record-button">Record</button>
-                        <button id="stopButton" class="stop-button">Stop</button>
-                        <button id="playRecordingButton" class="play-recording-button">Play Recording</button>
-                        <button id="clearRecordingButton" class="clear-recording-button">Clear Recording</button>
-                    </div>
+            <!-- Inline Section for Recording Studio and Song Player -->
+            <div class="inline-section">
+                <!-- New Recording Controls Container -->
+                <div class="recording-controls-container">
+                    <div class="recording-controls-title">Recording Studio</div>
                     
-                    <!-- Recordings Selector -->
-                    <div class="recordings-management">
-                        <select id="recordingsSelector" class="recordings-selector">
-                            <option value="">Select a Recording</option>
-                            <!-- Recordings will be dynamically loaded here -->
-                        </select>
-                        <div class="recording-actions">
-                            <button id="playSelectedRecording" class="play-button">Play</button>
-                            <button id="renameRecording" class="rename-button">Rename</button>
-                            <button id="deleteRecording" class="delete-button">Delete</button>
+                    <div class="recording-controls-panel">
+                        <!-- Recording buttons -->
+                        <div class="recording-buttons-group">
+                            <button id="recordButton" class="record-button">Record</button>
+                            <button id="stopButton" class="stop-button">Stop</button>
+                            <button id="playRecordingButton" class="play-recording-button">Play Recording</button>
+                            <button id="clearRecordingButton" class="clear-recording-button">Clear Recording</button>
                         </div>
+                        
+                        <!-- Recordings Selector -->
+                        <div class="recordings-management">
+                            <select id="recordingsSelector" class="recordings-selector">
+                                <option value="">Select a Recording</option>
+                                <!-- Recordings will be dynamically loaded here -->
+                            </select>
+                            <div class="recording-actions">
+                                <button id="playSelectedRecording" class="play-button">Play</button>
+                                <button id="renameRecording" class="rename-button">Rename</button>
+                                <button id="deleteRecording" class="delete-button">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Integrated Song Player Controls -->
+                <div class="song-player-controls">
+                    <div class="song-player-title">Song Player</div>
+                    <div id="songDuration" class="song-duration">Duration: 0:00</div>
+                    <select id="songSelector" class="song-selector">
+                        <option value="">Select a Song</option>
+                        <!-- Songs will be dynamically loaded here -->
+                    </select>
+                    <div class="song-buttons">
+                        <button id="playSong" class="play-button">Play</button>
+                        <button id="renameSong" class="rename-button">Rename</button>
                     </div>
                 </div>
             </div>
+
             
-            <div class="piano">
-                <!-- Volume control slider -->
-                <div class="volume-control">
-                    <div class="volume-slider-track">
-                        <div class="volume-indicator">
-                            <span></span><span></span><span></span><span></span><span></span>
-                            <span></span><span></span><span></span><span></span>
-                        </div>
-                    </div>
-                    <div class="volume-slider-markers">
-                        <span>MIN</span>
-                        <span>MAX</span>
-                    </div>
-                    <input type="range" id="volumeControlPiano" min="0" max="1" step="0.01" value="0.5">
-                </div>
-                
-                <!-- Add octave shift display -->
-                <div id="currentOctaveDisplay" class="octave-shift-display">Current Octave: <span>0</span></div>
-                
                 <!-- Piano keys with proper nesting -->
                 <div class="piano-keys">
+                    <div class="piano">
+                        <!-- Volume control slider -->
+                        <div class="volume-control">
+                            <div class="volume-slider-track">
+                                <div class="volume-indicator">
+                                    <span></span><span></span><span></span><span></span><span></span>
+                                    <span></span><span></span><span></span><span></span>
+                                </div>
+                            </div>
+                            <div class="volume-slider-markers">
+                                <span>MIN</span>
+                                <span>MAX</span>
+                            </div>
+                            <input type="range" id="volumeControlPiano" min="0" max="1" step="0.01" value="0.5">
+                        </div>
+
+                    <!-- Add octave shift display -->
+                    <div id="currentOctaveDisplay" class="octave-shift-display">Current Octave: <span>0</span></div>
+                
                     <div class="piano-keys-wrapper">
                         <!-- Octave indicators --> 
                         <!-- Octave 3 -->
@@ -137,19 +154,7 @@
                 </div>
             </div>
 
-            <!-- Integrated Song Player Controls -->
-            <div class="song-player-controls">
-                <div class="song-player-title">Song Player</div>
-                <div id="songDuration" class="song-duration">Duration: 0:00</div>
-                <select id="songSelector" class="song-selector">
-                    <option value="">Select a Song</option>
-                    <!-- Songs will be dynamically loaded here -->
-                </select>
-                <div class="song-buttons">
-                    <button id="playSong" class="play-button">Play</button>
-                    <button id="renameSong" class="rename-button">Rename</button>
-                </div>
-            </div>
+            
         </div>
     </div>
     

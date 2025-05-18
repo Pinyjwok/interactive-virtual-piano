@@ -35,29 +35,14 @@ const AUTO_NAVIGATION_TIMEOUT = 180000; // 3 minutes in milliseconds
 
 // Function to initialize auto-navigation to the main menu
 function initializeAutoNavigation() {
-    // Reset the timer whenever there's user activity
-    const resetTimer = () => {
-        // Clear any existing timer
-        if (autoNavigationTimer) {
-            clearTimeout(autoNavigationTimer);
-        }
-        
-        // If we're not already in the main menu section, set a new timer
-        if (document.getElementById('mainMenuSection').style.display === 'none') {
-            autoNavigationTimer = setTimeout(() => {
-                console.log('Auto-navigating to main menu due to inactivity');
-                showSection('mainMenuSection');
-            }, AUTO_NAVIGATION_TIMEOUT);
-        }
-    };
+    // Auto-navigation disabled as per user request
+    console.log('Auto-navigation to main menu has been disabled');
     
-    // Listen for user interactions that should reset the timer
-    ['click', 'touchstart', 'keydown', 'mousemove'].forEach(eventType => {
-        document.addEventListener(eventType, resetTimer);
-    });
-    
-    // Initialize the timer
-    resetTimer();
+    // Clear any existing timer just to be safe
+    if (autoNavigationTimer) {
+        clearTimeout(autoNavigationTimer);
+        autoNavigationTimer = null;
+    }
 }
 
 // Function to handle navigation between sections

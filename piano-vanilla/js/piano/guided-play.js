@@ -1134,52 +1134,14 @@ endGame() {
     
     // Function to automatically return to the main menu after performance results
     setupAutoReturnToMenu() {
-        // Clear any existing timers
+        // Auto-return disabled as per user request
+        console.log('Auto-return to main menu has been disabled');
+        
+        // Clear any existing timers just to be safe
         if (this.returnToMenuTimer) {
             clearTimeout(this.returnToMenuTimer);
+            this.returnToMenuTimer = null;
         }
-        
-        // Set timeout for 30 seconds
-        this.returnToMenuTimer = setTimeout(() => {
-            this.hideGameOverModal();
-        }, 30000); // 30 seconds
-        
-        // Cancel the auto-return if user interacts with the modal
-        const modal = document.getElementById('gameOverModal');
-        
-        // Clear event listeners to avoid duplicates
-        const modalClone = modal.cloneNode(true);
-        modal.parentNode.replaceChild(modalClone, modal);
-        
-        // Set up new event listeners
-        const tryAgainBtn = document.getElementById('tryAgainBtn');
-        const okBtn = document.getElementById('okBtn');
-        
-        tryAgainBtn.addEventListener('click', () => {
-            if (this.returnToMenuTimer) {
-                clearTimeout(this.returnToMenuTimer);
-                this.returnToMenuTimer = null;
-            }
-            this.hideGameOverModal();
-            this.restartGame();
-        });
-        
-        okBtn.addEventListener('click', () => {
-            if (this.returnToMenuTimer) {
-                clearTimeout(this.returnToMenuTimer);
-                this.returnToMenuTimer = null;
-            }
-            this.hideGameOverModal();
-        });
-        
-        // Also clear the timer on any user interaction with the modal
-        modalClone.addEventListener('click', () => {
-            if (this.returnToMenuTimer) {
-                clearTimeout(this.returnToMenuTimer);
-                // Restart the timer
-                this.setupAutoReturnToMenu();
-            }
-        });
     }
     
     showGameOverModal() {

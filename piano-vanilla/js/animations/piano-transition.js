@@ -383,6 +383,12 @@
             section.style.display = 'none';
         });
         
+        // Remove any auto-navigation timers (disabled as per user request)
+        if (typeof autoNavigationTimer !== 'undefined' && autoNavigationTimer) {
+            clearTimeout(autoNavigationTimer);
+            autoNavigationTimer = null;
+        }
+        
         // TEMPORARY: Remove delay for testing purposes
         if (skipAnimationForTesting) {
             const targetEl = document.getElementById(targetSection);
@@ -396,49 +402,47 @@
             return;
         }
         
-        // Wait a moment before showing the target section
-        setTimeout(() => {
-            const targetEl = document.getElementById(targetSection);
-            // Use flex display for piano and guided play sections
-            if (targetSection === 'pianoSection' || targetSection === 'guidedPlaySection') {
-                targetEl.style.display = 'flex';
-            } else {
-                targetEl.style.display = 'block';
-            }
-            
-            // Reset animation state for next time - but don't remove the cached model
-            isAnimating = false;
-            loadingProgress = 0;
-            progressBar.style.width = '0%';
-            loadingOverlay.style.display = 'flex';
-            loadingOverlay.style.opacity = '1';
-            
-            // Reset camera and piano
-            if (camera) {
-                camera.position.set(0, 3, 5);
-                camera.lookAt(0, 0, 0);
-            }
-            
-            if (piano) {
-                piano.rotation.x = 0.2;
-                piano.rotation.y = 0;
-                piano.traverse((child) => {
-                    if (child.isMesh && child.material) {
-                        child.material.opacity = 1;
-                        child.material.transparent = false;
-                        child.material.depthWrite = true; // Ensure proper depth writing
-                        child.material.needsUpdate = true; // Make sure material updates properly
-                    }
-                });
-            }
-            
-            if (scene) {
-                scene.background.setRGB(0.07, 0.07, 0.07);
-            }
-            
-            // Re-enable controls
-            if (controls) controls.enabled = true;
-        }, 500);
+        // Show the target section immediately without any delayed timers
+        const targetEl = document.getElementById(targetSection);
+        // Use flex display for piano and guided play sections
+        if (targetSection === 'pianoSection' || targetSection === 'guidedPlaySection') {
+            targetEl.style.display = 'flex';
+        } else {
+            targetEl.style.display = 'block';
+        }
+        
+        // Reset animation state for next time - but don't remove the cached model
+        isAnimating = false;
+        loadingProgress = 0;
+        progressBar.style.width = '0%';
+        loadingOverlay.style.display = 'flex';
+        loadingOverlay.style.opacity = '1';
+        
+        // Reset camera and piano
+        if (camera) {
+            camera.position.set(0, 3, 5);
+            camera.lookAt(0, 0, 0);
+        }
+        
+        if (piano) {
+            piano.rotation.x = 0.2;
+            piano.rotation.y = 0;
+            piano.traverse((child) => {
+                if (child.isMesh && child.material) {
+                    child.material.opacity = 1;
+                    child.material.transparent = false;
+                    child.material.depthWrite = true; // Ensure proper depth writing
+                    child.material.needsUpdate = true; // Make sure material updates properly
+                }
+            });
+        }
+        
+        if (scene) {
+            scene.background.setRGB(0.07, 0.07, 0.07);
+        }
+        
+        // Re-enable controls
+        if (controls) controls.enabled = true;
     }
     
     // Initialize 3D animation when the DOM is loaded
