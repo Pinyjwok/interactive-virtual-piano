@@ -4,7 +4,7 @@
 #guidedPlaySection {
     display: block;
     width: 100%;
-    min-height: 100%;
+    min-height: 100vh; /* Changed to 100vh for full screen height */
     position: relative; /* Make this relative so absolute child positions are relative to this */
     top: 0;
     left: 0;
@@ -13,6 +13,7 @@
     overflow-x: hidden;
     background: var(--color-background-gradient); /* Match virtual piano background */
     transition: background-color var(--transition-theme);
+    padding-top: 100px; /* Increased to account for larger header */
 }
 
 /* Main container for guided play */
@@ -21,7 +22,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    min-height: 100%;
+    min-height: 100vh; /* Changed to 100vh for full screen height */
     background: var(--color-background-gradient);  /* Match virtual piano background */
     padding: var(--space-lg);
     box-sizing: border-box;
@@ -1285,11 +1286,6 @@ html[data-theme="dark"] .info-item {
     display: flex;
     gap: var(--space-xs);
 
-}
-
-/* Remove specific back button styling */
-#backToMenuFromGuided {
-    /* Let common.css handle the styling */
 }
 
 .guided-play-container{

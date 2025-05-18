@@ -27,8 +27,8 @@
     let targetSection = '';
     let loadingProgress = 0;
     
-    // TEMPORARY: Flag to bypass animation for testing
-    const skipAnimationForTesting = true;
+    // Animation is now enabled
+    const skipAnimationForTesting = false;
     
     // Initialize event listeners
     function initEventListeners() {
@@ -139,14 +139,14 @@
         // Piano group
         piano = new THREE.Group();
         
-        // Piano body - slightly larger and more detailed with improved materials
-        const bodyGeometry = new THREE.BoxGeometry(3.2, 0.7, 1.2);
+        // Piano body with more sophisticated geometry
+        const bodyGeometry = new THREE.BoxGeometry(3.2, 0.7, 1.4); // Slightly deeper
         const bodyMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x111111, 
-            metalness: 0.2,
-            roughness: 0.8,
-            envMapIntensity: 0.5,
-            flatShading: false // Ensure smooth shading
+            color: 0x0a0a0a, // Darker black for richer look
+            metalness: 0.3,  // Increased metalness
+            roughness: 0.7,  // Adjusted for piano lacquer look
+            envMapIntensity: 0.8,
+            flatShading: false
         });
         const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
         body.position.y = 0.35;
@@ -154,66 +154,83 @@
         body.receiveShadow = true;
         piano.add(body);
         
-        // Piano body front panel (decorative)
+        // Piano lid with separate geometry
+        const lidGeometry = new THREE.BoxGeometry(3.2, 0.05, 1.4);
+        const lidMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x0a0a0a,
+            metalness: 0.4,
+            roughness: 0.6,
+            envMapIntensity: 1.0
+        });
+        const lid = new THREE.Mesh(lidGeometry, lidMaterial);
+        lid.position.set(0, 0.7, 0);
+        lid.castShadow = true;
+        lid.receiveShadow = true;
+        piano.add(lid);
+        
+        // Front panel with enhanced material
         const panelGeometry = new THREE.BoxGeometry(3.2, 0.4, 0.05);
         const panelMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x2a2a2a, 
-            metalness: 0.1,
+            color: 0x1a1a1a, 
+            metalness: 0.2,
             roughness: 0.9,
-            envMapIntensity: 0.3
+            envMapIntensity: 0.4
         });
         const frontPanel = new THREE.Mesh(panelGeometry, panelMaterial);
-        frontPanel.position.set(0, 0.35, 0.625);
+        frontPanel.position.set(0, 0.35, 0.7);
         frontPanel.castShadow = true;
         frontPanel.receiveShadow = true;
         piano.add(frontPanel);
         
-        // Create white keys with improved materials
-        const whiteKeyGeometry = new THREE.BoxGeometry(0.2, 0.1, 0.8);
+        // Create white keys with enhanced materials and geometry
+        const whiteKeyGeometry = new THREE.BoxGeometry(0.18, 0.1, 0.8);
         const whiteKeyMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0xf0f0f0,  // Slightly off-white to reduce harshness
-            metalness: 0.0,
-            roughness: 0.25,  // More polished look for keys
+            color: 0xf5f5f5,  // Slightly warmer white
+            metalness: 0.1,
+            roughness: 0.3,  // More polished look
             emissive: 0x111111,
-            emissiveIntensity: 0.02  // Reduced
+            emissiveIntensity: 0.02
         });
         
         // Create black keys with improved materials
         const blackKeyGeometry = new THREE.BoxGeometry(0.12, 0.15, 0.5);
         const blackKeyMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x111111,
-            metalness: 0.1,
-            roughness: 0.7
+            color: 0x0a0a0a,
+            metalness: 0.2,
+            roughness: 0.8,
+            envMapIntensity: 0.3
         });
         
-        // White key positions (simplified for demonstration)
+        // White key positions (full octave layout)
         const whiteKeyPositions = [
             -1.4, -1.2, -1.0, -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4
         ];
         
-        // Black key positions (simplified)
+        // Black key positions (following piano pattern)
         const blackKeyPositions = [
             -1.3, -1.1, -0.7, -0.5, -0.3, 0.1, 0.3, 0.7, 0.9, 1.1
         ];
         
-        // Add white keys
-        whiteKeyPositions.forEach((posX) => {
-            const key = new THREE.Mesh(whiteKeyGeometry, whiteKeyMaterial);
+        // Add white keys with subtle variations
+        whiteKeyPositions.forEach((posX, index) => {
+            const key = new THREE.Mesh(whiteKeyGeometry, whiteKeyMaterial.clone());
+            // Add subtle random variations to make keys look more natural
+            key.material.color.multiplyScalar(0.98 + Math.random() * 0.04);
             key.position.set(posX, 0.65, 0);
             key.castShadow = true;
             key.receiveShadow = true;
             piano.add(key);
         });
         
-        // Add black keys
+        // Add black keys with enhanced positioning
         blackKeyPositions.forEach((posX) => {
-            const key = new THREE.Mesh(blackKeyGeometry, blackKeyMaterial);
+            const key = new THREE.Mesh(blackKeyGeometry, blackKeyMaterial.clone());
             key.position.set(posX, 0.7, -0.15);
             key.castShadow = true;
             key.receiveShadow = true;
             piano.add(key);
         });
-        
+
         // Add to scene
         scene.add(piano);
         
@@ -229,7 +246,7 @@
             setTimeout(() => {
                 loadingOverlay.style.display = 'none';
             }, 500);
-        }, 800); // Slightly longer timeout for a smoother experience
+        }, 800);
     }
     
     // Animation loop - optimize rendering

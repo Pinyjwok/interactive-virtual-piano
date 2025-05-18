@@ -486,7 +486,7 @@ html[data-theme="dark"] {
 
 /* Back button shared styling */
 .back-button {
-    position: absolute;
+    position: fixed;
     top: var(--space-md);
     left: 46.5vw;
     padding: var(--space-sm) var(--space-md);
@@ -534,18 +534,23 @@ html[data-theme="dark"] {
     width: 100%;
     z-index: 1000;
     background: var(--color-surface);
-    padding: var(--space-md) var(--space-xl);
+    padding: var(--space-md) var(--space-lg);  /* Increased padding */
     display: flex;
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid var(--color-border);
     box-shadow: var(--shadow-md);
+    height: 80px; /* Set explicit height */
 }
 
-/* Position the header title and back button */
+/* Position the header title and back button with larger font */
 .piano-header h2, .guided-play-header h2 {
     position: absolute;
     left: var(--space-xl);
+    font-size: var(--font-size-3xl); /* Increased font size */
+    font-weight: 600;
+    margin: 0;
+    color: var(--color-text);
 }
 
 /* Common piano positioning - positioning without hard-coded values */
