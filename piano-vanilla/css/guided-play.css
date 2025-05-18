@@ -5,7 +5,7 @@
     display: block;
     width: 100%;
     min-height: 100%;
-    position: absolute;
+    position: relative; /* Make this relative so absolute child positions are relative to this */
     top: 0;
     left: 0;
     right: 0;
@@ -22,10 +22,10 @@
     align-items: center;
     width: 100%;
     min-height: 100%;
-    background: var(--color-background);
+    background: var(--color-background-gradient);  /* Match virtual piano background */
     padding: var(--space-lg);
     box-sizing: border-box;
-    padding-top: 80px; /* Space for fixed header */
+    padding-top: 80px; /* Keep space for absolute header */
     overflow-y: auto;
     position: relative;
     margin: 0;
@@ -34,22 +34,29 @@
 
 /* Fixed header styling - modernized */
 .guided-play-header {
-    position: relative; /* Keep the header fixed at the top */
-    top: 0; /* Align it to the top of the page */
+    position: absolute; /* Change from fixed to absolute */
+    top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; /* Ensure it stays above other elements */
-    margin-bottom: 0; /* Remove margin to avoid affecting layout */
+    z-index: 1000;
+    margin-bottom: 0;
     background: var(--color-surface);
-    padding: var(--space-md);
+    padding: var(--space-md) var(--space-xl); /* Add consistent padding */
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Change from center to space-between */
     align-items: center;
     border-bottom: 1px solid var(--color-border);
     box-shadow: var(--shadow-md);
     transition: background-color var(--transition-theme), border-color var(--transition-theme);
     margin-bottom: var(--space-lg);
 }
+
+/* Position the title to match virtual piano */
+.guided-play-header h2 {
+    position: absolute;
+    left: var(--space-xl);
+}
+
 .guided-play-header h2 {
     font-family: var(--font-primary); /* Match virtual piano font */
     font-size: var(--font-size-3xl); /* Match virtual piano header size */
@@ -69,6 +76,14 @@
     color: var(--color-primary);
 }
 
+/* Position the help button */
+#showHelpButton {
+    margin-left: var(--space-md); /* Add spacing from title */
+    position: absolute;
+    left: calc(var(--space-xl) + 200px); /* Position after the title */
+    transform: translateY(-5);
+}
+
 /* Controls section styling - modernized */
 .guided-play-controls {
     width: 90%; /* Make the container smaller */
@@ -83,6 +98,7 @@
     box-shadow: var(--shadow-md);
     margin-bottom: var(--space-lg);
     transition: background-color var(--transition-theme), border-color var(--transition-theme);
+    margin-top: 50px;
 }
 .game-settings::before{
     content: 'Game Settings';
@@ -137,10 +153,11 @@ padding: var(--space-md);
 }
 
 #pauseGuidedPlay::before {
-    content: "Pause";
+    content: "⏸️";
     font-size: var(--font-size-sm);
     color: var(--color-text);
     font-weight: 500;
+    margin-right: var(--space-xs);
 }
 
 #restartGuidedPlay {
@@ -234,6 +251,10 @@ padding: var(--space-md);
     box-shadow: var(--shadow-sm);
 }
 
+.leaderboard-button {
+    background: #9b59b6;
+    color: white;
+}
 .play-button:hover, .pause-button:hover, .restart-button:hover {
     background: var(--color-primary-light); /* Match virtual piano hover effect */
     box-shadow: var(--shadow-md);
@@ -921,17 +942,18 @@ padding: var(--space-md);
     border-radius: 50%;
     font-size: var(--font-size-lg);
     font-weight: 500;
-    display: flex;
+    display: relative;
     justify-content: center;
     align-items: center;
     border: none;
     cursor: pointer;
     box-shadow: var(--shadow-sm);
     transition: all var(--transition-normal);
+    left: 350px
 }
 
 #showHelpButton:hover {
-    transform: translateY(-2px);
+    transform: translateY(5px);
     box-shadow: var(--shadow-md);
 }
 
@@ -1106,7 +1128,6 @@ padding: var(--space-md);
     align-items: center;
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(to bottom, #1c2833, #0f1922);
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
@@ -1115,27 +1136,6 @@ padding: var(--space-md);
 }
 
 
-
-/* Make back button and help button more prominent */
-#backToMenuFromGuided, #showHelpButton {
-    position: relative;
-    z-index: 15;
-}
-
-#backToMenuFromGuided {
-    position: relative;
-    top: 0;
-    left: 0;
-    padding: 10px 15px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    z-index: 15;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    display: block !important;
-}
 
 /* Media queries for better mobile experience */
 @media (max-width: 768px) {
@@ -1287,3 +1287,11 @@ html[data-theme="dark"] .info-item {
 
 }
 
+/* Remove specific back button styling */
+#backToMenuFromGuided {
+    /* Let common.css handle the styling */
+}
+
+.guided-play-container{
+    background: var(--color-background);
+}

@@ -126,6 +126,7 @@
     padding-top: 0;
     display: flex; /* Enable flexbox for horizontal alignment */
     flex-direction: column; /* Stack sections vertically */
+    justify-content: center; /* Center content vertically */
     align-items: center; /* Center content horizontally */
     gap: var(--space-lg); /* Add spacing between sections */
     
@@ -190,13 +191,6 @@
     font-size: 24px;
 }
 
-/* Remove back button specific styling for piano */
-#backToMenuFromPiano {
-    position: relative;
-    top: 0;
-    left: 0;
-    z-index: 15;
-}
 
 /* Enhanced piano with elegant shadow effect */
 .piano {
@@ -1041,3 +1035,7 @@ play-button:active, .rename-button:active, .delete-button:active {
 }
 
 
+/* Remove specific back button styling */
+#backToMenuFromPiano {
+    /* Let common.css handle the styling */
+}

@@ -488,7 +488,7 @@ html[data-theme="dark"] {
 .back-button {
     position: absolute;
     top: var(--space-md);
-    left: 50vw;
+    left: 46.5vw;
     padding: var(--space-sm) var(--space-md);
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -501,37 +501,51 @@ html[data-theme="dark"] {
     transition: all var(--transition-normal);
 }
 
-.back-button:hover {
-    background-color: var(--color-primary-light);
-    color: var(--color-primary);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
 /* Universal back button styling */
 .back-button, #backToMenuFromGuided, #backToMenuFromPiano {
-    position: relative;
-    margin-right: var(--space-md);
-    z-index: 1001;
-    display: block !important;
-    background: transparent;
-    border: none;
-    color: var(--color-primary);
-    font-weight: 500;
-    padding: var(--space-xs) var(--space-sm);
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    transition: all var(--transition-normal);
+    color: var(--color-text);
+    font-weight: 500;
     cursor: pointer;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-md);
+    min-width: 120px;
+    z-index: 1001;
 }
 
 .back-button:hover, #backToMenuFromGuided:hover, #backToMenuFromPiano:hover {
     background: var(--color-primary-light);
+    color: var(--color-primary);
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
 
-.back-button:active, #backToMenuFromGuided:active, #backToMenuFromPiano:active {
-    transform: translateY(0);
+/* Update header styling to center the back button */
+.piano-header, .guided-play-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--color-surface);
+    padding: var(--space-md) var(--space-xl);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+}
+
+/* Position the header title and back button */
+.piano-header h2, .guided-play-header h2 {
+    position: absolute;
+    left: var(--space-xl);
 }
 
 /* Common piano positioning - positioning without hard-coded values */
