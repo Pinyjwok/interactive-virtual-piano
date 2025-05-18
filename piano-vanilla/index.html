@@ -66,7 +66,7 @@
                         <div class="recording-buttons-group">
                             <button id="recordButton" class="record-button">Record</button>
                             <button id="stopButton" class="stop-button">Stop</button>
-                            <button id="playRecordingButton" class="play-recording-button">Play Recording</button>
+                            <button id="playRecordingButton" class="play-recording-button">Recording Playback</button>
                             <button id="clearRecordingButton" class="clear-recording-button">Clear Recording</button>
                         </div>
                         
@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-            
+
                 <!-- Piano keys with proper nesting -->
                 <div class="piano-keys">
                     <div class="piano">
@@ -167,24 +167,20 @@
                 <button id="showHelpButton" class="help-button">?</button>
             </div>
             
+    
             <div class="guided-play-controls">
-                <div class="song-selection">
-                    <label for="guidedPlaySongSelector">Select a Song:</label>
+                <div class="game-settings">
+                    <label for="guidedPlaySongSelector"></label>
                     <select id="guidedPlaySongSelector" class="song-selector">
                         <option value="">Select a Song</option>
                         <!-- Songs will be loaded here -->
                     </select>
-                </div>
-                
-                <div class="difficulty-controls">
-                    <label>Difficulty:</label>
                     <div class="difficulty-buttons">
                         <button id="beginnerMode" class="difficulty-button active">Beginner</button>
                         <button id="intermediateMode" class="difficulty-button">Intermediate</button>
                         <button id="advancedMode" class="difficulty-button">Advanced</button>
                     </div>
                 </div>
-                
                 <div class="playback-controls">
                     <button id="startGuidedPlay" class="play-button" disabled>Start</button>
                     <button id="pauseGuidedPlay" class="pause-button" disabled>Pause</button>
@@ -423,12 +419,12 @@
     <!-- JavaScript files in order of dependency -->
     <script src="js/songs/song-player.js"></script>
     <script src="js/recording/recordings.js"></script>
-    <script src="js/db/storage-manager.js"></script>>
+    <script src="js/db/storage-manager.js"></script>
     <script src="js/ui/modal-manager.js"></script>
-    <script src="js/piano/piano-core.js"></script>cript>
-    <script src="js/songs/songs.js"></script>cript>
+    <script src="js/piano/piano-core.js"></script>
+    <script src="js/songs/songs.js"></script>
     <script src="js/recording/recording-manager.js"></script>
-    <script src="js/piano/guided-play.js"></script>></script>
+    <script src="js/piano/guided-play.js"></script>
     <script src="js/db/storage-manager.js"></script>
     <script src="js/ui/modal-manager.js"></script>    <script src="js/piano/piano-core.js"></script>    <script src="js/songs/songs.js"></script>    <script src="js/recording/recording-manager.js"></script>    <script src="js/piano/guided-play.js"></script>    <script src="js/piano/virtual-piano.js"></script>    <script src="js/db/leaderboard.js"></script>
     <script src="js/ui/leaderboard-manager.js"></script>

@@ -11,7 +11,7 @@
     right: 0;
     overflow-y: auto !important;
     overflow-x: hidden;
-    background-color: var(--color-background);
+    background: var(--color-background-gradient); /* Match virtual piano background */
     transition: background-color var(--transition-theme);
 }
 
@@ -34,76 +34,131 @@
 
 /* Fixed header styling - modernized */
 .guided-play-header {
-    position: fixed;
-    top: 0;
+    position: relative; /* Keep the header fixed at the top */
+    top: 0; /* Align it to the top of the page */
     left: 0;
     width: 100%;
+    z-index: 1000; /* Ensure it stays above other elements */
+    margin-bottom: 0; /* Remove margin to avoid affecting layout */
     background: var(--color-surface);
-    padding: var(--space-md) var(--space-lg);
+    padding: var(--space-md);
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--color-border);
-    z-index: 1000;
     box-shadow: var(--shadow-md);
     transition: background-color var(--transition-theme), border-color var(--transition-theme);
+    margin-bottom: var(--space-lg);
 }
-
-/* Back button specific styling for guided play */
-#backToMenuFromGuided {
-    position: relative;
-    margin-right: var(--space-md);
-    z-index: 1001;
-    display: block !important;
-    background: transparent;
-    border: none;
-    color: var(--color-primary);
-    font-weight: 500;
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-md);
-    transition: all var(--transition-normal);
-}
-
-#backToMenuFromGuided:hover {
-    background: var(--color-primary-light);
-}
-
 .guided-play-header h2 {
-    font-family: var(--font-primary);
-    font-size: var(--font-size-xl);
+    font-family: var(--font-primary); /* Match virtual piano font */
+    font-size: var(--font-size-3xl); /* Match virtual piano header size */
     color: var(--color-text);
     margin: 0;
     font-weight: 600;
+    padding-left: var(--space-sm);
+}
+
+.guided-play-header h2::before {
+    content: "🎼"; /* Path to your SVG file */
+    position: absolute;
+    left: 0px;
+    top: 2px;
+    width: 24px; /* Adjust width as needed */
+    height: 24px; /* Adjust height as needed */
+    color: var(--color-primary);
 }
 
 /* Controls section styling - modernized */
 .guided-play-controls {
-    width: 100%;
-    max-width: 1200px;
+    width: 90%; /* Make the container smaller */
+    max-width: 900px; /* Limit maximum width */
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: var(--space-lg);
+    grid-template-columns: 1fr 1fr; /* Two columns: song selection and playback controls */
+    gap: var(--space-md);
     background: var(--color-surface);
-    padding: var(--space-xl);
-    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
     border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-lg);
     transition: background-color var(--transition-theme), border-color var(--transition-theme);
 }
-
-.song-selection, .difficulty-controls, .playback-controls {
+.game-settings::before{
+    content: 'Game Settings';
+    position: relative;
+    top: -10px;
+    left: 12px;
+    font-size: 35px;
+    color: var(--color-text);
+    padding: 0 8px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-family: var(--notion-text);
+}
+.game-settings {
+    grid-column: 1; /* First column */
+    display: grid;
+    grid-template-rows: 1.5fr 1fr 1fr;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center contents vertically */
     background: rgba(0, 0, 0, 0.02);
-    padding: var(--space-lg);
+    padding: var(--space-md);
     border-radius: var(--radius-md);
     border: 1px solid var(--color-border);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
+    gap: var(--space-sm); /* Reduced gap for compact layout */
     transition: background-color var(--transition-theme), border-color var(--transition-theme);
 }
 
-.song-selection label, .difficulty-controls label {
+
+.playback-controls {
+    grid-column: 2; /* Second column in the main grid */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    grid-template-rows: 1fr 1fr; /* Two rows */
+    gap: var(--space-sm); /* Add spacing between buttons */
+    justify-items: center; /* Center buttons horizontally */
+    align-items: center; /* Center buttons vertically */
+        background: rgba(0, 0, 0, 0.02);
+padding: var(--space-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+}
+
+#startGuidedPlay {
+    grid-column: 1; /* First column */
+    grid-row: 1; /* First row */
+}
+
+#pauseGuidedPlay {
+    grid-column: 2; /* Second column */
+    grid-row: 1; /* First row */
+}
+
+#pauseGuidedPlay::before {
+    content: "Pause";
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+#restartGuidedPlay {
+    grid-column: 1; /* First column */
+    grid-row: 2; /* Second row */
+}
+
+#stopGuidedPlay {
+    grid-column: 2; /* Second column */
+    grid-row: 2; /* Second row */
+}
+#showLeaderboardBtn {
+    grid-column: 1 / -1; /* Span across all columns */
+    grid-row: 3; /* Third row */
+}
+
+
+.game-settings label {
     display: block;
     color: var(--color-text);
     font-weight: 500;
@@ -111,9 +166,10 @@
     margin-bottom: var(--space-sm);
 }
 
-.song-selection select {
-    width: 100%;
-    padding: var(--space-sm);
+.game-settings select {
+    width: 90%; /* Adjusted width for better fit */
+    max-width: 250px; /* Reduced max width */
+    padding: var(--space-xs);
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
@@ -128,16 +184,12 @@
     transition: background-color var(--transition-theme), color var(--transition-theme), border-color var(--transition-theme);
 }
 
-/* Difficulty buttons - modernized */
-.difficulty-buttons {
-    display: flex;
-    gap: var(--space-sm);
-}
+
 
 .difficulty-button {
     flex: 1;
     padding: var(--space-sm);
-    background: var(--color-surface);
+    background: var(--color-surface); /* Match virtual piano button background */
     color: var(--color-text);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
@@ -147,6 +199,7 @@
     letter-spacing: 1px;
     font-weight: 500;
     transition: all var(--transition-normal);
+    
 }
 
 .difficulty-button:hover {
@@ -156,13 +209,14 @@
 }
 
 .difficulty-button.active {
-    background: var(--color-primary);
     border-color: var(--color-primary);
-    color: white;
+    color: --notion-text;
+    background: var(--color-primary);
 }
 
+
 /* Play, pause, restart buttons - modernized */
-.play-button, .pause-button, .restart-button {
+.play-button, .pause-button, .restart-button, .leaderboard-button, #stopGuidedPlay { 
     width: 100%;
     padding: var(--space-md);
     margin-bottom: var(--space-md);
@@ -174,26 +228,15 @@
     cursor: pointer;
     transition: all var(--transition-normal);
     border: none;
-}
-
-.play-button {
-    background: var(--color-primary);
-    color: white;
-}
-
-.pause-button {
-    background: var(--color-accent);
-    color: white;
-}
-
-.restart-button {
-    background: var(--color-secondary);
+    background: var(--color-surface); /* Match virtual piano button background */
     color: var(--color-text);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
 }
 
 .play-button:hover, .pause-button:hover, .restart-button:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
+    background: var(--color-primary-light); /* Match virtual piano hover effect */
+    box-shadow: var(--shadow-md);
 }
 
 /* Game info section - modernized */
@@ -215,7 +258,7 @@
     background: rgba(0, 0, 0, 0.02);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    padding: var(--space-md);
+    padding: var(--space-xs);
     position: relative;
     overflow: hidden;
     text-align: center;
@@ -333,24 +376,45 @@
 #guidedPlaySection .game-area {
     width: 100%;
     max-width: 1200px;
-    height: 700px;
+    height: 900px;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-radius: var(--radius-lg);;
     box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     margin-bottom: var(--space-xl);
     transition: background-color var(--transition-theme), border-color var(--transition-theme);
+    background-image: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.05) 10%, 
+        rgba(0, 0, 0, 0) 50%);
+}
+
+/* Add brand name to piano */
+#guidedPlaySection .game-area::before {
+    content: "GUIDED PIANO";
+    position: absolute;
+    top: var(--space-sm);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--notion-text);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    z-index: 10;
 }
 
 .note-canvas {
     width: 100%;
     height: 470px;
+    top: 0px;
     position: relative;
     overflow: hidden;
     background: var(--color-background);
@@ -362,37 +426,98 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
-    height: 230px;
-    background: var(--color-surface);
-    border-top: 1px solid var(--color-border);
+    width: var(--piano-width);
+    height: calc(var(--piano-height) + var(--space-lg));
+    max-width: 100%;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    border-top: 5px solid var(--color-primary);
+    margin: auto;
+    margin-bottom: 0px;
+    position: relative;
+    transition: all var(--transition-normal);
+    /* Add elegant piano top reflection */
+    background-image: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.05) 10%, 
+        rgba(0, 0, 0, 0) 50%);
+    box-shadow: var(--shadow-lg);
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    transition: background-color var(--transition-theme), border-color var(--transition-theme);
 }
 
-/* Guided play piano keys layout */
+
+/* Piano pedals styling */
+#guidedPlaySection .piano-keys::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 6px;
+    background: var(--color-primary);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    transition: width var(--transition-normal);
+}
+
+#guidedPlaySection .piano-keys:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg), 0 10px 30px rgba(62, 100, 255, 0.1);
+}
+
+#guidedPlaySection .piano-keys:hover::after {
+    width: 200px;
+}
+
+/* Piano keys wrapper */
 #guidedPlaySection .piano-keys-wrapper {
-    height: 100%;
+    height: var(--white-key-height);
     z-index: 5;
     display: flex;
     justify-content: center;
     position: relative;
     margin: 0 auto;
     width: auto;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    transition: all var(--transition-normal);
+    margin-bottom: var(--space-sm);
+    bottom: -50px
 }
 
-/* Position the octave indicators in the guided play piano */
-#guidedPlaySection .octave-indicator[data-octave="3"] {
-    left: calc(3.5 * var(--white-key-width));
+/* White key styling */
+#guidedPlaySection .key.white {
+    width: var(--white-key-width);
+    height: var(--white-key-height);
+    margin: 0 0.1rem;
+    background-image: linear-gradient(to bottom, #FFFFFF 0%, #F8F8F8 60%, #F0F0F0 100%);
+    border: 1px solid #E0E0E0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 
+        0 2px 5px rgba(0, 0, 0, 0.15),
+        inset 0 -10px 15px -10px rgba(0, 0, 0, 0.1);
+    transition: all var(--transition-normal);
 }
 
-#guidedPlaySection .octave-indicator[data-octave="4"] {
-    left: calc(10.5 * var(--white-key-width));
+/* Black key styling */
+#guidedPlaySection .key.black {
+    width: var(--black-key-width);
+    height: var(--black-key-height);
+    background-image: linear-gradient(to bottom, #272727 0%, #1A1A1A 100%);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.4),
+        0 5px 5px -3px rgba(0, 0, 0, 0.3),
+        inset 0px -10px 15px -10px rgba(255, 255, 255, 0.1);
+    transform: translateX(-50%);
+    z-index: 2;
 }
-
-
 
 /* Key press effects specific to guided play */
 #guidedPlaySection .key.white:active,
@@ -419,39 +544,40 @@
 #guidedPlaySection .game-area::after {
     content: "";
     position: absolute;
-    bottom: -15px;
+    bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 250px;
-    height: 15px;
-    background: linear-gradient(to bottom, #5d4037, #3e2723);
-    border-radius: 0 0 50% 50%;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+    width: 160px;
+    height: 6px;
+    background: var(--color-primary);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    transition: width var(--transition-normal);
 }
 
-/* Adding a wrapper to emphasize the keyboard center position */
-#guidedPlaySection .game-area::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(16 * var(--white-key-width)); /* Width based on the number of visible keys */
-    height: 230px;
-    border-top: 3px solid rgba(93, 64, 55, 0.4);
-    border-left: 1px solid rgba(93, 64, 55, 0.2);
-    border-right: 1px solid rgba(93, 64, 55, 0.2);
-    border-radius: 6px 6px 0 0;
-    z-index: 1;
-    background: rgba(30, 15, 10, 0.1);
-    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
-    pointer-events: none;
+#guidedPlaySection .game-area:hover::after {
+    width: 200px;
+}
+
+/* Piano base styling */
+#guidedPlaySection .piano-keys-wrapper {
+    position: relative;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-normal);
+}
+
+#guidedPlaySection .piano-keys-wrapper:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), 0 10px 30px rgba(62, 100, 255, 0.1);
 }
 
 /* Timing indicators */
 .timing-line {
-    position: absolute;
-    bottom: 230px;
+    position: relative;
+    top: var(--piano-key-height);
     left: 0;
     width: 100%;
     height: 4px;
@@ -465,7 +591,7 @@
 
 /* Score popups animation - modernized */
 .score-popup {
-    position: absolute;
+    position: relative;
     font-size: var(--font-size-md);
     font-weight: 600;
     transform: translate(-50%, -50%);
@@ -809,7 +935,7 @@
     box-shadow: var(--shadow-md);
 }
 
-/* Instructions modal */
+/* Instructions modal - modernized */
 #instructionsModal {
     display: none;
     position: fixed;
@@ -819,6 +945,7 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 1001;
+    backdrop-filter: blur(8px);
 }
 
 .instructions-content {
@@ -826,125 +953,144 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: linear-gradient(to bottom, #34495e, #2c3e50);
-    padding: 30px;
-    border-radius: 15px;
-    width: 600px;
-    max-width: 90%;
-    max-height: 80%;
-    overflow-y: auto;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
-    border: 2px solid #e0c080;
-    color: white;
+    background: var(--color-surface);
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    width: 800px; /* Increased from 600px */
+    max-width: 95%; /* Ensure it's still responsive */
+    padding: var(--space-xl) var(--space-2xl);
+    margin: 0 auto;
+    box-shadow: var(--shadow-lg),
+                0 0 0 1px var(--color-border),
+                0 0 40px rgba(62, 100, 255, 0.1);
+    color: var(--color-text);
+    border: none;
+    width: 150%
 }
 
 .instructions-header {
-    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-    font-size: 28px;
-    color: #e0c080;
-    margin-bottom: 20px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    font-family: var(--font-primary);
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-lg);
     text-align: center;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
 }
 
-.instructions-text {
-    line-height: 1.6;
-    margin-bottom: 20px;
+.instructions-header::before {
+    content: "🎵";
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
 }
 
-.instructions-footer {
-    text-align: center;
-    margin-top: 30px;
-}
-
-.dont-show-again {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.dont-show-again input {
-    margin-right: 10px;
-}
-
-
-.player-name-input {
-    margin: 15px 0;
-    text-align: center;
-}
-
-.player-name-input label {
-    display: block;
-    margin-bottom: 5px;
-    color: #e0c080;
-}
-
-.player-name-input input {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #e0c080;
-    background-color: #1a2530;
-    color: white;
-    font-size: 16px;
-    text-align: center;
-    width: 100%;
-    max-width: 300px;
+.instructions-container {
+    padding: var(--space-lg) var(--space-md);
+    max-width: 700px; /* Add max-width to maintain readable text width */
     margin: 0 auto;
 }
 
-/* Leaderboard button styling for guided play */
-.leaderboard-button {
-    background: linear-gradient(to bottom, #9b59b6, #8e44ad);
-    color: white;
-    border: 1px solid #6c3483;
-    border-radius: 6px;
-    padding: 10px 15px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;
+.instructions-container p {
+    color: var(--color-text);
+    font-size: var(--font-size-md);
+    line-height: 1.6;
+    margin-bottom: var(--space-lg);
+}
+
+.instructions-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.instructions-container li {
+    color: var(--color-text);
+    font-size: var(--font-size-md);
+    padding: var(--space-sm) var(--space-md);
+    margin-bottom: var(--space-sm);
+    background: rgba(62, 100, 255, 0.05);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    transition: all var(--transition-fast);
+}
+
+.instructions-container li:hover {
+    background: rgba(62, 100, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.instructions-container li::before {
+    content: "►";
+    color: var(--color-primary);
+    margin-right: var(--space-md);
+    font-size: var(--font-size-sm);
+}
+
+.modal-checkbox {
+    margin: var(--space-lg) 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    gap: var(--space-sm);
 }
 
-.leaderboard-button:hover {
-    background: linear-gradient(to bottom, #a569bd, #9b59b6);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+.modal-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--color-border);
+    appearance: none;
+    cursor: pointer;
+    position: relative;
+    transition: all var(--transition-fast);
 }
 
-.leaderboard-button:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+.modal-checkbox input[type="checkbox"]:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
 }
 
-/* Style for the leaderboard button in the game controls */
-#showLeaderboardBtn {
-    margin-top: 15px;
-    width: 100%;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Danger/warning button style for clear leaderboard button */
-.leaderboard-button.danger {
-    background: linear-gradient(to bottom, #e74c3c, #c0392b);
-    border: 1px solid #922b21;
-}
-
-.leaderboard-button.danger:hover {
-    background: linear-gradient(to bottom, #ec7063, #e74c3c);
-}
-
-/* Button in game over modal */
-.game-over-button#viewLeaderboardBtn {
-    background: linear-gradient(to bottom, #9b59b6, #8e44ad);
-    border: 1px solid #6c3483;
+.modal-checkbox input[type="checkbox"]:checked::before {
+    content: "✓";
+    position: absolute;
     color: white;
+    font-size: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.modal-checkbox label {
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+}
+
+#showInstructionsButton {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    width: 200px;
+    margin: 0 auto;
+    display: block;
+}
+
+#showInstructionsButton:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    background: var(--color-primary-light);
 }
 
 /* Scrolling fixes */
@@ -968,19 +1114,7 @@
     margin: 0;
 }
 
-/* Header styling - Ensure visibility */
-.guided-play-header {
-    position: relative;
-    width: 100%;
-    max-width: 1200px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid rgba(93, 64, 55, 0.6);
-    z-index: 10; /* Ensure header stays above other elements */
-}
+
 
 /* Make back button and help button more prominent */
 #backToMenuFromGuided, #showHelpButton {
@@ -1036,3 +1170,120 @@ html[data-theme="dark"] .difficulty-button.active {
 html[data-theme="dark"] .info-item {
     background: rgba(255, 255, 255, 0.03);
 }
+
+/* Shared container styles */
+.container {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-lg);
+    transition: all var(--transition-normal);
+}
+
+/* Shared header styles */
+.header {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-md);
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-sm);
+}
+
+/* Shared button styles */
+.button {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.button:hover {
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+}
+
+.button:active {
+    transform: translateY(1px);
+}
+
+/* Shared key styles */
+.key {
+    position: relative;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+}
+
+.key.white {
+    background: var(--color-key-white);
+    border: 1px solid var(--color-border);
+    border-radius: 0 0 var(--radius-sm);
+    background-image: linear-gradient(to bottom, #FFFFFF 0%, #F8F8F8 60%, #F0F0F0 100%);
+    box-shadow: 
+        0 2px 5px rgba(0, 0, 0, 0.15),
+        inset 0 -10px 15px -10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #E0E0E0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.key.white:hover {
+    background-image: linear-gradient(to bottom, #FFFFFF 0%, #F9F9F9 70%, #F5F5F5 100%);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.1),
+        inset 0 -10px 15px -5px rgba(0, 0, 0, 0.05);
+}
+
+.key.black {
+    background: var(--color-key-black);
+    border-radius: 0 0 var(--radius-sm);
+    background-image: linear-gradient(to bottom, #272727 0%, #1A1A1A 100%);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.4),
+        0 5px 5px -3px rgba(0, 0, 0, 0.3),
+        inset 0px -10px 15px -10px rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.key.black:hover {
+    background-color: #2A2A2A;
+}
+
+/* Key press animations */
+@keyframes key-ripple {
+    0% { box-shadow: 0 0 0 0 var(--color-glow-primary); }
+    100% { box-shadow: 0 0 0 20px rgba(62, 100, 255, 0); }
+}
+
+#guidedPlaySection .key.white.active {
+    background: var(--color-primary-light);
+    box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
+    animation: key-ripple 0.8s ease-out;
+}
+
+.song-selector{
+    grid-row:2;
+    align-self: center;
+    display: flex;
+    width: 100%;
+
+}
+.difficulty-buttons{
+    grid-row:3;
+    align-self: center;
+    display: flex;
+    gap: var(--space-xs);
+
+}
+
