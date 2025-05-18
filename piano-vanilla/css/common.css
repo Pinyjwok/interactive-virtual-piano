@@ -484,23 +484,6 @@ html[data-theme="dark"] {
     display: none;
 }
 
-/* Back button shared styling */
-.back-button {
-    position: fixed;
-    top: var(--space-md);
-    left: 46.5vw;
-    padding: var(--space-sm) var(--space-md);
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    font-weight: 500;
-    z-index: 10;
-    box-shadow: var(--shadow-sm);
-    color: var(--color-text);
-    transition: all var(--transition-normal);
-}
-
 /* Universal back button styling */
 .back-button, #backToMenuFromGuided, #backToMenuFromPiano {
     padding: var(--space-sm) var(--space-lg);
@@ -510,14 +493,18 @@ html[data-theme="dark"] {
     color: var(--color-text);
     font-weight: 500;
     cursor: pointer;
-    transition: all var(--transition-normal);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content:center ;
     font-size: var(--font-size-md);
     min-width: 120px;
     z-index: 1001;
+    transition: background var(--transition-normal), color var(--transition-normal);
+    right: var(--space-xl);
+    position: absolute;
+    margin-right: calc(5* var(--space-lg));
 }
+
 
 .back-button:hover, #backToMenuFromGuided:hover, #backToMenuFromPiano:hover {
     background: var(--color-primary-light);
@@ -663,69 +650,109 @@ html[data-theme="dark"] {
 /* Theme switcher */
 .theme-switcher {
     position: fixed;
-    top: .5em;
-    right: 30%;
+    top: 1rem;
+    right: 1rem;
     z-index: 1000;
     display: flex;
     align-items: center;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: 0.5rem;
-    box-shadow: var(--shadow-md);
-    transition: background-color var(--transition-theme), border-color var(--transition-theme);
+    border-radius: var(--radius-xl);
+    padding: 0.35rem;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(8px);
+    transition: all var(--transition-normal);
+}
+
+.theme-switcher:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        var(--shadow-lg),
+        0 0 15px var(--color-primary-light);
 }
 
 .theme-toggle {
-    width: 50px;
-    height: 26px;
-    background-color: var(--color-border);
+    width: 56px;
+    height: 28px;
+    background: var(--color-background);
     display: flex;
     border-radius: 50px;
     align-items: center;
     justify-content: space-between;
-    padding: 0 5px;
+    padding: 0 4px;
     position: relative;
     cursor: pointer;
-    transition: background-color var(--transition-theme);
+    border: 2px solid transparent;
+    transition: all var(--transition-normal);
+}
+
+.theme-toggle:hover {
+    border-color: var(--color-primary-light);
 }
 
 .theme-toggle .sun-icon,
 .theme-toggle .moon-icon {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
+    transition: all var(--transition-normal);
 }
 
 .theme-toggle .sun-icon {
-    color: #f1c40f;
+    color: #ffd700;
+    transform-origin: center;
+    transform: scale(0.9);
 }
 
 .theme-toggle .moon-icon {
-    color: #f1f1f1;
+    color: #a0c4ff;
+    transform-origin: center;
+    transform: scale(0.9);
 }
 
 .theme-toggle .toggle-ball {
     position: absolute;
-    width: 22px;
-    height: 22px;
-    background-color: var(--color-surface);
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(145deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
     border-radius: 50%;
     top: 2px;
     left: 2px;
-    transition: transform 0.3s ease;
+    transition: all var(--transition-normal);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 html[data-theme="dark"] .theme-toggle .toggle-ball {
-    transform: translateX(26px);
+    transform: translateX(28px);
+    background: linear-gradient(145deg, #9ab5e1 0%, #4d96ff 100%);
 }
 
 html[data-theme="dark"] .theme-toggle {
-    background-color: var(--color-primary);
+    background: var(--color-surface);
 }
 
+/* Active icon states */
+html[data-theme="light"] .theme-toggle .sun-icon {
+    transform: scale(1.1);
+    color: #ffd700;
+}
+
+html[data-theme="dark"] .theme-toggle .moon-icon {
+    transform: scale(1.1);
+    color: #a0c4ff;
+}
+
+/* Inactive icon states */
+html[data-theme="light"] .theme-toggle .moon-icon {
+    opacity: 0.5;
+}
+
+html[data-theme="dark"] .theme-toggle .sun-icon {
+    opacity: 0.5;
+}
 
 /* Shared container styles */
 .container {

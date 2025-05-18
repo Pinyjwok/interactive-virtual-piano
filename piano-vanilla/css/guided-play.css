@@ -13,7 +13,6 @@
     overflow-x: hidden;
     background: var(--color-background-gradient); /* Match virtual piano background */
     transition: background-color var(--transition-theme);
-    padding-top: 100px; /* Increased to account for larger header */
 }
 
 /* Main container for guided play */
@@ -31,40 +30,6 @@
     position: relative;
     margin: 0;
     transition: background-color var(--transition-theme);
-}
-
-/* Fixed header styling - modernized */
-.guided-play-header {
-    position: absolute; /* Change from fixed to absolute */
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    margin-bottom: 0;
-    background: var(--color-surface);
-    padding: var(--space-md) var(--space-xl); /* Add consistent padding */
-    display: flex;
-    justify-content: space-between; /* Change from center to space-between */
-    align-items: center;
-    border-bottom: 1px solid var(--color-border);
-    box-shadow: var(--shadow-md);
-    transition: background-color var(--transition-theme), border-color var(--transition-theme);
-    margin-bottom: var(--space-lg);
-}
-
-/* Position the title to match virtual piano */
-.guided-play-header h2 {
-    position: absolute;
-    left: var(--space-xl);
-}
-
-.guided-play-header h2 {
-    font-family: var(--font-primary); /* Match virtual piano font */
-    font-size: var(--font-size-3xl); /* Match virtual piano header size */
-    color: var(--color-text);
-    margin: 0;
-    font-weight: 600;
-    padding-left: var(--space-sm);
 }
 
 .guided-play-header h2::before {
@@ -99,7 +64,7 @@
     box-shadow: var(--shadow-md);
     margin-bottom: var(--space-lg);
     transition: background-color var(--transition-theme), border-color var(--transition-theme);
-    margin-top: 50px;
+    margin-top: 140px;
 }
 .game-settings::before{
     content: 'Game Settings';
@@ -954,7 +919,7 @@ padding: var(--space-md);
 }
 
 #showHelpButton:hover {
-    transform: translateY(5px);
+    transform: translateY(-5px);
     box-shadow: var(--shadow-md);
 }
 
@@ -1095,26 +1060,6 @@ padding: var(--space-md);
     cursor: pointer;
 }
 
-#showInstructionsButton {
-    background: var(--color-primary);
-    color: white;
-    border: none;
-    padding: var(--space-md) var(--space-xl);
-    border-radius: var(--radius-md);
-    font-size: var(--font-size-md);
-    font-weight: 500;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    width: 200px;
-    margin: 0 auto;
-    display: block;
-}
-
-#showInstructionsButton:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    background: var(--color-primary-light);
-}
 
 /* Scrolling fixes */
 #guidedPlaySection {

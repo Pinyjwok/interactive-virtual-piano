@@ -31,14 +31,14 @@
         const themeToggle = document.createElement('div');
         themeToggle.className = 'theme-toggle';
         
-        // Add sun and moon icons
+        // Add sun and moon icons with modern emojis
         const sunIcon = document.createElement('div');
         sunIcon.className = 'sun-icon';
-        sunIcon.innerHTML = '☀️';
+        sunIcon.innerHTML = '🌞'; // Changed to sun with rays
         
         const moonIcon = document.createElement('div');
         moonIcon.className = 'moon-icon';
-        moonIcon.innerHTML = '🌙';
+        moonIcon.innerHTML = '🌜'; // Changed to crescent moon face
         
         // Add toggle ball
         const toggleBall = document.createElement('div');
